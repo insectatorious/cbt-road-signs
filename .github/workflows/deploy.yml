@@ -30,6 +30,10 @@ jobs:
       - run: npm run build
         env:
           DEPLOY_TARGET: gh-pages
+          # Optional, privacy-friendly analytics. Set the GOATCOUNTER repo
+          # variable (Settings → Secrets and variables → Actions → Variables)
+          # to your GoatCounter count endpoint; unset = no analytics shipped.
+          VITE_GOATCOUNTER: ${{ vars.GOATCOUNTER }}
       - run: touch dist/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:

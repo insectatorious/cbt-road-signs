@@ -151,6 +151,14 @@
       Crown copyright, reproduced under the Open Government Licence v3.0 via Wikimedia Commons.
       Motorway signs are out of scope for now.
     </p>
+    <a
+      class="source-link"
+      href="https://github.com/insectatorious/cbt-road-signs"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <Icon name="github" size={16} /> View source on GitHub
+    </a>
   </div>
 </section>
 
@@ -258,5 +266,18 @@
   .about {
     max-width: 56ch;
     line-height: 1.5;
+  }
+  .source-link {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    margin-top: var(--s-3);
+    color: var(--text-secondary);
+    font-size: var(--fs-callout);
+    font-weight: var(--fw-medium);
+  }
+  .source-link:hover {
+    color: var(--text);
   }
 </style>

@@ -58,13 +58,16 @@ scope but retained behind a flag for a future version.
 ## Privacy & your data
 
 - **Local-only**: state is a single `localStorage` blob (reviews, settings, daily sessions,
-  adaptive baselines). The app never makes a network request after load.
+  adaptive baselines). Your progress never leaves the device.
 - **Durable**: on launch it requests persistent storage so the browser won't evict your
   progress; Settings shows the storage status.
 - **Portable**: Settings → *Export* downloads a dated JSON backup; *Import* fully restores
   it on another browser/device. A gentle nudge reminds engaged users to back up.
 - **Robust**: the loader/importer sanitises every entry, so a partial, old, or hand-edited
   backup can never crash or wedge the app.
+- **No tracking by default**: analytics are off unless the deployer opts in (see
+  [Deploy](#deploy)). When enabled it's [GoatCounter](https://www.goatcounter.com/) —
+  cookieless, no personal data, just an anonymous per-view count.
 
 ## Tech stack
 
@@ -132,6 +135,11 @@ Deployed to **GitHub Pages** via Actions. Every push to `main` runs
 `DEPLOY_TARGET=gh-pages` (base path derived from the repo name, so it survives a
 rename), enables Pages on first run, and publishes to
 `https://insectatorious.github.io/cbt-road-signs/`.
+
+**Optional analytics**: set a `GOATCOUNTER` repository variable (Settings → Secrets
+and variables → Actions → *Variables*) to your GoatCounter count endpoint
+(e.g. `https://yourcode.goatcounter.com/count`) and the next deploy wires it in.
+Leave it unset and nothing is loaded — the build ships zero tracking.
 
 ## Licence & attribution
 
