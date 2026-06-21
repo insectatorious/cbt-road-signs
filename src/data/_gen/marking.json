@@ -11,7 +11,13 @@
     "composite": true,
     "explanation": "When the white line nearest you is solid (unbroken) you must not cross or straddle it to overtake; you may only cross to pass a stationary obstruction, turn into a side road or premises, or if directed by police.",
     "mnemonic": "Solid on your side: stay on your side.",
-    "searchTerms": ["double white lines", "solid white line in middle", "no overtaking line", "centre line markings", "cannot cross white line"],
+    "searchTerms": [
+      "double white lines",
+      "solid white line in middle",
+      "no overtaking line",
+      "centre line markings",
+      "cannot cross white line"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite road marking (TSRGD diagram 1013.1 family) drawn in-app; no single official SVG. Solid line on the rider's side prohibits crossing except for the limited exceptions in the Highway Code (rules 128-129)."
@@ -28,7 +34,13 @@
     "composite": true,
     "explanation": "A centre line with longer dashes and shorter gaps warns of a hazard ahead, such as a bend or junction; do not cross it unless you can see the road is clear and it is safe.",
     "mnemonic": "Long lines, short gaps: hazard perhaps.",
-    "searchTerms": ["hazard warning line", "long white dashes road", "centre line longer dashes", "warning line ahead", "white line bend junction"],
+    "searchTerms": [
+      "hazard warning line",
+      "long white dashes road",
+      "centre line longer dashes",
+      "warning line ahead",
+      "white line bend junction"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite road marking (TSRGD diagram 1004 family) drawn in-app; no single official SVG. Distinguished from an ordinary centre line by dashes that are longer than the gaps between them (Highway Code rule 127)."
@@ -45,7 +57,13 @@
     "composite": true,
     "explanation": "Double broken white lines across your half of the road mean give way to traffic on the major road ahead; slow down, be ready to stop, and only go when it is safe.",
     "mnemonic": "Two dashed lines: yield, don't stop sign.",
-    "searchTerms": ["give way road markings", "double dashed white line junction", "give way triangle on road", "broken lines across road", "yield markings"],
+    "searchTerms": [
+      "give way road markings",
+      "double dashed white line junction",
+      "give way triangle on road",
+      "broken lines across road",
+      "yield markings"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite road marking (TSRGD diagram 1003 family, often with 1023 triangle) drawn in-app; no single official SVG. Double broken transverse lines = give way (unlike a Stop line, which is a single solid transverse line)."
@@ -62,7 +80,13 @@
     "composite": true,
     "explanation": "White zig-zag lines mark the controlled area at a pedestrian crossing where you must not park, overtake the lead vehicle, or wait; keep moving and give way to anyone on the crossing.",
     "mnemonic": "Zig-zags: no parking, no overtaking.",
-    "searchTerms": ["zig zag lines crossing", "white zigzag road markings", "no parking near crossing", "zebra crossing lines", "pedestrian crossing markings"],
+    "searchTerms": [
+      "zig zag lines crossing",
+      "white zigzag road markings",
+      "no parking near crossing",
+      "zebra crossing lines",
+      "pedestrian crossing markings"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite road marking (TSRGD diagram 1001.2 / zig-zag markings) drawn in-app; no single official SVG. Applies at zebra, pelican, puffin and toucan crossings (Highway Code rules 191-194, 240)."
@@ -79,9 +103,267 @@
     "composite": true,
     "explanation": "Yellow criss-cross lines mark a box junction you must not enter until your exit is clear, so you do not block the junction; you may wait in the box only when turning right and held up solely by oncoming traffic.",
     "mnemonic": "Keep the box clear: don't enter 'til you can leave.",
-    "searchTerms": ["yellow box junction", "criss cross yellow lines", "yellow grid on road", "box junction markings", "do not block junction"],
+    "searchTerms": [
+      "yellow box junction",
+      "criss cross yellow lines",
+      "yellow grid on road",
+      "box junction markings",
+      "do not block junction"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite road marking (TSRGD diagram 1043) drawn in-app; no single official SVG. Rider must not enter unless the exit is clear, except when turning right and stopped only by oncoming traffic (Highway Code rule 174)."
+  },
+  {
+    "id": "centre-line-ordinary",
+    "caption": "Centre line (ordinary)",
+    "category": "marking",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "broken white line down the middle of the road, the painted dashes shorter than the gaps between them",
+    "composite": true,
+    "explanation": "A broken white line with short dashes and longer gaps marks the centre of the road. You may cross it to overtake or turn, but only when the road ahead is clear and it is safe.",
+    "mnemonic": "Short dashes, long gaps: cross only if the way is clear.",
+    "searchTerms": [
+      "middle of the road line",
+      "broken white centre line",
+      "dashed white line down the middle",
+      "short dashes long gaps",
+      "white line you can cross"
+    ]
+  },
+  {
+    "id": "lane-line",
+    "caption": "Lane line",
+    "category": "marking",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "a short broken white line dividing a wide carriageway into lanes running the same direction, dashes short with longer gaps",
+    "composite": true,
+    "explanation": "Short broken white lines divide a wide road into lanes that run the same way. Keep to the centre of your lane and do not change lane unless it is clear and safe.",
+    "mnemonic": "Lane line: stay in your lane.",
+    "searchTerms": [
+      "lane divider line",
+      "white line between lanes",
+      "lane separator marking",
+      "short dashes between lanes",
+      "line splitting road into lanes"
+    ]
+  },
+  {
+    "id": "edge-of-carriageway-line",
+    "caption": "Edge of carriageway line",
+    "category": "marking",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "a continuous solid white line running along the left-hand edge of the road, sometimes raised or ribbed",
+    "composite": true,
+    "explanation": "A continuous white line marks the edge of the carriageway and helps you judge your position, especially in poor visibility. Some versions are ribbed so you feel a rumble if your wheels stray onto them.",
+    "mnemonic": "Solid line at the side: that's where the road ends.",
+    "searchTerms": [
+      "white line at the side of the road",
+      "edge of the road line",
+      "solid line on the left",
+      "ribbed edge line",
+      "carriageway edge marking"
+    ]
+  },
+  {
+    "id": "stop-line-at-signals",
+    "caption": "Stop line",
+    "category": "marking",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "a single solid white line painted across your lane at right angles to the kerb, at traffic signals or at a STOP sign",
+    "composite": true,
+    "explanation": "A solid white line across your lane marks where you must stop at traffic signals or at a STOP sign. Stop with your front wheel behind the line and do not cross it while the signal is red.",
+    "mnemonic": "Solid line across: stop and hold behind it.",
+    "searchTerms": [
+      "white line you stop at",
+      "stop line at traffic lights",
+      "line across the road at lights",
+      "where to stop at the lights",
+      "transverse stop line"
+    ]
+  },
+  {
+    "id": "lane-direction-arrows",
+    "caption": "Lane direction arrows",
+    "category": "marking",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "large white arrows painted along a lane (straight ahead, or curving left or right) telling you where that lane leads",
+    "composite": true,
+    "explanation": "White arrows painted on the road show which way each lane is meant to go. Get into the correct lane in good time and follow the direction the arrow indicates.",
+    "mnemonic": "Follow the painted arrow to pick your lane.",
+    "searchTerms": [
+      "arrows painted on the road",
+      "turn arrow on the tarmac",
+      "lane arrows",
+      "which lane to be in",
+      "white directional arrow on road"
+    ]
+  },
+  {
+    "id": "keep-clear-marking",
+    "caption": "KEEP CLEAR marking",
+    "category": "marking",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "the words KEEP CLEAR painted in large white letters on the carriageway, often outside a school entrance or access",
+    "composite": true,
+    "explanation": "A KEEP CLEAR marking tells you not to stop or queue across that part of the road, so the entrance or access stays clear. Do not let your motorcycle block it, even briefly.",
+    "mnemonic": "KEEP CLEAR painted on the road: don't stop or block it.",
+    "searchTerms": [
+      "keep clear written on road",
+      "keep clear road marking",
+      "don't block the entrance",
+      "white keep clear letters",
+      "school entrance keep clear"
+    ]
+  },
+  {
+    "id": "bus-lane-marking",
+    "caption": "Bus lane marking",
+    "category": "marking",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "the word BUS painted on the lane with a solid white line separating it from the rest of the road",
+    "composite": true,
+    "explanation": "A bus lane is marked by the word BUS on the road and a solid white line, with a sign showing its hours. Only use it within those hours if signs say you may; some bus lanes also allow motorcycles, but only where stated.",
+    "mnemonic": "BUS on the road: not your lane unless a sign says so.",
+    "searchTerms": [
+      "bus lane road marking",
+      "BUS painted on the road",
+      "can motorcycles use bus lanes",
+      "bus only lane line",
+      "lane marked BUS"
+    ]
+  },
+  {
+    "id": "cycle-lane-marking",
+    "caption": "Cycle lane marking",
+    "category": "marking",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "a white cycle symbol painted on the lane, bordered by a solid or broken white line, sometimes on a coloured surface",
+    "composite": true,
+    "explanation": "A cycle lane is shown by a cycle symbol and a white line. Do not drive or park in a cycle lane bordered by a solid white line during its hours of operation; only enter one bordered by a broken line if it is unavoidable.",
+    "mnemonic": "Solid-line cycle lane: stay out.",
+    "searchTerms": [
+      "cycle lane marking",
+      "bike symbol on the road",
+      "cycle lane line",
+      "can I drive in a cycle lane",
+      "bicycle painted on road"
+    ]
+  },
+  {
+    "id": "chevron-hatched-markings",
+    "caption": "Hatched and chevron markings",
+    "category": "marking",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "an area of white diagonal stripes or chevrons painted on the road, bordered either by a solid white line or by a broken white line",
+    "composite": true,
+    "explanation": "Diagonal stripes or chevrons separate streams of traffic or protect vehicles turning right. If the border is a broken line, only enter when it is necessary and safe; if the border is a solid white line you must not enter except in an emergency.",
+    "mnemonic": "Solid border: stay out. Broken border: only if safe.",
+    "searchTerms": [
+      "diagonal stripes on the road",
+      "chevrons painted on road",
+      "hatched area road marking",
+      "white stripes in the middle of the road",
+      "can I drive over the chevrons"
+    ]
+  },
+  {
+    "id": "slow-marking",
+    "caption": "SLOW marking",
+    "category": "marking",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "the word SLOW painted in large white letters along the carriageway, usually approaching a hazard",
+    "composite": true,
+    "explanation": "A SLOW marking warns of a hazard ahead, such as a sharp bend or a junction. Ease off and reduce your speed before you reach it.",
+    "mnemonic": "SLOW painted on the road: a hazard's close.",
+    "searchTerms": [
+      "slow written on the road",
+      "slow road marking",
+      "slow painted on tarmac",
+      "white slow letters",
+      "slow down warning on road"
+    ]
+  },
+  {
+    "id": "single-double-yellow-lines",
+    "caption": "Yellow waiting lines",
+    "category": "marking",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "yellow lines running along the edge of the road parallel to the kerb: a single yellow line, or a double yellow line",
+    "composite": true,
+    "explanation": "A single yellow line means waiting is restricted during the times shown on nearby signs; a double yellow line means no waiting at any time, whether or not signs are present. You may still stop briefly to set down or pick up unless loading is also banned.",
+    "mnemonic": "One line: check the times. Two lines: no waiting any time.",
+    "searchTerms": [
+      "single yellow line meaning",
+      "double yellow line no waiting",
+      "yellow lines parking rules",
+      "can I stop on yellow lines",
+      "yellow line at the side of the road"
+    ]
+  },
+  {
+    "id": "kerb-loading-markings",
+    "caption": "Yellow kerb loading marks",
+    "category": "marking",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "short yellow marks painted across (at right angles to) the kerb edge: a single mark, or a pair of marks",
+    "composite": true,
+    "explanation": "Yellow marks on the kerb show that loading is restricted: a single mark means loading is limited to the times on the nearby plate, and a pair of marks means no loading at any time. Check the plate before you stop to load.",
+    "mnemonic": "Two kerb stripes: never load. One stripe: only at the times shown.",
+    "searchTerms": [
+      "yellow marks on the kerb",
+      "loading restriction marks",
+      "kerb blips no loading",
+      "yellow lines on the pavement edge",
+      "loading ban marking"
+    ]
+  },
+  {
+    "id": "red-route-markings",
+    "caption": "Red route lines",
+    "category": "marking",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "red lines running along the edge of the road parallel to the kerb: a single red line, or a double red line (mainly in cities)",
+    "composite": true,
+    "explanation": "Red lines mark a Red Route, where stopping rules are stricter than yellow lines: a double red line means no stopping at any time, and a single red line means no stopping during the times shown on signs. You must not even stop to wait, except in a marked box.",
+    "mnemonic": "Red means stopping's dead: don't stop at all.",
+    "searchTerms": [
+      "red lines on the road",
+      "red route no stopping",
+      "double red line meaning",
+      "single red line rules",
+      "red line at the kerb"
+    ]
+  },
+  {
+    "id": "road-studs-colours",
+    "caption": "Reflective road studs (cat's eyes)",
+    "category": "marking",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "reflective studs set into the road that glow in your headlights: red along the left edge, white between lanes, amber along the central reservation, and green at lay-bys and slip roads",
+    "composite": true,
+    "explanation": "Reflective road studs mark the road by colour: white marks the lanes or middle of the road, red marks the left edge, amber marks the central reservation, and green marks the carriageway edge at lay-bys and slip roads.",
+    "mnemonic": "Red left, White middle, Amber central reservation; Green at slips.",
+    "searchTerms": [
+      "cat's eyes colours",
+      "road stud colours meaning",
+      "red studs left edge",
+      "amber studs central reservation",
+      "green reflective studs slip road"
+    ]
   }
 ]

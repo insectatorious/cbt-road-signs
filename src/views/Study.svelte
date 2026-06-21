@@ -26,7 +26,7 @@
   const currentSign = $derived(currentId ? SIGN_BY_ID.get(currentId) : undefined)
 
   function build() {
-    const q = buildStudyQueue(activeSigns(), store.reviews, store.settings.newPerDay, Date.now())
+    const q = buildStudyQueue(activeSigns(), store.reviews, store.settings.newPerDay, Date.now(), store.settings.shuffleCategories)
     queue = q.ids
     info = { dueCount: q.dueCount, newCount: q.newCount }
     index = 0

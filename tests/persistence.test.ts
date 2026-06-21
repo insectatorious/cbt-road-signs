@@ -84,4 +84,10 @@ describe('migrate', () => {
     const s = migrate({ settings: { includeEdge: true } }, NOW).settings as Record<string, unknown>
     expect('includeEdge' in s).toBe(false)
   })
+
+  it('defaults shuffleCategories off and coerces it to a boolean', () => {
+    expect(migrate({}, NOW).settings.shuffleCategories).toBe(false)
+    expect(migrate({ settings: { shuffleCategories: true } }, NOW).settings.shuffleCategories).toBe(true)
+    expect(migrate({ settings: { shuffleCategories: 'yes' } }, NOW).settings.shuffleCategories).toBe(false)
+  })
 })

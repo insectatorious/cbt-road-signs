@@ -94,14 +94,18 @@
       {:else}
         <a
           class="source"
-          href="https://www.gov.uk/guidance/the-highway-code/traffic-signs"
+          href="https://www.gov.uk/guidance/the-highway-code/road-markings"
           target="_blank"
           rel="noopener noreferrer"
         >
           <Icon name="external" size={14} />
-          Highway Code — traffic signs
+          Highway Code — road markings &amp; signals
         </a>
-        <span class="source-note t-caption">Drawn in-app from the official Highway Code.</span>
+        <span class="source-note t-caption">
+          <strong>Illustration, not official artwork.</strong> Road markings and signals have no single
+          standard sign image, so this is drawn in-app to match the Highway Code — use it as a guide,
+          not a pixel-exact reference.
+        </span>
       {/if}
     </div>
   </div>

@@ -98,6 +98,19 @@ const CLUSTERS: string[][] = [
   ['temporary-traffic-signals', 'traffic-signals-ahead', 'stop-go-board'],
   ['temporary-road-layout-sharp-bends', 'diversion-route', 'ramp-roadworks'],
   ['construction-traffic-direction', 'slow-moving-works-traffic-crossing'],
+
+  // --- composite road markings & signals (in-app illustrations) ---
+  ['centre-line-ordinary', 'lane-line', 'hazard-warning-line', 'double-white-lines-solid-your-side'],
+  ['edge-of-carriageway-line', 'centre-line-ordinary'],
+  ['stop-line-at-signals', 'give-way-markings-at-junction'],
+  ['single-double-yellow-lines', 'kerb-loading-markings', 'red-route-markings'],
+  ['keep-clear-marking', 'slow-marking'],
+  ['bus-lane-marking', 'cycle-lane-marking'],
+  ['chevron-hatched-markings', 'yellow-box-junction'],
+  ['zig-zag-lines-pedestrian-crossing', 'pelican-crossing-signals'],
+  ['pelican-crossing-signals', 'traffic-light-sequence', 'green-filter-arrow'],
+  ['tram-driver-signals', 'trams-crossing-ahead', 'trams-only'],
+  ['police-officer-traffic-signals', 'traffic-light-sequence'],
 ]
 
 interface Raw {

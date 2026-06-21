@@ -37,7 +37,7 @@
     if (focus.length) {
       queue = focus.slice(0, SESSION)
     } else {
-      const q = buildStudyQueue(activeSigns(), store.reviews, store.settings.newPerDay, Date.now())
+      const q = buildStudyQueue(activeSigns(), store.reviews, store.settings.newPerDay, Date.now(), store.settings.shuffleCategories)
       queue = q.ids.slice(0, SESSION)
     }
     index = 0

@@ -102,6 +102,8 @@ export interface Settings {
   deckScope: DeckScope
   includeMarkings: boolean
   showCategoryHint: boolean
+  /** mix new cards across categories instead of introducing them in category order */
+  shuffleCategories: boolean
 }
 
 export interface SessionRecord {
@@ -116,6 +118,7 @@ export const DEFAULT_SETTINGS: Settings = {
   deckScope: 'standard',
   includeMarkings: true,
   showCategoryHint: true,
+  shuffleCategories: false,
 }
 
 export const CATEGORY_META: Record<

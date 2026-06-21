@@ -11,7 +11,14 @@
     "composite": true,
     "explanation": "Traffic lights always follow the order red, then red and amber together, then green, then amber, then back to red; red means stop and red and amber means stop (do not go until green shows), while amber means stop unless you are so close that stopping would be unsafe.",
     "mnemonic": "Red-and-amber is still STOP: get ready, but don't go.",
-    "searchTerms": ["traffic lights", "stop lights", "red amber green", "light sequence", "traffic signal order", "what does amber mean"],
+    "searchTerms": [
+      "traffic lights",
+      "stop lights",
+      "red amber green",
+      "light sequence",
+      "traffic signal order",
+      "what does amber mean"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite traffic-light signal drawn in-app; no single official TSRGD SVG. Sequence per Highway Code rules 175-178."
@@ -28,7 +35,13 @@
     "composite": true,
     "explanation": "A green filter arrow lit at traffic lights means you may move only in the direction the arrow points, whatever the other lights show; do not enter that lane unless you intend to go that way.",
     "mnemonic": "Green arrow = go that way only.",
-    "searchTerms": ["green arrow", "filter light", "green filter", "turning arrow at lights", "filter arrow traffic light"],
+    "searchTerms": [
+      "green arrow",
+      "filter light",
+      "green filter",
+      "turning arrow at lights",
+      "filter arrow traffic light"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite traffic-light signal drawn in-app; no single official TSRGD SVG. Highway Code rule 177."
@@ -45,7 +58,13 @@
     "composite": true,
     "explanation": "Twin flashing red lights mean you must stop, for example at level crossings, lifting bridges, airfields, fire and ambulance stations; do not cross or pass until the lights stop flashing.",
     "mnemonic": "Reds flashing = full stop, wait until they're off.",
-    "searchTerms": ["flashing red lights", "level crossing lights", "two red lights flashing", "stop lights crossing", "red flashing signal"],
+    "searchTerms": [
+      "flashing red lights",
+      "level crossing lights",
+      "two red lights flashing",
+      "stop lights crossing",
+      "red flashing signal"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite signal drawn in-app; no single official TSRGD SVG. Highway Code rule 293 (level crossings) and rules 175/270."
@@ -62,9 +81,70 @@
     "composite": true,
     "explanation": "Overhead lane signals control which lanes you may use: a green downward arrow means the lane is open, a red X means the lane is closed and you must move out of it, and a white diagonal arrow tells you to move to the lane it points to.",
     "mnemonic": "Green down = go, red X = get out of that lane.",
-    "searchTerms": ["lane signals", "red x over lane", "green arrow overhead", "motorway lane control", "gantry signals", "lane closed sign"],
+    "searchTerms": [
+      "lane signals",
+      "red x over lane",
+      "green arrow overhead",
+      "motorway lane control",
+      "gantry signals",
+      "lane closed sign"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite overhead lane-control signal drawn in-app; no single official TSRGD SVG. Highway Code rules 255-258."
+  },
+  {
+    "id": "pelican-crossing-signals",
+    "caption": "Pelican crossing signals",
+    "category": "signal",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "vehicle signals at a pelican crossing: red, then a flashing amber, then green; with a red-man / green-man display facing pedestrians",
+    "composite": true,
+    "explanation": "A pelican crossing is the one signal-controlled crossing with a flashing amber phase: you must stop on red, and while amber flashes you must give way to anyone on the crossing but may go on if it is clear. Toucan, puffin and equestrian crossings have no flashing amber and follow the normal light sequence.",
+    "mnemonic": "Flashing amber = give way to people, then go if clear.",
+    "searchTerms": [
+      "pelican crossing lights",
+      "flashing amber at a crossing",
+      "green man red man signal",
+      "what does flashing amber mean",
+      "pedestrian crossing traffic lights"
+    ]
+  },
+  {
+    "id": "tram-driver-signals",
+    "caption": "Tram driver signals",
+    "category": "signal",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "special white-light bar signals shown only to tram drivers (a vertical white bar means go); often beside diamond-shaped tram signs",
+    "composite": true,
+    "explanation": "White-light bar signals and diamond-shaped signs give instructions to tram drivers only, not to you. Be aware that a tram may be allowed to move when your own signal still says stop, so do not assume its lights apply to you.",
+    "mnemonic": "White bars and diamonds: for trams, not you.",
+    "searchTerms": [
+      "tram signals white lights",
+      "white bar tram light",
+      "diamond tram sign",
+      "signals for tram drivers",
+      "tram traffic lights meaning"
+    ]
+  },
+  {
+    "id": "police-officer-traffic-signals",
+    "caption": "Police officer directing traffic",
+    "category": "signal",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "arm signals given by a police officer or other authorised person: an arm held up to stop traffic, or a beckoning arm to wave traffic on",
+    "composite": true,
+    "explanation": "You must obey signals given by a police officer, traffic officer or other authorised person directing traffic. A still raised arm means stop; a beckoning, moving arm means come on. Their signals override traffic lights and road signs.",
+    "mnemonic": "Arm still = stop; arm waving = go.",
+    "searchTerms": [
+      "police officer hand signals",
+      "policeman directing traffic",
+      "arm signal to stop traffic",
+      "authorised person traffic signals",
+      "officer waving traffic on"
+    ]
   }
 ]

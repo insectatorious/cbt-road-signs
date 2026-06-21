@@ -2,8 +2,19 @@
   /** In-app illustrations for signs with no single official SVG:
    *  road markings, traffic-light signals, and worded direction panels. */
   import type { SignDefinition } from '../lib/types'
+  import { COMPOSITE_ART } from '../lib/compositeArt'
 
   let { sign }: { sign: SignDefinition } = $props()
+
+  // Data-driven illustrations (road markings / signals drawn by the workflow).
+  // Rendered as a full <svg> via {@html} so the markup parses in the SVG
+  // namespace; the content is our own static art, never user input.
+  const art = $derived(COMPOSITE_ART[sign.id])
+  const artSvg = $derived(
+    art
+      ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${art.viewBox}" width="100%" height="100%" role="img" aria-label="${sign.caption.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')}">${art.inner}</svg>`
+      : '',
+  )
 
   const C = {
     tar: '#3b3b3d',
@@ -87,10 +98,14 @@
   {:else if sign.id === 'yellow-box-junction'}
     <svg viewBox="0 0 150 150" aria-label={sign.caption}>
       <rect x="20" y="0" width="110" height="150" fill={C.tar} />
+      <clipPath id="ybj"><rect x="34" y="24" width="82" height="102" /></clipPath>
+      <g clip-path="url(#ybj)" stroke={C.yellow} stroke-width="2.5">
+        {#each Array.from({ length: 16 }, (_, i) => -160 + i * 24) as o}
+          <line x1={34 + o} y1="0" x2={34 + o + 150} y2="150" />
+          <line x1={34 + o + 150} y1="0" x2={34 + o} y2="150" />
+        {/each}
+      </g>
       <rect x="34" y="24" width="82" height="102" fill="none" stroke={C.yellow} stroke-width="4" />
-      {#each [-80, -40, 0, 40, 80, 120] as o}
-        <line x1={34 + o} y1="24" x2={34 + o + 102} y2="126" stroke={C.yellow} stroke-width="3" />
-      {/each}
     </svg>
 
     <!-- DIRECTION PANELS (worded) -->
@@ -138,6 +153,9 @@
       <text x="70" y="64" text-anchor="middle" font-family="var(--font-sans)" font-size="20" font-weight="700" fill="#1a1a18">END</text>
       <text x="70" y="92" text-anchor="middle" font-family="var(--font-sans)" font-size="13" font-weight="500" fill="#565550">of road works</text>
     </svg>
+  {:else if art}
+    <!-- eslint-disable-next-line svelte/no-at-html-tags -- our own static art -->
+    {@html artSvg}
   {:else}
     <svg viewBox="0 0 140 140" aria-label={sign.caption}>
       <rect x="14" y="14" width="112" height="112" rx="8" fill="#f4f4f2" stroke="#9a988f" stroke-width="3" />

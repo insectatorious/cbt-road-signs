@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { activeDeck } from '../src/lib/deck'
+import { activeDeck, buildStudyQueue } from '../src/lib/deck'
 import { DEFAULT_SETTINGS, type Settings, type SignDefinition } from '../src/lib/types'
 
 function sign(id: string, tier: SignDefinition['tier'], extra: Partial<SignDefinition> = {}): SignDefinition {
@@ -69,5 +69,33 @@ describe('activeDeck — deck-scope slider', () => {
   it('markings are gated by their own toggle, orthogonal to scope', () => {
     expect(activeDeck(deck, withScope('comprehensive', false)).map((s) => s.id)).not.toContain('mark')
     expect(activeDeck(deck, withScope('comprehensive', true)).map((s) => s.id)).toContain('mark')
+  })
+})
+
+describe('buildStudyQueue — shuffle across categories', () => {
+  const fresh: SignDefinition[] = [
+    sign('p1', 'core', { category: 'prohibitory' }),
+    sign('m1', 'core', { category: 'mandatory' }),
+    sign('w1', 'core', { category: 'warning' }),
+    sign('i1', 'standard', { category: 'information' }),
+  ]
+
+  it('introduces new cards in category/importance order by default', () => {
+    const ids = buildStudyQueue(fresh, {}, 10, 0, false).ids
+    // CATEGORY_META order: prohibitory < mandatory < warning < information
+    expect(ids).toEqual(['p1', 'm1', 'w1', 'i1'])
+  })
+
+  it('shuffled keeps the same set of new cards (order may differ)', () => {
+    const plain = buildStudyQueue(fresh, {}, 10, 0, false).ids
+    const shuf = buildStudyQueue(fresh, {}, 10, 0, true).ids
+    expect([...shuf].sort()).toEqual([...plain].sort()) // permutation of the same ids
+    expect(shuf).toHaveLength(plain.length)
+  })
+
+  it('respects newPerDay when shuffling', () => {
+    const q = buildStudyQueue(fresh, {}, 2, 0, true)
+    expect(q.ids).toHaveLength(2)
+    expect(q.newCount).toBe(2)
   })
 })

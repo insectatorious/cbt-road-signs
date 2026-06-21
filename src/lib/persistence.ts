@@ -112,6 +112,7 @@ function sanitizeSettings(raw: unknown): Settings {
     deckScope: coerceScope(r),
     includeMarkings: bool(r.includeMarkings, DEFAULT_SETTINGS.includeMarkings),
     showCategoryHint: bool(r.showCategoryHint, DEFAULT_SETTINGS.showCategoryHint),
+    shuffleCategories: bool(r.shuffleCategories, DEFAULT_SETTINGS.shuffleCategories),
   }
 }
 

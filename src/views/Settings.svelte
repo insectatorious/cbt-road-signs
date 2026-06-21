@@ -103,6 +103,14 @@
       <Switch label="Show category hint" checked={store.settings.showCategoryHint} onchange={(v) => setSetting('showCategoryHint', v)} />
     </div>
 
+    <div class="row">
+      <div class="row__text">
+        <span class="row__title">Shuffle across categories</span>
+        <span class="row__desc t-caption">Mix new signs from all families together instead of learning one category at a time.</span>
+      </div>
+      <Switch label="Shuffle across categories" checked={store.settings.shuffleCategories} onchange={(v) => setSetting('shuffleCategories', v)} />
+    </div>
+
     <div class="scope-row">
       <div class="row__text">
         <span class="row__title">Sign coverage</span>

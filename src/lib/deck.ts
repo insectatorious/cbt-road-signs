@@ -32,6 +32,16 @@ export function introOrder(a: SignDefinition, b: SignDefinition): number {
   )
 }
 
+/** Fisher–Yates shuffle (returns a new array; used for cross-category mixing). */
+function shuffled<T>(arr: T[]): T[] {
+  const a = arr.slice()
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
 function interleave(due: string[], fresh: string[]): string[] {
   if (!fresh.length) return due
   if (!due.length) return fresh
@@ -59,6 +69,7 @@ export function buildStudyQueue(
   reviews: Record<string, ReviewState>,
   newPerDay: number,
   now: number,
+  shuffleNew = false,
 ): QueueInfo {
   const dueStates: ReviewState[] = []
   const fresh: SignDefinition[] = []
@@ -71,9 +82,11 @@ export function buildStudyQueue(
     }
   }
   dueStates.sort((a, b) => a.dueAt - b.dueAt)
-  fresh.sort(introOrder)
+  // default: introduce new cards in importance (tier→category) order, which groups
+  // them by category. shuffleNew mixes categories by taking a random selection.
+  const orderedFresh = shuffleNew ? shuffled(fresh) : fresh.slice().sort(introOrder)
   const dueIds = dueStates.map((r) => r.id)
-  const newIds = fresh.slice(0, Math.max(0, newPerDay)).map((s) => s.id)
+  const newIds = orderedFresh.slice(0, Math.max(0, newPerDay)).map((s) => s.id)
   return { ids: interleave(dueIds, newIds), dueCount: dueIds.length, newCount: newIds.length }
 }
 
