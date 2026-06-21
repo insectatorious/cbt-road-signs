@@ -23,7 +23,7 @@ const deck: SignDefinition[] = [
   sign('c1', 'core'),
   sign('s1', 'standard'),
   sign('e1', 'edge'),
-  sign('mw', 'core', { excludeFromV1: true }), // motorway — never in scope
+  sign('mw', 'core', { category: 'motorway' }), // motorway — opt-in, off by default
   sign('mark', 'standard', { category: 'marking' }),
 ]
 
@@ -60,9 +60,16 @@ describe('activeDeck — deck-scope slider', () => {
     expect(std).toBeLessThan(all)
   })
 
-  it('always excludes motorway (excludeFromV1) at every scope', () => {
+  it('excludes motorway by default at every scope (opt-in module)', () => {
     for (const scope of ['essential', 'standard', 'comprehensive'] as const) {
       expect(activeDeck(deck, withScope(scope)).map((s) => s.id)).not.toContain('mw')
+    }
+  })
+
+  it('includes motorway only when includeMotorway is on, independent of scope', () => {
+    for (const scope of ['essential', 'standard', 'comprehensive'] as const) {
+      const ids = activeDeck(deck, { ...withScope(scope), includeMotorway: true }).map((s) => s.id)
+      expect(ids).toContain('mw') // appears even at the narrowest scope — orthogonal to the slider
     }
   })
 

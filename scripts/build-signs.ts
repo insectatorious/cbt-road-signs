@@ -17,6 +17,7 @@ const CATEGORY_ORDER: Record<string, number> = {
   roadworks: 5,
   marking: 6,
   signal: 7,
+  motorway: 8,
 }
 const TIER_RANK: Record<string, number> = { core: 0, standard: 1, edge: 2 }
 
@@ -111,6 +112,46 @@ const CLUSTERS: string[][] = [
   ['pelican-crossing-signals', 'traffic-light-sequence', 'green-filter-arrow'],
   ['tram-driver-signals', 'trams-crossing-ahead', 'trams-only'],
   ['police-officer-traffic-signals', 'traffic-light-sequence'],
+
+  // --- motorway module (opt-in): blue motorway signs + smart-motorway gantry signals.
+  //     Links are bidirectional, so they also surface on the existing signs they name;
+  //     consumers hide motorway look-alikes when the module is off (lookalikesFor /
+  //     buildQuestion). To keep the module truly self-contained, motorway↔existing
+  //     links are written as STARS (one pair each), never as a clique with multiple
+  //     existing signs — otherwise two existing signs sharing a motorway cluster would
+  //     gain a new link to *each other* that shows even when motorway is off. Only
+  //     all-motorway sibling groups may be larger. ---
+  ['start-of-motorway', 'end-of-motorway'], // motorway siblings
+  ['motorway-junction-ahead', 'motorway-route-confirmatory-sign'], // motorway siblings
+  ['start-of-motorway', 'national-speed-limit'],
+  ['end-of-motorway', 'national-speed-limit'],
+  ['end-of-motorway', 'dual-carriageway-ends'],
+  ['motorway-countdown-markers', 'level-crossing-countdown-marker'],
+  ['motorway-countdown-markers', 'traffic-merges-onto-main-carriageway'],
+  ['motorway-countdown-markers', 'road-studs-colours'],
+  ['motorway-junction-ahead', 'route-confirmation-sign'],
+  ['motorway-junction-ahead', 'primary-route-direction-sign'],
+  ['motorway-junction-ahead', 'non-primary-route-direction-sign'],
+  ['motorway-route-confirmatory-sign', 'route-confirmation-sign'],
+  ['motorway-route-confirmatory-sign', 'primary-route-direction-sign'],
+  ['motorway-route-confirmatory-sign', 'non-primary-route-direction-sign'],
+  ['motorway-service-area-sign', 'route-confirmation-sign'],
+  ['motorway-service-area-sign', 'tourist-attraction-sign'],
+  ['variable-mandatory-speed-limit', 'maximum-speed-limit'],
+  ['variable-mandatory-speed-limit', 'national-speed-limit'],
+  ['variable-mandatory-speed-limit', 'temporary-maximum-speed-ahead'],
+  ['variable-mandatory-speed-limit', 'lane-control-signal'],
+  ['red-x-lane-closed', 'lane-control-signal'],
+  ['red-x-lane-closed', 'flashing-red-stop-lights'],
+  ['red-x-lane-closed', 'lane-closed-ahead'],
+  ['red-x-lane-closed', 'road-studs-colours'],
+  ['amber-flashing-signal', 'lane-control-signal'],
+  ['amber-flashing-signal', 'flashing-red-stop-lights'],
+  ['amber-flashing-signal', 'temporary-maximum-speed-ahead'],
+  ['amber-flashing-signal', 'national-speed-limit'],
+  ['end-of-motorway-restriction', 'national-speed-limit'],
+  ['end-of-motorway-restriction', 'temporary-maximum-speed-ahead'],
+  ['end-of-motorway-restriction', 'lane-control-signal'],
 ]
 
 interface Raw {

@@ -2,12 +2,21 @@
   import { onMount } from 'svelte'
   import StatCard from '../components/StatCard.svelte'
   import Sparkline from '../components/Sparkline.svelte'
+  import Forecast from '../components/Forecast.svelte'
   import SignPlate from '../components/SignPlate.svelte'
   import Icon from '../components/Icon.svelte'
   import { store, activeSigns, setQuizFocus, SIGN_BY_ID } from '../lib/store.svelte'
-  import { buildReport, rankCards, type RankedCard } from '../lib/stats'
+  import {
+    buildReport,
+    rankCards,
+    buildForecast,
+    classifyStages,
+    intervalHistogram,
+    sentenceForPlan,
+    type RankedCard,
+  } from '../lib/stats'
   import { navigate } from '../lib/router.svelte'
-  import { pct } from '../lib/util'
+  import { pct, humanInterval } from '../lib/util'
   import { CATEGORY_META } from '../lib/types'
 
   const now = Date.now()
@@ -16,6 +25,22 @@
   const ranks = rankCards(store.reviews, 6)
   const spark = store.sessions.slice(-14).map((s) => s.reviewed)
   const hasData = report.totalReviews > 0
+
+  // the spaced-repetition plan: forward forecast + learned state (all derived,
+  // computed once at render over the in-scope deck — same deck as the report)
+  const forecast = buildForecast(deck, store.reviews, now)
+  const forecastTotal = forecast.buckets.reduce((a, b) => a + b, 0)
+  const stages = classifyStages(deck, store.reviews)
+  const stagesTotal = stages.newToStart + stages.learning + stages.settling + stages.lockedIn
+  const stageSegments = [
+    { key: 'new', label: 'New', count: stages.newToStart },
+    { key: 'learning', label: 'Learning', count: stages.learning },
+    { key: 'settling', label: 'Settling', count: stages.settling },
+    { key: 'good', label: 'Locked in', count: stages.lockedIn },
+  ]
+  const intervals = intervalHistogram(deck, store.reviews)
+  const maxInterval = Math.max(1, ...intervals.map((b) => b.count))
+  const planSentences = sentenceForPlan(forecast, stages, report)
 
   function barTone(acc: number | null): string {
     if (acc == null) return 'neutral'
@@ -77,6 +102,93 @@
           <span class="t-caption">last {spark.length} sessions</span>
         </div>
         <Sparkline points={spark} />
+      </div>
+    {/if}
+
+    <!-- Spaced-repetition plan: the forward schedule + what's been learnt -->
+    <div class="block">
+      <h2 class="t-heading">Your learning plan</h2>
+      <p class="t-body lede">{planSentences.join(' ')}</p>
+    </div>
+
+    <!-- THE PLAN — forward due-date forecast -->
+    <div class="panel">
+      <div class="panel__row">
+        <span class="t-micro">Upcoming reviews</span>
+        {#if forecast.buckets[0] > 0}
+          <button class="btn btn--ghost btn--sm" onclick={() => navigate('study')}>
+            <Icon name="target" size={16} /> Review now
+          </button>
+        {/if}
+      </div>
+      {#if forecastTotal > 0}
+        <Forecast buckets={forecast.buckets} {now} {shown} />
+      {/if}
+      {#if forecast.next7 > 0}
+        <p class="t-caption">
+          {forecast.next7} due in the next 7 days{#if forecast.next30 > forecast.next7} ·
+            {forecast.next30} in the next 30{/if}
+        </p>
+      {:else if forecast.next30 > 0}
+        <p class="t-caption">{forecast.next30} due in the next 30 days</p>
+      {:else if forecastTotal === 0 && forecast.overflow === 0}
+        <p class="t-caption">You're all caught up — nothing scheduled.</p>
+      {:else if forecastTotal === 0}
+        <p class="t-caption">Nothing due in the next 30 days.</p>
+      {/if}
+    </div>
+
+    <!-- WHAT IT'S LEARNT — learning-stage breakdown -->
+    <div class="panel">
+      <span class="t-micro">Learning stages</span>
+      <div class="bar bar--lg segbar">
+        {#each stageSegments as seg (seg.key)}
+          {#if seg.count > 0}
+            <div
+              class="segbar__seg segbar__seg--{seg.key}"
+              style="width:{shown ? (seg.count / stagesTotal) * 100 : 0}%"
+            ></div>
+          {/if}
+        {/each}
+      </div>
+      <ul class="legend">
+        {#each stageSegments as seg (seg.key)}
+          <li class="legend__item">
+            <span class="legend__dot legend__dot--{seg.key}"></span>
+            <span class="t-caption">{seg.label}</span>
+            <span class="t-num legend__n">{seg.count}</span>
+          </li>
+        {/each}
+      </ul>
+      <p class="t-caption">
+        Signs climb these stages as you remember them for longer. “Locked in” means safely in
+        long-term memory.
+      </p>
+    </div>
+
+    <!-- WHAT IT'S LEARNT — memory-strength (interval) distribution -->
+    {#if stages.introducedTotal > 0}
+      <div class="block">
+        <div class="block__head">
+          <h2 class="t-heading">Memory strength</h2>
+          <span class="t-caption">avg. gap {humanInterval(Math.round(stages.avgGapDays))}</span>
+        </div>
+        <ul class="cats">
+          {#each intervals as bkt (bkt.label)}
+            <li class="cat">
+              <div class="cat__top">
+                <span class="cat__name">{bkt.label}</span>
+                <span class="cat__meta t-num">{bkt.count}</span>
+              </div>
+              <div class="bar">
+                <div
+                  class="bar__fill bar__fill--good"
+                  style="transform:scaleX({shown ? bkt.count / maxInterval : 0})"
+                ></div>
+              </div>
+            </li>
+          {/each}
+        </ul>
       </div>
     {/if}
 
@@ -218,6 +330,66 @@
   }
   .bar__fill--neutral {
     background: var(--stone-50);
+  }
+
+  .lede {
+    color: var(--text-secondary);
+    max-width: 60ch;
+  }
+
+  /* segmented learning-stage bar (shares the .bar track) */
+  .segbar {
+    display: flex;
+  }
+  .segbar__seg {
+    height: 100%;
+    transition: width 0.6s var(--ease-standard);
+  }
+  .segbar__seg--new {
+    background: var(--stone-50);
+  }
+  .segbar__seg--learning {
+    background: var(--amber);
+  }
+  .segbar__seg--settling {
+    background: var(--stat-good);
+    opacity: 0.5;
+  }
+  .segbar__seg--good {
+    background: var(--stat-good);
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-4);
+  }
+  .legend__item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend__dot {
+    flex: none;
+    width: 10px;
+    height: 10px;
+    border-radius: var(--r-pill);
+  }
+  .legend__dot--new {
+    background: var(--stone-50);
+  }
+  .legend__dot--learning {
+    background: var(--amber);
+  }
+  .legend__dot--settling {
+    background: var(--stat-good);
+    opacity: 0.5;
+  }
+  .legend__dot--good {
+    background: var(--stat-good);
+  }
+  .legend__n {
+    font-weight: var(--fw-semibold);
   }
 
   .block {

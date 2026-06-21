@@ -5,11 +5,12 @@ export type SignCategory =
   | 'prohibitory' // round, red ring — "you must not"
   | 'mandatory' // round, blue — "you must"
   | 'warning' // triangle, red border
-  | 'direction' // rectangle (non-motorway only in v1)
+  | 'direction' // rectangle (non-motorway routes)
   | 'information' // rectangle, blue/white
   | 'roadworks' // temporary
   | 'marking' // road markings (drawn in-app)
   | 'signal' // light signals (drawn in-app)
+  | 'motorway' // blue motorway signs + gantry signals (opt-in; mostly drawn in-app)
 
 export type SignShape =
   | 'circle'
@@ -50,8 +51,6 @@ export interface SignDefinition {
   /** OGL source: the Wikimedia Commons File: page for the official artwork
    *  (absent for composites, which are drawn in-app) */
   source?: string
-  /** motorway content — excluded from v1 study/quiz/browse, kept for v2 */
-  excludeFromV1?: boolean
 }
 
 /** 0 Again · 1 Hard · 2 Good · 3 Easy */
@@ -101,6 +100,9 @@ export interface Settings {
   newPerDay: number
   deckScope: DeckScope
   includeMarkings: boolean
+  /** include the motorway-signs module (off by default — motorways are beyond CBT
+   *  scope; orthogonal to the deck-scope slider) */
+  includeMotorway: boolean
   showCategoryHint: boolean
   /** mix new cards across categories instead of introducing them in category order */
   shuffleCategories: boolean
@@ -117,6 +119,7 @@ export const DEFAULT_SETTINGS: Settings = {
   newPerDay: 12,
   deckScope: 'standard',
   includeMarkings: true,
+  includeMotorway: false,
   showCategoryHint: true,
   shuffleCategories: false,
 }
@@ -133,4 +136,5 @@ export const CATEGORY_META: Record<
   roadworks: { label: 'Road works', short: 'Road works', order: 5 },
   marking: { label: 'Road markings', short: 'Marking', order: 6 },
   signal: { label: 'Light signals', short: 'Signal', order: 7 },
+  motorway: { label: 'Motorway signs', short: 'Motorway', order: 8 },
 }

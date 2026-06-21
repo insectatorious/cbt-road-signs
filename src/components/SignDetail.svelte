@@ -1,7 +1,7 @@
 <script lang="ts">
   import SignPlate from './SignPlate.svelte'
   import Icon from './Icon.svelte'
-  import { reviewFor, SIGN_BY_ID } from '../lib/store.svelte'
+  import { reviewFor, lookalikesFor } from '../lib/store.svelte'
   import { accuracyOf, isMastered } from '../lib/stats'
   import { humanInterval, pct } from '../lib/util'
   import { CATEGORY_META, type SignDefinition } from '../lib/types'
@@ -13,9 +13,7 @@
   }: { sign: SignDefinition; onClose: () => void; onOpen: (id: string) => void } = $props()
 
   const review = $derived(reviewFor(sign.id))
-  const confused = $derived(
-    sign.confusedWith.map((id) => SIGN_BY_ID.get(id)).filter((s): s is SignDefinition => !!s),
-  )
+  const confused = $derived(lookalikesFor(sign))
   let closeBtn = $state<HTMLButtonElement>()
 
   $effect(() => {

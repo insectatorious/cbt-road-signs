@@ -26,6 +26,7 @@ export function buildQuestion(
 ): QuizQuestion {
   const distractors: SignDefinition[] = []
   const usedCaptions = new Set([sign.caption])
+  const inDeck = new Set(deck.map((d) => d.id))
   const add = (s: SignDefinition | undefined): void => {
     if (s && !usedCaptions.has(s.caption)) {
       usedCaptions.add(s.caption)
@@ -35,7 +36,11 @@ export function buildQuestion(
 
   for (const id of sign.confusedWith) {
     if (distractors.length >= 3) break
-    add(byId.get(id))
+    const d = byId.get(id)
+    // Opt-in modules (e.g. motorway) shouldn't surface as distractors when they're
+    // not in the active deck — never quiz a non-motorway card with a motorway answer.
+    if (d && d.category === 'motorway' && !inDeck.has(id)) continue
+    add(d)
   }
   for (const s of shuffle(deck.filter((d) => d.category === sign.category))) {
     if (distractors.length >= 3) break

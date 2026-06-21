@@ -38,7 +38,11 @@ export function startOfDay(now: number): number {
 }
 
 export function endOfDay(now: number): number {
-  return startOfDay(now) + DAY_MS - 1
+  // last ms of the local calendar day — derived from the next local midnight, so
+  // it stays correct on DST days (a 23h or 25h day, not a hard-coded 24h).
+  const d = new Date(startOfDay(now))
+  d.setDate(d.getDate() + 1)
+  return d.getTime() - 1
 }
 
 export interface GradeOptions {

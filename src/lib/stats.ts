@@ -10,6 +10,8 @@ import { DAY_MS, isDue, startOfDay } from './scheduler'
 
 const MIN_REVIEWS_FOR_RANK = 3
 const MASTERY_INTERVAL = 21
+/** days: once a card's interval clears the 1d→6d graduating steps it is "settling" */
+const SETTLING_INTERVAL = 7
 const RETENTION_WINDOW_DAYS = 30
 
 const clamp = (x: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, x))
@@ -215,4 +217,172 @@ export function buildReport(
     perCategory,
     coreMasteredPct: coreTotal ? coreMastered / coreTotal : 0,
   }
+}
+
+// ---- the spaced-repetition plan: forward forecast + learned state ----
+
+export interface Forecast {
+  /** counts by day; index 0 = today (INCLUDING all overdue) */
+  buckets: number[]
+  /** introduced cards due beyond the `days` window */
+  overflow: number
+  /** cards due tomorrow (= buckets[1]) */
+  tomorrow: number
+  /** cards due in the next 7 days (days 1–7, excluding today/overdue) */
+  next7: number
+  /** cards due in the next 30 days (days 1–30, excluding today/overdue) */
+  next30: number
+}
+
+/** Forward due-date forecast of CURRENTLY-SCHEDULED reviews — "the plan".
+ *
+ *  Each introduced card is bucketed once at its stored `dueAt` (we never re-simulate
+ *  future reviews). Bucketing uses local `startOfDay` so it agrees with `isDue`'s
+ *  day math across timezones/DST; overdue cards (negative day index) collapse into
+ *  bucket 0, and un-introduced cards are excluded (they have no date schedule —
+ *  `newReviewState` leaves `dueAt = 0`). By construction `buckets[0]` equals
+ *  `buildReport(...).dueToday`. */
+export function buildForecast(
+  deck: SignDefinition[],
+  reviews: Record<string, ReviewState>,
+  now: number,
+  days = 14,
+): Forecast {
+  const today0 = startOfDay(now)
+  const buckets = new Array(Math.max(1, days)).fill(0)
+  let overflow = 0
+  let next7 = 0
+  let next30 = 0
+  for (const sign of deck) {
+    const rs = reviews[sign.id]
+    if (!rs || !rs.introduced) continue // not on a date schedule
+    // round, not floor: two local midnights are 23h/25h apart across a DST change,
+    // so floor would mis-bin by a day; rounding recovers the true calendar gap.
+    const idx = Math.round((startOfDay(rs.dueAt) - today0) / DAY_MS)
+    const b = idx < 0 ? 0 : idx
+    if (b < buckets.length) buckets[b]++
+    else overflow++
+    if (idx >= 1 && idx <= 7) next7++
+    if (idx >= 1 && idx <= 30) next30++
+  }
+  return { buckets, overflow, tomorrow: buckets[1] ?? 0, next7, next30 }
+}
+
+export interface StageCounts {
+  newToStart: number
+  learning: number
+  settling: number
+  lockedIn: number
+  introducedTotal: number
+  /** mean current interval over introduced cards, in days (0 if none) */
+  avgGapDays: number
+}
+
+/** Disjoint, exhaustive learning-stage breakdown over the in-scope deck — "what
+ *  the system has learnt". Classified in priority order so the buckets never
+ *  overlap and reconcile with the rest of the Report: new → locked-in
+ *  (`isMastered`) → settling (interval ≥ 7d) → learning. A long-interval card
+ *  that fails the mastery test is Settling, not Locked-in. Therefore the four
+ *  counts sum to `deck.length`, `lockedIn === report.mastered`, and
+ *  `introducedTotal === report.introduced`. */
+export function classifyStages(
+  deck: SignDefinition[],
+  reviews: Record<string, ReviewState>,
+): StageCounts {
+  let newToStart = 0
+  let learning = 0
+  let settling = 0
+  let lockedIn = 0
+  let gapSum = 0
+  let introduced = 0
+  for (const sign of deck) {
+    const rs = reviews[sign.id]
+    if (!rs || !rs.introduced) {
+      newToStart++
+      continue
+    }
+    introduced++
+    gapSum += rs.intervalDays
+    if (isMastered(rs)) lockedIn++
+    else if (rs.intervalDays >= SETTLING_INTERVAL) settling++
+    else learning++
+  }
+  return {
+    newToStart,
+    learning,
+    settling,
+    lockedIn,
+    introducedTotal: introduced,
+    avgGapDays: introduced ? gapSum / introduced : 0,
+  }
+}
+
+export interface IntervalBucket {
+  label: string
+  count: number
+}
+
+/** Distribution of current scheduling intervals over introduced in-scope cards
+ *  — a read-out of memory durability. Buckets partition the number line by upper
+ *  bound (first match wins), so every finite interval lands in exactly one and
+ *  the counts sum to `report.introduced`. Labelled by interval length only — "due
+ *  now" is a schedule fact and lives in the forecast, not here. */
+export function intervalHistogram(
+  deck: SignDefinition[],
+  reviews: Record<string, ReviewState>,
+): IntervalBucket[] {
+  const defs: [string, (d: number) => boolean][] = [
+    ['1 day or less', (d) => d < 2],
+    ['2-6 days', (d) => d < 7],
+    ['1-3 weeks', (d) => d < 21],
+    ['3-8 weeks', (d) => d < 60],
+    ['2 months+', () => true],
+  ]
+  const counts = new Array(defs.length).fill(0)
+  for (const sign of deck) {
+    const rs = reviews[sign.id]
+    if (!rs || !rs.introduced) continue
+    const i = defs.findIndex(([, test]) => test(rs.intervalDays))
+    if (i >= 0) counts[i]++
+  }
+  return defs.map(([label], i) => ({ label, count: counts[i] }))
+}
+
+/** Plain-English lede for the Report: one line on what's been learnt, one on the
+ *  plan. Pure and plural-safe; deliberately free of SR jargon (no "ease"/"interval"). */
+export function sentenceForPlan(
+  forecast: Forecast,
+  stages: StageCounts,
+  report: Report,
+): string[] {
+  const n = (count: number) => `${count} ${count === 1 ? 'sign' : 'signs'}`
+  const out: string[] = []
+
+  // what the system has learnt
+  if (stages.lockedIn > 0) {
+    const bedding = stages.learning + stages.settling
+    out.push(
+      `${n(stages.lockedIn)} ${stages.lockedIn === 1 ? 'is' : 'are'} now in long-term memory` +
+        (bedding > 0 ? `, with ${bedding} more bedding in.` : '.'),
+    )
+  } else if (report.introduced > 0) {
+    out.push(`You've started ${n(report.introduced)} — keep going and they'll start locking in.`)
+  }
+
+  // the plan
+  const dueNow = forecast.buckets[0] ?? 0
+  if (dueNow > 0) {
+    out.push(
+      `${dueNow} due to review now` +
+        (forecast.next7 > 0 ? `, with ${forecast.next7} more in the next 7 days.` : '.'),
+    )
+  } else {
+    const nextIdx = forecast.buckets.findIndex((c, i) => i >= 1 && c > 0)
+    if (nextIdx === 1) out.push(`You're all caught up — nothing due until tomorrow.`)
+    else if (nextIdx > 1) out.push(`You're all caught up — nothing due for ${nextIdx} days.`)
+    else if (forecast.overflow > 0)
+      out.push(`You're all caught up — nothing due for the next ${forecast.buckets.length} days.`)
+    else out.push(`You're all caught up.`)
+  }
+  return out
 }

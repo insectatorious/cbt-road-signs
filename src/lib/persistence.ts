@@ -111,6 +111,7 @@ function sanitizeSettings(raw: unknown): Settings {
     newPerDay: Math.min(100, Math.max(1, Math.round(num(r.newPerDay, DEFAULT_SETTINGS.newPerDay)))),
     deckScope: coerceScope(r),
     includeMarkings: bool(r.includeMarkings, DEFAULT_SETTINGS.includeMarkings),
+    includeMotorway: bool(r.includeMotorway, DEFAULT_SETTINGS.includeMotorway),
     showCategoryHint: bool(r.showCategoryHint, DEFAULT_SETTINGS.showCategoryHint),
     shuffleCategories: bool(r.shuffleCategories, DEFAULT_SETTINGS.shuffleCategories),
   }

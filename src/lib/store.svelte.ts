@@ -28,13 +28,24 @@ export const store = $state({
   backupNudgeDismissedAt: loaded.meta.backupNudgeDismissedAt as number | undefined,
 })
 
-/** Signs in scope for the current settings (no motorway; edge/markings gated). */
+/** Signs in scope for the current settings (scope slider + markings/motorway opt-ins). */
 export function activeSigns(): SignDefinition[] {
   return activeDeck(SIGNS, store.settings)
 }
 
 export function reviewFor(id: string): ReviewState | undefined {
   return store.reviews[id]
+}
+
+/** A sign's look-alikes, resolved and respecting the motorway opt-out: when the
+ *  module is off, motorway signs never surface as "commonly confused with" links. */
+export function lookalikesFor(sign: SignDefinition): SignDefinition[] {
+  return sign.confusedWith
+    .map((id) => SIGN_BY_ID.get(id))
+    .filter(
+      (s): s is SignDefinition =>
+        !!s && (s.category !== 'motorway' || store.settings.includeMotorway),
+    )
 }
 
 /** A one-shot set of ids for a focused "drill these" quiz (from the Report). */

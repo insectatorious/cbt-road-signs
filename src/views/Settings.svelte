@@ -25,10 +25,12 @@
   let storagePersisted = $state(false)
   let usageKb = $state<number | null>(null)
 
-  const tierCount = (t: string) => SIGNS.filter((s) => s.tier === t && !s.excludeFromV1).length
+  const tierCount = (t: string) =>
+    SIGNS.filter((s) => s.tier === t && s.category !== 'motorway').length
   const cCore = tierCount('core')
   const cStandard = tierCount('standard')
   const cEdge = tierCount('edge')
+  const motorwayCount = SIGNS.filter((s) => s.category === 'motorway').length
   const scopeStages = [
     { value: 'essential' as DeckScope, label: 'Essentials', count: cCore },
     { value: 'standard' as DeckScope, label: 'Standard', count: cCore + cStandard },
@@ -140,6 +142,14 @@
       </div>
       <Switch label="Include road markings" checked={store.settings.includeMarkings} onchange={(v) => setSetting('includeMarkings', v)} />
     </div>
+
+    <div class="row">
+      <div class="row__text">
+        <span class="row__title">Include motorway signs</span>
+        <span class="row__desc t-caption">Add the {motorwayCount} motorway signs &amp; gantry signals. Off by default — riders can’t use motorways on a CBT, but it’s handy once you progress.</span>
+      </div>
+      <Switch label="Include motorway signs" checked={store.settings.includeMotorway} onchange={(v) => setSetting('includeMotorway', v)} />
+    </div>
   </div>
 
   <div class="group">
@@ -186,7 +196,7 @@
     <p class="about t-caption">
       A focused revision tool for the UK motorcycle CBT road signs. Sign artwork is
       Crown copyright, reproduced under the Open Government Licence v3.0 via Wikimedia Commons.
-      Motorway signs are out of scope for now.
+      Motorway signs are an optional extra (off by default), since they’re beyond CBT scope.
     </p>
     <a
       class="source-link"

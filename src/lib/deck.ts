@@ -11,16 +11,16 @@ import { isDue } from './scheduler'
 
 const TIER_RANK: Record<Tier, number> = { core: 0, standard: 1, edge: 2 }
 
-/** Signs in scope for the current settings: no motorway; tier gated by the
- *  deck-scope slider; markings gated by their own toggle. */
+/** Signs in scope for the current settings. The deck-scope slider sets the tier
+ *  breadth for ordinary road signs; the markings and motorway modules are
+ *  orthogonal opt-in toggles (motorway is opt-in because it's beyond CBT scope). */
 export function activeDeck(signs: SignDefinition[], settings: Settings): SignDefinition[] {
   const tiers = SCOPE_TIERS[settings.deckScope] ?? SCOPE_TIERS.standard
-  return signs.filter(
-    (s) =>
-      !s.excludeFromV1 &&
-      tiers.includes(s.tier) &&
-      (s.category !== 'marking' || settings.includeMarkings),
-  )
+  return signs.filter((s) => {
+    if (s.category === 'motorway') return settings.includeMotorway // opt-in, independent of scope
+    if (s.category === 'marking' && !settings.includeMarkings) return false
+    return tiers.includes(s.tier)
+  })
 }
 
 /** Introduction order for new cards: most important first. */

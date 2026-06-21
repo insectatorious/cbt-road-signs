@@ -2,15 +2,20 @@
   import SignPlate from '../components/SignPlate.svelte'
   import SignDetail from '../components/SignDetail.svelte'
   import Icon from '../components/Icon.svelte'
-  import { SIGNS } from '../lib/store.svelte'
+  import { SIGNS, store } from '../lib/store.svelte'
   import { searchSigns } from '../lib/search'
   import { CATEGORY_META, type SignCategory, type SignDefinition } from '../lib/types'
 
-  // The reference is the COMPLETE set (minus motorway), regardless of study settings.
-  const reference = SIGNS.filter((s) => !s.excludeFromV1)
+  // The reference shows the COMPLETE set regardless of the study scope slider, but
+  // still respects the motorway opt-in (which is off by default).
+  const reference = $derived(
+    SIGNS.filter((s) => s.category !== 'motorway' || store.settings.includeMotorway),
+  )
 
-  const categories = (Object.keys(CATEGORY_META) as SignCategory[]).sort(
-    (a, b) => CATEGORY_META[a].order - CATEGORY_META[b].order,
+  const categories = $derived(
+    (Object.keys(CATEGORY_META) as SignCategory[])
+      .filter((c) => c !== 'motorway' || store.settings.includeMotorway)
+      .sort((a, b) => CATEGORY_META[a].order - CATEGORY_META[b].order),
   )
 
   let query = $state('')

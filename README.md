@@ -1,7 +1,7 @@
 # Road Signs — CBT Revision
 
 A focused, offline-capable web app for **spaced-repetition revision of the UK motorcycle
-CBT road signs** — the official Highway Code sign set (motorway content excluded for now),
+CBT road signs** — the official Highway Code sign set (plus an optional motorway module),
 wrapped in a Dieter-Rams-inspired design system.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
@@ -10,7 +10,7 @@ wrapped in a Dieter-Rams-inspired design system.
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
 ![GSAP](https://img.shields.io/badge/GSAP-motion-88CE02?logo=greensock&logoColor=white)
 ![PWA](https://img.shields.io/badge/PWA-offline-5A0FC8?logo=pwa&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-46_passing-success)
+![Tests](https://img.shields.io/badge/tests-78_passing-success)
 ![Lighthouse](https://img.shields.io/badge/Lighthouse-A11y_100-0CCE6B?logo=lighthouse&logoColor=white)
 ![Data: local-only](https://img.shields.io/badge/data-local--only-informational)
 
@@ -29,7 +29,7 @@ durable-storage request) — **no backend, no accounts, no tracking.**
 - **Quiz** — auto-graded multiple choice whose wrong options are drawn from genuine
   **look-alike signs** (e.g. *no entry* vs *no motor vehicles*), so every question drills
   a real confusion.
-- **Reference** — searchable, filterable index of **all 118 signs** with a detail sheet.
+- **Reference** — searchable, filterable index of **the complete sign set** with a detail sheet.
 - **Report** — recall accuracy, 30-day retention, mastery, a per-category breakdown, and
   your **best- and worst-performing signs** with a one-tap *"drill these."*
 - First-class **dark mode**, full **keyboard** control, **reduced-motion** support, and a
@@ -49,11 +49,12 @@ skew the schedule. The **Quiz** feeds the same adaptive model from its own basel
 
 ## The sign set
 
-**118 signs** — 97 enabled by default (the core + standard non-motorway set) plus ~21
-rarer "edge" signs you can toggle on. Artwork is **101 official OGL-licensed SVGs** sourced
-from Wikimedia Commons, plus **17 in-app composites** (traffic-light sequence, road
-markings, worded direction panels) drawn directly. Motorway signs are intentionally out of
-scope but retained behind a flag for a future version.
+**200 signs.** The default *Standard* set is **97** (the core + standard non-motorway
+signs); a three-stage **coverage slider** (Essentials · Standard · Comprehensive) widens it
+to **190**, adding rarer "edge" signs, and an **optional motorway module** adds the final
+**10**. Artwork is **159 official OGL-licensed SVGs** sourced from Wikimedia Commons, plus
+**41 in-app composites** (traffic-light sequences, road markings, worded direction panels,
+and motorway gantry signals) drawn directly and clearly flagged as illustrations.
 
 ## Privacy & your data
 
@@ -80,7 +81,7 @@ unit-tested TypeScript.
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm test           # unit tests (scheduler / pace / stats / quiz / backup / persistence)
+npm test           # unit tests (scheduler / pace / deck / stats / quiz / backup / persistence / dst)
 npm run check      # svelte-check (types) — kept at 0 errors / 0 warnings
 npm run build      # production build → dist/
 npm run preview    # serve the production build
@@ -90,7 +91,7 @@ Run a single test file or by name:
 
 ```bash
 npx vitest run tests/scheduler.test.ts
-npx vitest run -t "Easy graduates"
+npx vitest run -t "ease never drops"
 ```
 
 ## Regenerating content & assets
@@ -112,19 +113,20 @@ npm run gen-icons       # regenerate PWA icons → public/icons/
 
 ```
 src/
-  data/        signs.ts (generated) + _gen/*.json sources + sign SVGs
-  lib/         the engine — scheduler, pace, deck, stats, quiz, search,
-               persistence, storage, backup, store (Svelte 5 runes), motion (GSAP)
-  components/  SignPlate, Flashcard, RecallBar, QuizCard, BackupNudge, …
+  data/        signs.ts (generated) + _gen/*.json sources + changelog.ts
+  lib/         the engine — scheduler, pace, deck, stats, quiz, search, persistence,
+               storage, backup, analytics, store + router + theme (Svelte 5 runes), motion (GSAP)
+  components/  SignPlate, SignComposite, Flashcard, RecallBar, ScopeSlider, BackupNudge, …
   views/       Study, Quiz, Browse, Report, Settings
   styles/      tokens.css (the "Strata" design system) + base.css
-scripts/       build-signs, fetch-assets, resolve-assets, gen-icons
+  assets/signs/ ~159 bundled OGL sign SVGs
+scripts/       build-signs, fetch-assets, resolve-assets, gen-icons, build-changelog
 tests/         pure-logic unit tests (vitest)
 ```
 
 ## Quality
 
-46 unit tests, 0 type/svelte-check errors, and **Lighthouse Accessibility / Best-Practices
+78 unit tests, 0 type/svelte-check errors, and **Lighthouse Accessibility / Best-Practices
 / SEO all 100** (mobile). Verified end-to-end across 320–1280px, light + dark, with Chrome
 DevTools (flows, no console errors, no horizontal overflow, reduced-motion).
 

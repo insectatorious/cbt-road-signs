@@ -11,6 +11,22 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.5.0',
+    date: '2026-06-21',
+    changes: [
+      'New “Your learning plan” section in the Report shows what the spaced-repetition system has worked out: a 14-day forecast of when your signs come back, a learning-stage breakdown (New · Learning · Settling · Locked in), and a memory-strength view of how long each sign now sticks.',
+      'More accurate “due” counts around the twice-yearly British Summer Time clock change.',
+    ],
+  },
+  {
+    version: '1.4.0',
+    date: '2026-06-21',
+    changes: [
+      'New optional Motorway signs module (off by default, since motorways are beyond CBT scope): 10 signs covering start and end of motorway, countdown markers, junction and route-confirmatory signs, services, and smart-motorway gantry signals — variable mandatory speed limits, the red “X” lane closure, amber advisory signals and the “End” of restriction.',
+      'Turn it on under Settings → Study → “Include motorway signs”; it’s kept separate from the coverage slider so it never affects your core revision.',
+    ],
+  },
+  {
     version: '1.3.0',
     date: '2026-06-21',
     changes: [

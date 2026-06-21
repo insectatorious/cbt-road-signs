@@ -1,7 +1,7 @@
 <script lang="ts">
   import SignPlate from './SignPlate.svelte'
   import { flip } from '../lib/motion'
-  import { SIGN_BY_ID } from '../lib/store.svelte'
+  import { lookalikesFor } from '../lib/store.svelte'
   import { CATEGORY_META, type SignDefinition } from '../lib/types'
 
   let {
@@ -22,9 +22,7 @@
     if (inner) flip(inner, flipped)
   })
 
-  const confused = $derived(
-    sign.confusedWith.map((id) => SIGN_BY_ID.get(id)).filter((s): s is SignDefinition => !!s),
-  )
+  const confused = $derived(lookalikesFor(sign))
 </script>
 
 <div class="card">
