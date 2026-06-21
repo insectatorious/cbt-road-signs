@@ -117,6 +117,11 @@
       padding: var(--s-3) 0;
       gap: 5px;
     }
+    /* keep long labels (Reference / Settings) comfortably inside the rail */
+    .nav__label {
+      font-size: 10px;
+      letter-spacing: 0.02em;
+    }
     .nav__indicator {
       top: 50%;
       left: 0;
