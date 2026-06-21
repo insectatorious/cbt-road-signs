@@ -4,9 +4,18 @@
   import Switch from '../components/Switch.svelte'
   import ScopeSlider from '../components/ScopeSlider.svelte'
   import Icon from '../components/Icon.svelte'
+  import ReleaseNotes from '../components/ReleaseNotes.svelte'
   import { store, setSetting, resetProgress, downloadBackup, importData, SIGNS } from '../lib/store.svelte'
   import type { DeckScope } from '../lib/types'
+  import { APP_VERSION, LAST_UPDATED } from '../data/changelog'
   import { requestPersistence, storageStatus, storageEstimate } from '../lib/storage'
+
+  let showNotes = $state(false)
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const updatedLabel = (() => {
+    const [y, m, d] = LAST_UPDATED.split('-').map(Number)
+    return `${d} ${MONTHS[(m || 1) - 1]} ${y}`
+  })()
 
   let confirming = $state(false)
   let importMsg = $state('')
@@ -187,8 +196,16 @@
     >
       <Icon name="github" size={16} /> View source on GitHub
     </a>
+    <p class="version t-caption">
+      Version {APP_VERSION} · Updated {updatedLabel} ·
+      <button class="version__notes" onclick={() => (showNotes = true)}>Release notes</button>
+    </p>
   </div>
 </section>
+
+{#if showNotes}
+  <ReleaseNotes onClose={() => (showNotes = false)} />
+{/if}
 
 <style>
   .settings {
@@ -318,5 +335,18 @@
   }
   .source-link:hover {
     color: var(--text);
+  }
+  .version {
+    margin-top: var(--s-3);
+    color: var(--text-muted);
+  }
+  .version__notes {
+    color: var(--text-secondary);
+    font: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .version__notes:hover {
+    color: var(--amber-text);
   }
 </style>

@@ -1,7 +1,7 @@
 {
   "name": "cbt-flashcards",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.3.0",
   "type": "module",
   "description": "Spaced-repetition revision for UK motorcycle CBT road signs",
   "scripts": {
@@ -11,6 +11,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
+    "build-changelog": "tsx scripts/build-changelog.ts",
     "build-signs": "tsx scripts/build-signs.ts",
     "fetch-assets": "tsx scripts/fetch-assets.ts",
     "resolve-assets": "tsx scripts/resolve-assets.ts",
