@@ -1,14 +1,35 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
   import ThemeControl from '../components/ThemeControl.svelte'
   import Switch from '../components/Switch.svelte'
   import Icon from '../components/Icon.svelte'
-  import { store, setSetting, resetProgress, exportData, importData, SIGNS } from '../lib/store.svelte'
+  import { store, setSetting, resetProgress, downloadBackup, importData, SIGNS } from '../lib/store.svelte'
+  import { requestPersistence, storageStatus, storageEstimate } from '../lib/storage'
 
   let confirming = $state(false)
   let importMsg = $state('')
   let fileInput = $state<HTMLInputElement>()
 
+  let storageSupported = $state(false)
+  let storagePersisted = $state(false)
+  let usageKb = $state<number | null>(null)
+
   const edgeCount = SIGNS.filter((s) => s.tier === 'edge').length
+
+  async function refreshStorage() {
+    const st = await storageStatus()
+    storageSupported = st.supported
+    storagePersisted = st.persisted
+    const est = await storageEstimate()
+    usageKb = est ? Math.max(1, Math.round(est.usage / 1024)) : null
+  }
+
+  async function protectStorage() {
+    await requestPersistence()
+    await refreshStorage()
+  }
+
+  onMount(refreshStorage)
 
   function clampNew(v: number) {
     setSetting('newPerDay', Math.max(3, Math.min(40, v)))
@@ -17,16 +38,6 @@
   function doReset() {
     resetProgress()
     confirming = false
-  }
-
-  function doExport() {
-    const blob = new Blob([exportData()], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `cbt-progress-${new Date().toISOString().slice(0, 10)}.json`
-    a.click()
-    URL.revokeObjectURL(url)
   }
 
   async function onFile(e: Event) {
@@ -95,10 +106,26 @@
   </div>
 
   <div class="group">
+    <span class="group__label t-micro">Storage</span>
+    <div class="row">
+      <div class="row__text">
+        <span class="row__title">{storagePersisted ? 'Protected from eviction' : 'Best-effort storage'}</span>
+        <span class="row__desc t-caption">
+          {#if storagePersisted}The browser won’t clear your progress to free up space.{:else if storageSupported}The browser may clear your progress to free space — protect it to prevent that.{:else}Saved locally in this browser.{/if}
+          {#if usageKb != null}{' · '}{usageKb} KB used{/if}
+        </span>
+      </div>
+      {#if storageSupported && !storagePersisted}
+        <button class="btn btn--ghost" onclick={protectStorage}>Protect</button>
+      {/if}
+    </div>
+  </div>
+
+  <div class="group">
     <span class="group__label t-micro">Your data</span>
     <p class="group__note t-caption">Progress is saved on this device only. Export a backup, or move it to another browser.</p>
     <div class="data-actions">
-      <button class="btn btn--ghost" onclick={doExport}><Icon name="download" size={17} /> Export</button>
+      <button class="btn btn--ghost" onclick={downloadBackup}><Icon name="download" size={17} /> Export</button>
       <button class="btn btn--ghost" onclick={() => fileInput?.click()}><Icon name="upload" size={17} /> Import</button>
       <input bind:this={fileInput} type="file" accept="application/json" onchange={onFile} hidden />
     </div>

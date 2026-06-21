@@ -158,6 +158,7 @@
     flex-direction: column;
     gap: var(--s-5);
     max-width: 720px;
+    margin: 0 auto;
   }
   .report__head h1 {
     margin-bottom: 2px;
@@ -310,9 +311,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: var(--s-3);
     text-align: center;
-    padding: var(--s-7) var(--s-4);
+    max-width: 40ch;
+    min-height: 56vh;
+    margin: 0 auto;
+    padding: var(--s-6) var(--s-4);
     color: var(--text-secondary);
   }
   .empty__icon {

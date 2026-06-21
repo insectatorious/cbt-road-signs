@@ -30,4 +30,33 @@ describe('migrate', () => {
     expect(m.reviews['no-entry']).toBeTruthy()
     expect(m.settings.newPerDay).toBeGreaterThan(0)
   })
+
+  it('normalises partial review entries so they can never crash the app', () => {
+    // a partial review (from an old/hand-edited backup) missing the array fields
+    const m = migrate({ reviews: { 'no-entry': { id: 'no-entry', timesSeen: 3, ease: Number.NaN } } }, NOW)
+    const r = m.reviews['no-entry']
+    expect(Array.isArray(r.history)).toBe(true) // would be `undefined` → crash without sanitising
+    expect(Array.isArray(r.confusionLog)).toBe(true)
+    expect(r.timesSeen).toBe(3)
+    expect(Number.isFinite(r.ease)).toBe(true) // NaN coerced to a finite default
+  })
+
+  it('drops non-object reviews and malformed session entries', () => {
+    const m = migrate(
+      {
+        reviews: { bad: null, ok: { id: 'ok' } },
+        sessions: [null, 'x', { reviewed: 2 }, { date: '2026-06-01', reviewed: 2, correct: 1, newSeen: 1 }],
+      },
+      NOW,
+    )
+    expect(m.reviews.bad).toBeUndefined()
+    expect(m.reviews.ok).toBeTruthy()
+    expect(m.sessions).toHaveLength(1) // only the well-formed, dated record survives
+    expect(m.sessions[0].date).toBe('2026-06-01')
+  })
+
+  it('clamps an out-of-range imported newPerDay', () => {
+    expect(migrate({ settings: { newPerDay: -5 } }, NOW).settings.newPerDay).toBeGreaterThanOrEqual(1)
+    expect(migrate({ settings: { newPerDay: 9999 } }, NOW).settings.newPerDay).toBeLessThanOrEqual(100)
+  })
 })

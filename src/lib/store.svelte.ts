@@ -24,6 +24,8 @@ export const store = $state({
     study: number | undefined
     quiz: number | undefined
   },
+  lastBackupAt: loaded.meta.lastBackupAt as number | undefined,
+  backupNudgeDismissedAt: loaded.meta.backupNudgeDismissedAt as number | undefined,
 })
 
 /** Signs in scope for the current settings (no motorway; edge/markings gated). */
@@ -60,6 +62,8 @@ function snapshot(): persistence.PersistShape {
       lastOpenedAt: Date.now(),
       studyPaceMs: store.pace.study,
       quizPaceMs: store.pace.quiz,
+      lastBackupAt: store.lastBackupAt,
+      backupNudgeDismissedAt: store.backupNudgeDismissedAt,
     },
   }
 }
@@ -141,6 +145,28 @@ export function exportData(): string {
   return persistence.exportJSON(snapshot())
 }
 
+/** Download the full state as a dated JSON file and mark it as backed up. */
+export function downloadBackup(): void {
+  if (typeof document !== 'undefined') {
+    const blob = new Blob([exportData()], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `cbt-progress-${new Date().toISOString().slice(0, 10)}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+  store.lastBackupAt = Date.now()
+  persist()
+}
+
+export function dismissBackupNudge(): void {
+  store.backupNudgeDismissedAt = Date.now()
+  persist()
+}
+
+/** Restore the FULL state from a backup file (reviews, settings, sessions,
+ *  pace baselines, and meta) — not just the reviews. */
 export function importData(text: string): boolean {
   try {
     const data = persistence.importJSON(text, Date.now())
@@ -150,6 +176,10 @@ export function importData(text: string): boolean {
     store.reviews = data.reviews
     store.settings = data.settings
     store.sessions = data.sessions
+    store.createdAt = data.meta.createdAt
+    store.pace = { study: data.meta.studyPaceMs, quiz: data.meta.quizPaceMs }
+    store.lastBackupAt = data.meta.lastBackupAt
+    store.backupNudgeDismissedAt = data.meta.backupNudgeDismissedAt
     persist()
     return true
   } catch {

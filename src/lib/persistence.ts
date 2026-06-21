@@ -1,6 +1,7 @@
 /** Versioned localStorage persistence. Never throws to the UI:
  *  corrupt data is backed up and replaced with a fresh store. */
 import { DEFAULT_SETTINGS, type ReviewState, type SessionRecord, type Settings } from './types'
+import { newReviewState } from './scheduler'
 
 const KEY = 'cbt-signs:v1'
 const SCHEMA_VERSION = 1
@@ -17,6 +18,9 @@ export interface PersistShape {
     /** EMA of correct-recall latency (ms), per mode — for adaptive grading. */
     studyPaceMs?: number
     quizPaceMs?: number
+    /** Backup-nudge bookkeeping (epoch ms). */
+    lastBackupAt?: number
+    backupNudgeDismissedAt?: number
   }
 }
 
@@ -35,6 +39,62 @@ function finitePos(v: unknown): number | undefined {
   return typeof v === 'number' && Number.isFinite(v) && v > 0 ? v : undefined
 }
 
+function num(v: unknown, fallback: number): number {
+  return typeof v === 'number' && Number.isFinite(v) ? v : fallback
+}
+
+/** Normalise each review to a COMPLETE, well-typed ReviewState. A partial,
+ *  old, or hand-edited backup (missing the history/confusionLog arrays, NaN
+ *  numbers, non-object entries) must never reach the scheduler/stats — those
+ *  iterate/slice these fields and would crash and then wedge the app. */
+function sanitizeReviews(raw: unknown): Record<string, ReviewState> {
+  const out: Record<string, ReviewState> = {}
+  if (!raw || typeof raw !== 'object') return out
+  for (const [id, value] of Object.entries(raw as Record<string, unknown>)) {
+    if (!value || typeof value !== 'object') continue
+    const v = value as Partial<ReviewState>
+    const base = newReviewState(id)
+    out[id] = {
+      id,
+      ease: num(v.ease, base.ease),
+      intervalDays: num(v.intervalDays, base.intervalDays),
+      reps: num(v.reps, base.reps),
+      lapses: num(v.lapses, base.lapses),
+      dueAt: num(v.dueAt, base.dueAt),
+      lastReviewedAt: typeof v.lastReviewedAt === 'number' && Number.isFinite(v.lastReviewedAt) ? v.lastReviewedAt : base.lastReviewedAt,
+      introduced: typeof v.introduced === 'boolean' ? v.introduced : base.introduced,
+      timesSeen: num(v.timesSeen, base.timesSeen),
+      correct: num(v.correct, base.correct),
+      incorrect: num(v.incorrect, base.incorrect),
+      streak: num(v.streak, base.streak),
+      bestStreak: num(v.bestStreak, base.bestStreak),
+      avgResponseMs: num(v.avgResponseMs, base.avgResponseMs),
+      confusionLog: Array.isArray(v.confusionLog) ? v.confusionLog : base.confusionLog,
+      history: Array.isArray(v.history) ? v.history : base.history,
+    }
+  }
+  return out
+}
+
+function sanitizeSessions(raw: unknown): SessionRecord[] {
+  if (!Array.isArray(raw)) return []
+  return raw
+    .filter(
+      (s): s is SessionRecord =>
+        !!s && typeof s === 'object' && typeof (s as SessionRecord).date === 'string',
+    )
+    .slice(-SESSION_CAP)
+}
+
+function sanitizeSettings(raw: unknown): Settings {
+  const s = { ...DEFAULT_SETTINGS, ...(raw && typeof raw === 'object' ? raw : {}) } as Settings
+  s.newPerDay = Math.min(100, Math.max(1, Math.round(num(s.newPerDay, DEFAULT_SETTINGS.newPerDay))))
+  s.includeEdge = !!s.includeEdge
+  s.includeMarkings = !!s.includeMarkings
+  s.showCategoryHint = !!s.showCategoryHint
+  return s
+}
+
 /** Coerce arbitrary parsed data into the current shape (+ run migrations). */
 export function migrate(data: unknown, now: number): PersistShape {
   const base = fresh(now)
@@ -42,14 +102,16 @@ export function migrate(data: unknown, now: number): PersistShape {
   const d = data as Partial<PersistShape>
   return {
     schemaVersion: SCHEMA_VERSION,
-    reviews: d.reviews && typeof d.reviews === 'object' ? d.reviews : {},
-    settings: { ...DEFAULT_SETTINGS, ...(d.settings ?? {}) },
-    sessions: Array.isArray(d.sessions) ? d.sessions.slice(-SESSION_CAP) : [],
+    reviews: sanitizeReviews(d.reviews),
+    settings: sanitizeSettings(d.settings),
+    sessions: sanitizeSessions(d.sessions),
     meta: {
       createdAt: d.meta?.createdAt ?? now,
       lastOpenedAt: now,
       studyPaceMs: finitePos(d.meta?.studyPaceMs),
       quizPaceMs: finitePos(d.meta?.quizPaceMs),
+      lastBackupAt: finitePos(d.meta?.lastBackupAt),
+      backupNudgeDismissedAt: finitePos(d.meta?.backupNudgeDismissedAt),
     },
   }
 }
