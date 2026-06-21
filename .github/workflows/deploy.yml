@@ -18,11 +18,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Pages must be enabled once: repo Settings → Pages → Source:
+      # "GitHub Actions". This is a per-repo PROJECT page —
+      # https://<user>.github.io/<repo>/ — independent of any user page.
       - uses: actions/checkout@v4
-      # Enables Pages on first run (source: GitHub Actions) — no manual setup.
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
