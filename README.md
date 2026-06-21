@@ -127,11 +127,11 @@ DevTools (flows, no console errors, no horizontal overflow, reduced-motion).
 
 ## Deploy
 
-Deploy-ready for **both** targets:
-
-- **GitHub Pages** — push to `main`; `.github/workflows/deploy.yml` builds with
-  `DEPLOY_TARGET=gh-pages` (base path `/cbt-flashcards/`) and publishes via Pages.
-- **Netlify** — connect the repo; `netlify.toml` builds `dist/` from root.
+Deployed to **GitHub Pages** via Actions. Every push to `main` runs
+[`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml): it builds with
+`DEPLOY_TARGET=gh-pages` (base path derived from the repo name, so it survives a
+rename), enables Pages on first run, and publishes to
+`https://insectatorious.github.io/cbt-road-signs/`.
 
 ## Licence & attribution
 

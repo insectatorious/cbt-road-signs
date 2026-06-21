@@ -2,9 +2,11 @@ import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { VitePWA } from 'vite-plugin-pwa'
 
-// GitHub Pages serves from a repo subpath; Netlify (and dev) from root.
-// Switch with: DEPLOY_TARGET=gh-pages npm run build
-const base = process.env.DEPLOY_TARGET === 'gh-pages' ? '/cbt-flashcards/' : '/'
+// GitHub Pages serves from the repo subpath; local dev/preview from root.
+// In CI the path tracks GITHUB_REPOSITORY (so it survives a repo rename);
+// falls back to the repo name for a local `DEPLOY_TARGET=gh-pages npm run build`.
+const repo = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'cbt-road-signs'
+const base = process.env.DEPLOY_TARGET === 'gh-pages' ? `/${repo}/` : '/'
 
 export default defineConfig({
   base,
