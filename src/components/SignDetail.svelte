@@ -82,6 +82,28 @@
         <p class="t-caption">Not studied yet.</p>
       {/if}
     </div>
+
+    <div class="block">
+      <span class="t-micro">Source</span>
+      {#if sign.source}
+        <a class="source" href={sign.source} target="_blank" rel="noopener noreferrer">
+          <Icon name="external" size={14} />
+          Official artwork on Wikimedia Commons {#if sign.diagram}· TSRGD {sign.diagram}{/if}
+        </a>
+        <span class="source-note t-caption">Crown copyright, reproduced under the Open Government Licence v3.0.</span>
+      {:else}
+        <a
+          class="source"
+          href="https://www.gov.uk/guidance/the-highway-code/traffic-signs"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icon name="external" size={14} />
+          Highway Code — traffic signs
+        </a>
+        <span class="source-note t-caption">Drawn in-app from the official Highway Code.</span>
+      {/if}
+    </div>
   </div>
 </div>
 
@@ -213,6 +235,21 @@
   }
   .progress strong {
     color: var(--text);
+  }
+  .source {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    align-self: flex-start;
+    color: var(--text-secondary);
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-medium);
+  }
+  .source:hover {
+    color: var(--amber-text);
+  }
+  .source-note {
+    color: var(--text-muted);
   }
 
   @keyframes fade {

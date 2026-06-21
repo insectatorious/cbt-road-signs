@@ -47,6 +47,9 @@ export interface SignDefinition {
   confusedWith: string[]
   /** layman phrases for the reference search */
   searchTerms: string[]
+  /** OGL source: the Wikimedia Commons File: page for the official artwork
+   *  (absent for composites, which are drawn in-app) */
+  source?: string
   /** motorway content — excluded from v1 study/quiz/browse, kept for v2 */
   excludeFromV1?: boolean
 }
@@ -82,9 +85,21 @@ export interface ReviewState {
 
 export type ThemePref = 'system' | 'light' | 'dark'
 
+/** How wide the study/quiz deck is, by sign tier:
+ *  essential = core only · standard = core + standard (default) ·
+ *  comprehensive = every non-motorway sign, including edge/specialist. */
+export type DeckScope = 'essential' | 'standard' | 'comprehensive'
+
+/** Tiers included at each scope (cumulative). */
+export const SCOPE_TIERS: Record<DeckScope, readonly Tier[]> = {
+  essential: ['core'],
+  standard: ['core', 'standard'],
+  comprehensive: ['core', 'standard', 'edge'],
+}
+
 export interface Settings {
   newPerDay: number
-  includeEdge: boolean
+  deckScope: DeckScope
   includeMarkings: boolean
   showCategoryHint: boolean
 }
@@ -98,7 +113,7 @@ export interface SessionRecord {
 
 export const DEFAULT_SETTINGS: Settings = {
   newPerDay: 12,
-  includeEdge: false,
+  deckScope: 'standard',
   includeMarkings: true,
   showCategoryHint: true,
 }

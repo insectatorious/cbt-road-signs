@@ -1,6 +1,13 @@
 /** Versioned localStorage persistence. Never throws to the UI:
  *  corrupt data is backed up and replaced with a fresh store. */
-import { DEFAULT_SETTINGS, type ReviewState, type SessionRecord, type Settings } from './types'
+import {
+  DEFAULT_SETTINGS,
+  SCOPE_TIERS,
+  type DeckScope,
+  type ReviewState,
+  type SessionRecord,
+  type Settings,
+} from './types'
 import { newReviewState } from './scheduler'
 
 const KEY = 'cbt-signs:v1'
@@ -86,13 +93,26 @@ function sanitizeSessions(raw: unknown): SessionRecord[] {
     .slice(-SESSION_CAP)
 }
 
+function bool(v: unknown, fallback: boolean): boolean {
+  return typeof v === 'boolean' ? v : fallback
+}
+
+/** Resolve the deck-scope slider, migrating the old `includeEdge` boolean
+ *  (true ⇒ comprehensive, false ⇒ standard) from pre-slider backups. */
+function coerceScope(r: Record<string, unknown>): DeckScope {
+  if (typeof r.deckScope === 'string' && r.deckScope in SCOPE_TIERS) return r.deckScope as DeckScope
+  if (typeof r.includeEdge === 'boolean') return r.includeEdge ? 'comprehensive' : 'standard'
+  return DEFAULT_SETTINGS.deckScope
+}
+
 function sanitizeSettings(raw: unknown): Settings {
-  const s = { ...DEFAULT_SETTINGS, ...(raw && typeof raw === 'object' ? raw : {}) } as Settings
-  s.newPerDay = Math.min(100, Math.max(1, Math.round(num(s.newPerDay, DEFAULT_SETTINGS.newPerDay))))
-  s.includeEdge = !!s.includeEdge
-  s.includeMarkings = !!s.includeMarkings
-  s.showCategoryHint = !!s.showCategoryHint
-  return s
+  const r = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>
+  return {
+    newPerDay: Math.min(100, Math.max(1, Math.round(num(r.newPerDay, DEFAULT_SETTINGS.newPerDay)))),
+    deckScope: coerceScope(r),
+    includeMarkings: bool(r.includeMarkings, DEFAULT_SETTINGS.includeMarkings),
+    showCategoryHint: bool(r.showCategoryHint, DEFAULT_SETTINGS.showCategoryHint),
+  }
 }
 
 /** Coerce arbitrary parsed data into the current shape (+ run migrations). */

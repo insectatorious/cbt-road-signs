@@ -11,7 +11,13 @@
     "composite": false,
     "explanation": "Marks a parking place where you may legally leave your vehicle; check any plate beneath it for who may park, hours and time limits before you stop.",
     "mnemonic": "P for Park.",
-    "searchTerms": ["parking sign", "blue p sign", "car park sign", "where to park", "p on blue"],
+    "searchTerms": [
+      "parking sign",
+      "blue p sign",
+      "car park sign",
+      "where to park",
+      "p on blue"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_801.svg",
     "notes": "Commons file page describes it as 'Parking place', a blue sign with a white 'P' (colours #01619e blue, #fff white). Verified via fetch, HTTP 200."
@@ -28,7 +34,13 @@
     "composite": false,
     "explanation": "The road ahead is a dead end with no exit for vehicles, so do not use it as a through route; turn around or find another way.",
     "mnemonic": "The red bar blocks the top of the T - the road stops there.",
-    "searchTerms": ["dead end sign", "no through road", "cul de sac sign", "red t on blue", "no exit"],
+    "searchTerms": [
+      "dead end sign",
+      "no through road",
+      "cul de sac sign",
+      "red t on blue",
+      "no exit"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_816.svg",
     "notes": "Commons page states 'No through road'; SVG palette confirmed blue #01619e, red #e31017, white #fff. Verified via fetch, HTTP 200."
@@ -45,7 +57,13 @@
     "composite": false,
     "explanation": "Points the way to a hospital ahead; this blue version has no accident and emergency department, so do not rely on it in an emergency.",
     "mnemonic": "H for Hospital.",
-    "searchTerms": ["hospital sign", "blue h sign", "hospital ahead", "h on blue", "way to hospital"],
+    "searchTerms": [
+      "hospital sign",
+      "blue h sign",
+      "hospital ahead",
+      "h on blue",
+      "way to hospital"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_827.1.svg",
     "notes": "Commons page: 'UK traffic sign: Hospital ahead without accident and emergency facilities' - blue sign with white 'H'. Verified via fetch, HTTP 200. (Red-bordered versions exist for A&E hospitals.)"
@@ -62,7 +80,13 @@
     "composite": false,
     "explanation": "Directs you to a tourist information point or centre where you can pick up local maps and visitor guidance; no action is required while riding.",
     "mnemonic": "Lowercase i for information.",
-    "searchTerms": ["tourist information", "i sign", "information point", "brown i sign", "visitor information"],
+    "searchTerms": [
+      "tourist information",
+      "i sign",
+      "information point",
+      "brown i sign",
+      "visitor information"
+    ],
     "verified": false,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_Tourist_Sign_T1_-_Information.svg",
     "notes": "Could NOT verify a matching 'UK_traffic_sign_<diagram>.svg' file. The UK tourist information symbol is the brown 'i' (Commons file 'UK_Tourist_Sign_T1_-_Information.svg', described as 'Tourist symbol for England and Wales: tourist Information Point or Centre', HTTP 200). It uses TSRGD symbol/diagram T1, not a numeric diagram, so it falls outside the standard naming pattern; asset points to the real available file."
@@ -79,7 +103,13 @@
     "composite": false,
     "explanation": "You are entering a controlled parking zone where waiting restrictions apply throughout the zone during the hours shown, so only park in marked bays and read the times.",
     "mnemonic": "",
-    "searchTerms": ["controlled parking zone", "cpz sign", "zone entry parking", "parking zone start", "controlled zone"],
+    "searchTerms": [
+      "controlled parking zone",
+      "cpz sign",
+      "zone entry parking",
+      "parking zone start",
+      "controlled zone"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_663.svg",
     "notes": "Commons page: 'UK traffic sign: 663 (TSRGDNO 663)', categorised under parking zone signs; entry sign for a controlled parking zone. White sign showing 'CONTROLLED ZONE' with a blue/red restriction symbol and operating times (SVG colours #0070ba, #dd0029). Verified via fetch, HTTP 200."
@@ -96,7 +126,13 @@
     "composite": false,
     "explanation": "You are leaving the controlled parking zone, so the zone-wide waiting restrictions no longer apply, though any signed restrictions on the next road still do.",
     "mnemonic": "",
-    "searchTerms": ["end of parking zone", "zone ends sign", "cpz ends", "controlled zone end", "leaving parking zone"],
+    "searchTerms": [
+      "end of parking zone",
+      "zone ends sign",
+      "cpz ends",
+      "controlled zone end",
+      "leaving parking zone"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_664.svg",
     "notes": "Commons page: 'End of controlled or voucher parking zone (TSRGDNO 664)'. Verified via fetch, HTTP 200."
@@ -113,7 +149,13 @@
     "composite": false,
     "explanation": "The parking place shown is reserved for solo motorcycles only, so use these bays for your bike and do not park here in a car.",
     "mnemonic": "",
-    "searchTerms": ["motorcycle parking", "solo motorcycle bay", "bike parking sign", "motorbike parking", "parking for bikes"],
+    "searchTerms": [
+      "motorcycle parking",
+      "solo motorcycle bay",
+      "bike parking sign",
+      "motorbike parking",
+      "parking for bikes"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_804.4.svg",
     "notes": "Commons page: 'UK Traffic sign 804.4, for indicating that the parking area is reserved for solo motorcycles.' This is the supplementary plate (white motorcycle pictogram on blue) used beneath the 801 'P' sign. Verified via fetch, HTTP 200."
@@ -130,7 +172,13 @@
     "composite": false,
     "explanation": "Traffic on this road flows one way only, in the direction the arrow points; continue straight ahead and expect no oncoming vehicles.",
     "mnemonic": "Straight arrow, straight ahead - one way.",
-    "searchTerms": ["one way sign", "one way traffic", "blue arrow up sign", "single direction road", "one way ahead"],
+    "searchTerms": [
+      "one way sign",
+      "one way traffic",
+      "blue arrow up sign",
+      "single direction road",
+      "one way ahead"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_652.svg",
     "notes": "Commons page describes it as 'One-way traffic'. Inspected SVG: white rectangle outline over blue panel with a single white upward arrow (point at top, vertical shaft). Verified via fetch, HTTP 200. (Distinct from the red contra-flow/ahead-only regulatory arrows.)"
@@ -147,7 +195,13 @@
     "composite": false,
     "explanation": "You are entering a home zone designed for people as well as traffic, so drive slowly and give way to pedestrians and children who may be using the whole street.",
     "mnemonic": "",
-    "searchTerms": ["home zone sign", "living street sign", "home zone entry", "20 zone people sign", "shared street sign"],
+    "searchTerms": [
+      "home zone sign",
+      "living street sign",
+      "home zone entry",
+      "20 zone people sign",
+      "shared street sign"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_881A.svg",
     "notes": "Commons page: 'Start of a designated home zone (TSRGDNO 881A)', categorised 'special regulation road signs - living street'. White sign, blue border (#1476c6), depicting houses, walking figures and a cyclist. Verified via fetch, HTTP 200. (The plain '881' filename returns 404; 881A is the actual Commons asset.)"
@@ -164,9 +218,222 @@
     "composite": false,
     "explanation": "Warns that the road you are about to join has a bus lane crossing your path, so watch for buses before you pull out at the junction ahead.",
     "mnemonic": "",
-    "searchTerms": ["bus lane junction", "bus lane ahead sign", "buses crossing sign", "bus lane at junction", "with-flow bus lane"],
+    "searchTerms": [
+      "bus lane junction",
+      "bus lane ahead sign",
+      "buses crossing sign",
+      "bus lane at junction",
+      "with-flow bus lane"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_962.svg",
     "notes": "Commons page: 'Bus lane on road at junction ahead (TSRGDNO 962)'. Inspected SVG: blue panel with white 'BUSES' wording and a white road-layout diagram showing a bus lane crossing the carriageway at a junction. Verified via fetch, HTTP 200."
+  },
+  {
+    "id": "priority-over-oncoming-vehicles",
+    "caption": "Priority over oncoming vehicles",
+    "category": "information",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "blue square, white upward arrow beside a smaller red downward arrow",
+    "diagram": "811",
+    "asset": "UK_traffic_sign_811.svg",
+    "composite": false,
+    "explanation": "At a narrow section where you cannot pass at the same time, you have priority over oncoming traffic; the large white arrow is your direction and the small red arrow is the vehicle that must give way. Still be ready to ease off if someone has already committed.",
+    "mnemonic": "Big white arrow = your right of way; little red arrow gives way.",
+    "searchTerms": [
+      "priority over oncoming",
+      "you have priority sign",
+      "blue priority arrow",
+      "narrow road priority",
+      "white arrow red arrow blue"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_811.svg",
+    "notes": "Commons: 'Traffic has priority over vehicles from the opposite direction' (TSRGD 811). BLUE counterpart to existing RED give-priority sign (615)."
+  },
+  {
+    "id": "no-through-road-from-junction",
+    "caption": "No through road from junction ahead",
+    "category": "information",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "blue rectangle, white road layout with a red bar on the dead-end arm",
+    "diagram": "817",
+    "asset": "UK_traffic_sign_817.svg",
+    "composite": false,
+    "explanation": "Warns that a road leading off the junction ahead is a dead end in the direction shown, so you cannot use that turning as a through route. The main road you are on continues as normal.",
+    "mnemonic": "Red bar on the side arm: that turning stops dead.",
+    "searchTerms": [
+      "no through road junction",
+      "dead end side road sign",
+      "no exit at junction",
+      "blue dead end layout",
+      "side road no through road"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_817.svg",
+    "notes": "Commons: 'No through road ... from junction ahead' (TSRGD 817). Distinct from existing 816 'No through road' (road you are ON)."
+  },
+  {
+    "id": "bus-stop",
+    "caption": "Bus stop",
+    "category": "information",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "white sign with a black bus symbol and the words BUS STOP",
+    "diagram": "970",
+    "asset": "UK_traffic_sign_970.svg",
+    "composite": false,
+    "explanation": "Marks a stopping place for buses, usually with a bus-stop clearway marking on the road. Do not park or wait where it would stop a bus pulling in, and watch for buses moving off and for pedestrians stepping out.",
+    "mnemonic": "Bus symbol = buses stop here, you don't.",
+    "searchTerms": [
+      "bus stop sign",
+      "bus symbol sign",
+      "where buses stop",
+      "bus stop clearway",
+      "do not park bus stop"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_970.svg",
+    "notes": "Commons: 'Stopping place for buses' (TSRGD 970)."
+  },
+  {
+    "id": "pedestrian-zone",
+    "caption": "Pedestrian zone",
+    "category": "information",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "white sign with a walking-figure symbol and PEDESTRIAN ZONE wording plus permitted times",
+    "diagram": "618.3",
+    "asset": "UK_traffic_sign_618.3.svg",
+    "composite": false,
+    "explanation": "You are entering a pedestrian zone where vehicle entry and waiting are restricted during the hours shown, except for loading where permitted. Only enter if your vehicle is allowed and the times let you, and give way to people on foot.",
+    "mnemonic": "People's zone: check the times before you ride in.",
+    "searchTerms": [
+      "pedestrian zone sign",
+      "pedestrian zone entry",
+      "no vehicles pedestrian area",
+      "walking figure zone sign",
+      "pedestrianised street"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_618.3.svg",
+    "notes": "Commons: 'Entry to and waiting in pedestrian zone restricted ...' (TSRGD 618.3)."
+  },
+  {
+    "id": "recommended-cycle-route",
+    "caption": "Recommended route for pedal cycles",
+    "category": "information",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "blue rectangle with a white cycle symbol and arrow",
+    "diagram": "967",
+    "asset": "UK_traffic_sign_967.svg",
+    "composite": false,
+    "explanation": "Marks a route recommended for cyclists along the main carriageway. As a rider, expect cyclists here and give them plenty of room when you pass.",
+    "mnemonic": "Blue cycle = bikes belong here too.",
+    "searchTerms": [
+      "recommended cycle route",
+      "cycle route sign blue",
+      "bikes recommended route",
+      "cycle symbol blue arrow",
+      "national cycle route"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_967.svg",
+    "notes": "Commons: 'Route recommended for pedal cycles on the main carriageway' (TSRGD 967)."
+  },
+  {
+    "id": "park-and-ride",
+    "caption": "Park and ride",
+    "category": "information",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "blue or green sign with a white P, a bus symbol and the words Park & Ride and a direction arrow",
+    "diagram": "2504P",
+    "asset": "UK_traffic_sign_2504P.svg",
+    "composite": false,
+    "explanation": "Directs you to a Park and Ride car park, where you can leave your vehicle and continue into town by bus. Follow the arrow if you intend to use it.",
+    "mnemonic": "P + bus = park here, ride in.",
+    "searchTerms": [
+      "park and ride sign",
+      "park and ride direction",
+      "p and ride bus",
+      "leave car catch bus",
+      "park ride arrow"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_2504P.svg",
+    "notes": "Commons: 'Direction to a parking place from which a Park and Ride scheme operates' (TSRGD 2504P)."
+  },
+  {
+    "id": "speed-camera-area",
+    "caption": "Speed camera area",
+    "category": "information",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "white sign with a black camera symbol",
+    "diagram": "878",
+    "asset": "UK_traffic_sign_878.svg",
+    "composite": false,
+    "explanation": "Tells you that cameras are used in this area to enforce the speed limit. Keep within the limit throughout the stretch, not just where you can see a camera.",
+    "mnemonic": "Camera symbol = stick to the limit all the way.",
+    "searchTerms": [
+      "speed camera sign",
+      "camera enforcement area",
+      "speed cameras ahead",
+      "camera symbol sign",
+      "safety camera area"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_878.svg",
+    "notes": "Commons: 'Area in which cameras are used to enforce the speed limit' (TSRGD 878)."
+  },
+  {
+    "id": "camping-and-caravan-site",
+    "caption": "Camping and caravan site",
+    "category": "information",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "brown tourist sign with white tent and caravan symbols and a direction or distance",
+    "diagram": "2301",
+    "asset": "UK_traffic_sign_2301.svg",
+    "composite": false,
+    "explanation": "A brown tourist sign pointing the way to a camping and caravan site. No action is needed while riding; brown signs simply guide visitors to leisure destinations.",
+    "mnemonic": "Brown = tourist; tent + caravan = campsite.",
+    "searchTerms": [
+      "camping sign",
+      "caravan site sign",
+      "campsite sign brown",
+      "tent caravan symbol",
+      "camping and caravanning"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_2301.svg",
+    "notes": "Commons: 'Camping and caravan site ... ahead' (TSRGD 2301). Brown tourist directional sign."
+  },
+  {
+    "id": "picnic-site",
+    "caption": "Picnic site",
+    "category": "information",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "brown tourist sign with a white picnic-table symbol and a distance or direction",
+    "diagram": "2305",
+    "asset": "UK_traffic_sign_2305.svg",
+    "composite": false,
+    "explanation": "A brown tourist sign showing the way to a picnic area. It is purely informational for visitors and needs no response while you are riding.",
+    "mnemonic": "Brown table symbol = picnic spot.",
+    "searchTerms": [
+      "picnic site sign",
+      "picnic area sign",
+      "picnic table symbol",
+      "brown picnic sign",
+      "rest area picnic"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_2305.svg",
+    "notes": "Commons: 'Picnic area ... ahead' (TSRGD 2305). Brown tourist sign."
   }
 ]

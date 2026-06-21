@@ -11,7 +11,13 @@
     "composite": false,
     "explanation": "Roads cross ahead with no priority shown; slow down, look both ways and be ready to give way to traffic on the other road.",
     "mnemonic": "Plus sign means roads plus across.",
-    "searchTerms": ["crossroads", "roads cross ahead", "intersection sign", "junction ahead", "four ways meet"],
+    "searchTerms": [
+      "crossroads",
+      "roads cross ahead",
+      "intersection sign",
+      "junction ahead",
+      "four ways meet"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_504.1.svg",
     "notes": "Commons: 'Crossroads ahead' warning sign, TSRGD 504.1. OGL v1.0."
@@ -28,7 +34,13 @@
     "composite": false,
     "explanation": "The road ahead ends at a T-junction; slow down and prepare to give way before turning left or right.",
     "mnemonic": "The road literally hits a 'T'.",
-    "searchTerms": ["t junction", "road ends ahead", "give way at top", "dead end turn", "junction t shape"],
+    "searchTerms": [
+      "t junction",
+      "road ends ahead",
+      "give way at top",
+      "dead end turn",
+      "junction t shape"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_505.1.svg",
     "notes": "Commons: 'T-junction ahead', TSRGD 505.1. In TSRGD since 1975."
@@ -45,7 +57,13 @@
     "composite": false,
     "explanation": "Side roads join from alternate sides a short distance apart; slow down and watch for traffic emerging from either side.",
     "mnemonic": "Offset roads, offset symbol.",
-    "searchTerms": ["staggered junction", "offset side roads", "two junctions close", "side roads ahead", "zigzag junction"],
+    "searchTerms": [
+      "staggered junction",
+      "offset side roads",
+      "two junctions close",
+      "side roads ahead",
+      "zigzag junction"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_507.1.svg",
     "notes": "Commons: 'Staggered junction ahead', TSRGD 507.1."
@@ -62,7 +80,13 @@
     "composite": false,
     "explanation": "A minor side road joins your road ahead and you have priority; stay alert in case a vehicle pulls out without giving way.",
     "mnemonic": "Thick road is yours, thin road yields.",
-    "searchTerms": ["side road ahead", "minor road joins", "you have priority", "side turning right", "junction priority"],
+    "searchTerms": [
+      "side road ahead",
+      "minor road joins",
+      "you have priority",
+      "side turning right",
+      "junction priority"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_506.1.svg",
     "notes": "Commons: 'Side road ahead', TSRGD 506.1 (variant 1, right). Main road vertical, minor road joins from the right. OGL v1.0."
@@ -79,7 +103,13 @@
     "composite": false,
     "explanation": "A roundabout is ahead; slow down, get in the correct lane and give way to traffic already on the roundabout (from the right).",
     "mnemonic": "Three arrows chasing in a ring.",
-    "searchTerms": ["roundabout ahead", "circle junction", "give way roundabout", "traffic circle", "three arrows triangle"],
+    "searchTerms": [
+      "roundabout ahead",
+      "circle junction",
+      "give way roundabout",
+      "traffic circle",
+      "three arrows triangle"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_510.svg",
     "notes": "Commons: 'Roundabout ahead', TSRGD 510. Clockwise roundabout warning."
@@ -96,7 +126,13 @@
     "composite": false,
     "explanation": "A give way line is the stated distance ahead; start slowing now so you can give way to traffic on the major road.",
     "mnemonic": "Triangle plus a count-down distance.",
-    "searchTerms": ["give way ahead", "give way 50 yards", "yield distance", "give way line ahead", "slow give way"],
+    "searchTerms": [
+      "give way ahead",
+      "give way 50 yards",
+      "yield distance",
+      "give way line ahead",
+      "slow give way"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_503.svg",
     "notes": "Commons: 'Give way in 50 yards', TSRGD 503. Triangular warning with distance/Give Way plate."
@@ -113,7 +149,13 @@
     "composite": false,
     "explanation": "A compulsory STOP line is the stated distance ahead; slow down ready to stop completely at the line.",
     "mnemonic": "Count down, then full stop.",
-    "searchTerms": ["stop ahead", "stop in 100 yards", "stop line distance", "stop sign ahead", "approaching stop"],
+    "searchTerms": [
+      "stop ahead",
+      "stop in 100 yards",
+      "stop line distance",
+      "stop sign ahead",
+      "approaching stop"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_502.svg",
     "notes": "Commons: 'Stop in 100 yards', TSRGD 502. Triangular warning with STOP/distance plate."
@@ -130,7 +172,13 @@
     "composite": false,
     "explanation": "The road bends sharply to the right ahead; reduce speed before the bend and keep to your side of the road.",
     "mnemonic": "Arrow leans the way the road goes.",
-    "searchTerms": ["bend right", "sharp right bend", "right curve ahead", "road curves right", "corner right"],
+    "searchTerms": [
+      "bend right",
+      "sharp right bend",
+      "right curve ahead",
+      "road curves right",
+      "corner right"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_512.svg",
     "notes": "Commons: 'Bend ahead to the right', TSRGD 512. (Mirror 513 single-bend variant is left.)"
@@ -147,7 +195,13 @@
     "composite": false,
     "explanation": "A double bend or series of bends ahead, the first to the left; slow down and stay in lane through the bends.",
     "mnemonic": "S-curve starts by leaning left.",
-    "searchTerms": ["double bend", "s bend left first", "series of bends", "winding road left", "two bends ahead"],
+    "searchTerms": [
+      "double bend",
+      "s bend left first",
+      "series of bends",
+      "winding road left",
+      "two bends ahead"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_513.svg",
     "notes": "Commons: 'Double bend or series of bends ahead, first to the left', TSRGD 513."
@@ -164,7 +218,13 @@
     "composite": false,
     "explanation": "The road narrows from both sides ahead; slow down and be ready to give way or merge as the carriageway gets tighter.",
     "mnemonic": "Both edges squeeze in.",
-    "searchTerms": ["road narrows", "narrows both sides", "narrow road ahead", "carriageway narrows", "pinch point"],
+    "searchTerms": [
+      "road narrows",
+      "narrows both sides",
+      "narrow road ahead",
+      "carriageway narrows",
+      "pinch point"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_516.svg",
     "notes": "Commons: 'Road narrows on both sides ahead', TSRGD 516."
@@ -181,7 +241,13 @@
     "composite": false,
     "explanation": "The road narrows on the right-hand side ahead; slow down and watch for merging traffic from that side.",
     "mnemonic": "Right edge bends in.",
-    "searchTerms": ["road narrows right", "narrows on right", "right side narrows", "lane drops right", "narrow ahead right"],
+    "searchTerms": [
+      "road narrows right",
+      "narrows on right",
+      "right side narrows",
+      "lane drops right",
+      "narrow ahead right"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_517_(right).svg",
     "notes": "Commons file is 'UK traffic sign 517 (right).svg' = 'Road narrows on right ahead', TSRGD 517. Plain UK_traffic_sign_517.svg is a redirect; using the exact (right) filename."
@@ -198,7 +264,13 @@
     "composite": false,
     "explanation": "The road narrows on the left-hand side ahead; slow down and watch for merging traffic from that side.",
     "mnemonic": "Left edge bends in.",
-    "searchTerms": ["road narrows left", "narrows on left", "left side narrows", "lane drops left", "narrow ahead left"],
+    "searchTerms": [
+      "road narrows left",
+      "narrows on left",
+      "left side narrows",
+      "lane drops left",
+      "narrow ahead left"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_517_(left).svg",
     "notes": "Commons file is 'UK traffic sign 517 (left).svg' = 'Road narrows on left ahead (TSRGDNO 517L)'. TSRGD uses diagram 517 with the symbol reversed for the left case."
@@ -215,7 +287,13 @@
     "composite": false,
     "explanation": "Traffic ahead flows in both directions, often after a one-way section; keep left and do not overtake unless it is clear.",
     "mnemonic": "Two arrows, two directions.",
-    "searchTerms": ["two way traffic", "traffic both directions", "oncoming traffic", "two arrows up down", "end of one way"],
+    "searchTerms": [
+      "two way traffic",
+      "traffic both directions",
+      "oncoming traffic",
+      "two arrows up down",
+      "end of one way"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_521.svg",
     "notes": "Commons: 'Two-way traffic', TSRGD 521. Both arrows vertical (parallel)."
@@ -226,13 +304,19 @@
     "category": "warning",
     "tier": "standard",
     "shape": "triangle",
-    "colour": "red triangle, one vertical double-arrow crossing a horizontal up-arrow",
+    "colour": "red triangle, two horizontal arrows pointing opposite ways",
     "diagram": "522",
     "asset": "UK_traffic_sign_522.svg",
     "composite": false,
     "explanation": "Two-way traffic crosses the one-way road you are on ahead; slow down and look both ways before crossing the junction.",
-    "mnemonic": "Up-down arrow cuts across a single arrow.",
-    "searchTerms": ["two way crosses one way", "crossing traffic ahead", "two way traffic ahead", "one way road crossing", "traffic crosses"],
+    "mnemonic": "Two opposite horizontal arrows = a two-way road crosses ahead.",
+    "searchTerms": [
+      "two way crosses one way",
+      "crossing traffic ahead",
+      "two way traffic ahead",
+      "one way road crossing",
+      "traffic crosses"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_522.svg",
     "notes": "Commons: 'Two-way traffic ahead across a one-way carriageway', TSRGD 522."
@@ -249,7 +333,13 @@
     "composite": false,
     "explanation": "The dual carriageway ends and becomes a single two-way road ahead; reduce speed and expect oncoming traffic.",
     "mnemonic": "Two lanes pinch back into one.",
-    "searchTerms": ["dual carriageway ends", "end of dual carriageway", "lanes merge", "road becomes single", "two lanes to one"],
+    "searchTerms": [
+      "dual carriageway ends",
+      "end of dual carriageway",
+      "lanes merge",
+      "road becomes single",
+      "two lanes to one"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_520.svg",
     "notes": "Commons: 'Dual carriageway ends ahead', TSRGD 520."
@@ -266,7 +356,13 @@
     "composite": false,
     "explanation": "A railway level crossing with a barrier or gate is ahead; be ready to stop and never cross while lights flash or barriers are down.",
     "mnemonic": "Gate symbol means a gated crossing.",
-    "searchTerms": ["level crossing barrier", "railway crossing gate", "train crossing ahead", "gated level crossing", "rail barrier ahead"],
+    "searchTerms": [
+      "level crossing barrier",
+      "railway crossing gate",
+      "train crossing ahead",
+      "gated level crossing",
+      "rail barrier ahead"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_770.svg",
     "notes": "Commons: 'Level crossing with gate or barrier ahead', TSRGD P 770. OGL v1.0."
@@ -283,7 +379,13 @@
     "composite": false,
     "explanation": "A railway level crossing with no barrier or gate is ahead; slow down, look and listen for trains and obey any signals before crossing.",
     "mnemonic": "Just the train, no gate.",
-    "searchTerms": ["level crossing no barrier", "open level crossing", "railway no gate", "train symbol triangle", "unguarded crossing"],
+    "searchTerms": [
+      "level crossing no barrier",
+      "open level crossing",
+      "railway no gate",
+      "train symbol triangle",
+      "unguarded crossing"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_771.svg",
     "notes": "Commons: 'Railway level crossing without gate or barrier ahead', TSRGD P 771. Locomotive symbol."
@@ -300,7 +402,13 @@
     "composite": false,
     "explanation": "Trams cross or run along the road ahead; slow down, give way to trams and watch for tram rails when turning.",
     "mnemonic": "Tram picture, tram tracks ahead.",
-    "searchTerms": ["trams crossing", "tram ahead", "tramway warning", "tramcar crossing", "tram lines ahead"],
+    "searchTerms": [
+      "trams crossing",
+      "tram ahead",
+      "tramway warning",
+      "tramcar crossing",
+      "tram lines ahead"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_772.svg",
     "notes": "Commons: 'Tramcars crossing ahead', TSRGD P 772. OGL v1.0."
@@ -317,7 +425,13 @@
     "composite": false,
     "explanation": "Traffic lights are ahead, sometimes where you would not expect them; slow down and be ready to stop if they change.",
     "mnemonic": "Mini traffic light in a triangle.",
-    "searchTerms": ["traffic signals ahead", "traffic lights ahead", "lights ahead warning", "signals warning", "stoplight ahead"],
+    "searchTerms": [
+      "traffic signals ahead",
+      "traffic lights ahead",
+      "lights ahead warning",
+      "signals warning",
+      "stoplight ahead"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_543.svg",
     "notes": "Commons: 'Traffic signals ahead', TSRGD 543."
@@ -334,7 +448,13 @@
     "composite": false,
     "explanation": "Queuing traffic is likely on the road ahead; ease off early and be ready to stop to avoid running into the back of a queue.",
     "mnemonic": "Stacked cars mean a queue.",
-    "searchTerms": ["traffic queues", "queues likely ahead", "congestion ahead", "slow traffic ahead", "queue warning"],
+    "searchTerms": [
+      "traffic queues",
+      "queues likely ahead",
+      "congestion ahead",
+      "slow traffic ahead",
+      "queue warning"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_584.svg",
     "notes": "Commons: 'Traffic queues likely on road ahead', TSRGD 584."
@@ -351,7 +471,13 @@
     "composite": false,
     "explanation": "Speed-reducing road humps are ahead; slow right down to cross them comfortably and safely.",
     "mnemonic": "Little bump in the triangle.",
-    "searchTerms": ["road humps", "speed bumps ahead", "humps in road", "traffic calming", "bumps ahead"],
+    "searchTerms": [
+      "road humps",
+      "speed bumps ahead",
+      "humps in road",
+      "traffic calming",
+      "bumps ahead"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_557.1.svg",
     "notes": "Commons: 'Road hump or series of road humps ahead', TSRGD 557.1."
@@ -368,9 +494,222 @@
     "composite": false,
     "explanation": "The road surface ahead is uneven or in poor condition; slow down to keep control and protect the bike.",
     "mnemonic": "Wavy ground, rough road.",
-    "searchTerms": ["uneven road", "bumpy road", "rough surface ahead", "poor road surface", "uneven surface"],
+    "searchTerms": [
+      "uneven road",
+      "bumpy road",
+      "rough surface ahead",
+      "poor road surface",
+      "uneven surface"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_556.svg",
     "notes": "Commons: 'Uneven road ahead', TSRGD 556."
+  },
+  {
+    "id": "bend-to-the-left",
+    "caption": "Bend to the left",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "red triangle, black left-curving arrow",
+    "diagram": "512",
+    "asset": "UK_traffic_sign_512_(left).svg",
+    "composite": false,
+    "explanation": "The road bends sharply to the left ahead; reduce speed before the bend and keep to your side of the road.",
+    "mnemonic": "Arrow leans the way the road goes.",
+    "searchTerms": [
+      "bend left",
+      "sharp left bend",
+      "left curve ahead",
+      "road curves left",
+      "corner left"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_512_(left).svg",
+    "notes": "Commons: 'Bend ahead to the left'. Mirror of existing bend-to-the-right (512 right)."
+  },
+  {
+    "id": "staggered-junction-side-road-left-first",
+    "caption": "Staggered junction (left first)",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "red triangle, black staggered-junction symbol (first side road from the left)",
+    "diagram": "507.1",
+    "asset": "UK_traffic_sign_507.1_(variant_1,_left).svg",
+    "composite": false,
+    "explanation": "Side roads join from alternate sides a short distance apart, the first from the left; slow down and watch for traffic emerging from either side.",
+    "mnemonic": "Offset roads, first one on the left.",
+    "searchTerms": [
+      "staggered junction left",
+      "offset side roads",
+      "side roads left first",
+      "two junctions close",
+      "zigzag junction"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_507.1_(variant_1,_left).svg",
+    "notes": "Commons: 'Staggered junction ahead.' Mirror of existing staggered-junction (507.1 right)."
+  },
+  {
+    "id": "traffic-merges-from-left",
+    "caption": "Traffic merging from the left",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "red triangle, black road with a lane merging in from the left",
+    "diagram": "508.1",
+    "asset": "UK_traffic_sign_508.1.svg",
+    "composite": false,
+    "explanation": "A traffic lane merges with your road from the left ahead; watch for vehicles joining and adjust your speed or position to let them in safely.",
+    "mnemonic": "Side lane feeds into yours from the left.",
+    "searchTerms": [
+      "traffic merges left",
+      "merging traffic",
+      "lane joins from left",
+      "traffic joining",
+      "merge ahead"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_508.1.svg",
+    "notes": "Commons: 'Traffic merges ahead from the left (TSRGDNO 508.1)'."
+  },
+  {
+    "id": "traffic-merges-onto-main-carriageway",
+    "caption": "Traffic merging onto main carriageway",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "red triangle, black main road with a lane merging on from the left",
+    "diagram": "509.1",
+    "asset": "UK_traffic_sign_509.1.svg",
+    "composite": false,
+    "explanation": "Your lane merges onto a main carriageway ahead with traffic that has priority; give way and join the main flow when it is safe.",
+    "mnemonic": "Your lane feeds onto the bigger road.",
+    "searchTerms": [
+      "merge onto main road",
+      "traffic merges main carriageway",
+      "joining main road",
+      "give way merge",
+      "lane joins main road"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_509.1.svg",
+    "notes": "Commons: 'Traffic merges ahead onto main carriageway from the left (TSRGDNO 509.1)'."
+  },
+  {
+    "id": "junction-on-a-bend",
+    "caption": "Junction on a bend ahead",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "red triangle, black curving road with a side road joining on the bend",
+    "diagram": "512.1",
+    "asset": "UK_traffic_sign_512.1_(right).svg",
+    "composite": false,
+    "explanation": "A side road joins on a bend ahead, so the junction may be hidden; slow down and watch for traffic emerging where the road curves.",
+    "mnemonic": "A turning hiding round the bend.",
+    "searchTerms": [
+      "junction on a bend",
+      "side road on bend",
+      "junction round the corner",
+      "hidden junction",
+      "turning on bend"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_512.1_(right).svg",
+    "notes": "Commons: 'Junction on right bend ahead (TSRGDNO 512.1)'."
+  },
+  {
+    "id": "crossroads-on-a-bend",
+    "caption": "Crossroads on a bend ahead",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "red triangle, black curving road with a crossroads on the bend",
+    "diagram": "512.3",
+    "asset": "UK_traffic_sign_512.3_(right).svg",
+    "composite": false,
+    "explanation": "A crossroads sits on a bend ahead where it may be hard to see; slow down and be ready to give way to traffic crossing or emerging.",
+    "mnemonic": "A crossroads hiding round the bend.",
+    "searchTerms": [
+      "crossroads on a bend",
+      "crossroads round corner",
+      "hidden crossroads",
+      "intersection on bend",
+      "junction crossroads bend"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_512.3_(right).svg",
+    "notes": "Commons artwork is the crossroads-on-a-bend sign (file 512.3; description text has a known '513.1' labelling quirk)."
+  },
+  {
+    "id": "sharp-deviation-of-route-left",
+    "caption": "Sharp deviation of route to the left",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "white rectangle, black chevron(s) pointing left",
+    "diagram": "515",
+    "asset": "UK_traffic_sign_515_(left).svg",
+    "composite": false,
+    "explanation": "Black chevrons point the way the road turns sharply to the left; follow the direction of the chevrons and slow right down. They appear at sharp bends and on roundabouts facing approaching traffic.",
+    "mnemonic": "Follow the arrows the way they point.",
+    "searchTerms": [
+      "chevron left",
+      "sharp deviation left",
+      "arrows pointing left",
+      "sharp bend marker",
+      "chevron board"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_515_(left).svg",
+    "notes": "Commons: diagram 515 'Sharp deviation of route' — black-on-white chevron board (not a red triangle)."
+  },
+  {
+    "id": "sharp-deviation-of-route-right",
+    "caption": "Sharp deviation of route to the right",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "white rectangle, black chevron(s) pointing right",
+    "diagram": "515",
+    "asset": "UK_traffic_sign_515_(right).svg",
+    "composite": false,
+    "explanation": "Black chevrons point the way the road turns sharply to the right; follow the direction of the chevrons and slow right down. They appear at sharp bends and on roundabouts facing approaching traffic.",
+    "mnemonic": "Follow the arrows the way they point.",
+    "searchTerms": [
+      "chevron right",
+      "sharp deviation right",
+      "arrows pointing right",
+      "sharp bend marker",
+      "chevron board"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_515_(right).svg",
+    "notes": "Commons: diagram 515 right-hand chevron board. Black-on-white rectangle."
+  },
+  {
+    "id": "level-crossing-countdown-marker",
+    "caption": "Level crossing countdown marker",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "white rectangle, red diagonal bars",
+    "diagram": "789",
+    "asset": "UK_traffic_sign_789.svg",
+    "composite": false,
+    "explanation": "Countdown bars warn you are approaching a railway or tramway level crossing, each board marking a set distance to the crossing; ease off and be ready to stop.",
+    "mnemonic": "Three bars, two bars, one bar, then the crossing.",
+    "searchTerms": [
+      "countdown marker",
+      "level crossing countdown",
+      "red bars sign",
+      "approaching level crossing",
+      "crossing distance markers"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_789.svg",
+    "notes": "Commons: 'Countdown marker to railway or tramway level crossing (TSRGD P 789)'. Three-bar board."
   }
 ]

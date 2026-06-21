@@ -11,7 +11,13 @@
     "composite": true,
     "explanation": "A green direction sign shows the way along a primary route (a major 'A' road of national or regional importance); follow it for the place name or route number you want.",
     "mnemonic": "Green = Go the main way (primary 'A' roads).",
-    "searchTerms": ["green direction sign", "primary route sign", "a road sign", "green road sign with place names", "yellow road number sign"],
+    "searchTerms": [
+      "green direction sign",
+      "primary route sign",
+      "a road sign",
+      "green road sign with place names",
+      "yellow road number sign"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite: drawn in-app. Primary-route direction signs are flexible per-junction assemblies of place names, route numbers and arrows (TSRGD Schedule 12 working-drawing signs), not a single fixed-artwork diagram. The Highway Code illustrates them with photographs (e.g. direction-sign-green-approach-to-junction.jpg), and Commons has no generic 'primary route direction sign' SVG. Colour confirmed via gov.uk Highway Code: green background, white lettering, yellow route numbers."
@@ -28,7 +34,13 @@
     "composite": true,
     "explanation": "A white direction sign with black text shows the way along a non-primary route (a local road, including some 'A' and 'B' roads); follow it for your destination.",
     "mnemonic": "White and plain = the local, non-primary lane.",
-    "searchTerms": ["white direction sign", "non primary route sign", "black and white road sign", "local road direction sign", "b road sign"],
+    "searchTerms": [
+      "white direction sign",
+      "non primary route sign",
+      "black and white road sign",
+      "local road direction sign",
+      "b road sign"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite: drawn in-app. Non-primary route direction signs are per-junction assemblies of place names, route numbers and arrows, not a single fixed diagram; Highway Code shows them photographically (white ground, black legend, black border). No generic SVG on Commons. Note diagram 824-G-L/825-G-L exist but are the green '200/100 yards to next exit' countdown markers, not the generic white direction sign."
@@ -45,7 +57,13 @@
     "composite": false,
     "explanation": "A brown sign with white text or symbol points the way to a tourist attraction or facility; follow it only if that is where you are heading.",
     "mnemonic": "Brown for a day out of town.",
-    "searchTerms": ["brown sign", "tourist attraction sign", "brown road sign", "places of interest sign", "tourist information direction"],
+    "searchTerms": [
+      "brown sign",
+      "tourist attraction sign",
+      "brown road sign",
+      "places of interest sign",
+      "tourist information direction"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_2202.svg",
     "notes": "Verified via Commons file page: 'UK traffic sign: Junction ahead leading to a tourist attraction (TSRGDNO 2202)', brown ground, OGL v1.0. This is the canonical example of a brown tourist-attraction direction sign. (Generic multi-destination brown stack signs are otherwise composite, but 2202 is a real single-asset representative.)"
@@ -62,7 +80,13 @@
     "composite": true,
     "explanation": "A small white-and-black local direction sign points to nearby places, streets or facilities off the main route; follow it to reach a local destination.",
     "mnemonic": "Small and local: nearby names, no big numbers.",
-    "searchTerms": ["local direction sign", "small white road sign", "local destination sign", "street direction sign", "village direction sign"],
+    "searchTerms": [
+      "local direction sign",
+      "small white road sign",
+      "local destination sign",
+      "street direction sign",
+      "village direction sign"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite: drawn in-app. Local direction signs are per-location assemblies of place/facility names and arrows on a white ground (TSRGD working-drawing signs); no single generic SVG on Commons. Specific niche examples exist (e.g. 2701 'direction to a new housing development') but are not the generic local direction sign taught for CBT."
@@ -79,9 +103,176 @@
     "composite": true,
     "explanation": "Sited just after a junction, a route confirmation sign lists destinations ahead with their distances in miles to confirm you are on the right road; read it and carry on.",
     "mnemonic": "After the junction it confirms: right road, miles to go.",
-    "searchTerms": ["route confirmation sign", "confirmatory sign", "sign with miles after junction", "destinations and distances sign", "road sign listing towns and miles"],
+    "searchTerms": [
+      "route confirmation sign",
+      "confirmatory sign",
+      "sign with miles after junction",
+      "destinations and distances sign",
+      "road sign listing towns and miles"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite: drawn in-app. Route confirmatory signs are per-route assemblies of destination names, route numbers and distances, coloured to match the route (green primary, white non-primary, blue motorway); no single generic SVG on Commons. Highway Code shows them photographically (e.g. direction-sign-green-route-sign.jpg / direction-sign-blue-route-sign.jpg)."
+  },
+  {
+    "id": "pedestrian-route-direction",
+    "caption": "Pedestrian route direction",
+    "category": "direction",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "blue background, white lettering, walking-pedestrian symbol and white arrow",
+    "diagram": "2605",
+    "asset": "UK_traffic_sign_2605.svg",
+    "composite": false,
+    "explanation": "A small blue-and-white fingerpost showing the on-foot route to the destination named; it is for pedestrians, not for vehicles. Follow it only when walking.",
+    "mnemonic": "Walking figure + arrow = the way on foot.",
+    "searchTerms": [
+      "pedestrian direction sign",
+      "footpath fingerpost",
+      "walking route sign",
+      "blue pedestrian arrow",
+      "way to on foot"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_2605.svg",
+    "notes": "Commons: 'Direction of route to destination shown for pedestrians (TSRGDNO 2605)'. Not a motorway sign."
+  },
+  {
+    "id": "pedestrian-and-cycle-route-to-station",
+    "caption": "Route to station for pedestrians and cycles",
+    "category": "direction",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "blue background, white lettering, pedestrian, bicycle and rail symbols with arrow",
+    "diagram": "2606",
+    "asset": "UK_traffic_sign_2606.svg",
+    "composite": false,
+    "explanation": "A blue-and-white sign showing the way to a railway or London Underground station for people on foot or on a cycle. Follow it for the station, not as a vehicle route.",
+    "mnemonic": "Walker + bike + train = on-foot/by-bike way to the station.",
+    "searchTerms": [
+      "route to station sign",
+      "pedestrian cycle to railway",
+      "underground station direction",
+      "walk or cycle to train",
+      "blue station fingerpost"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_2606.svg",
+    "notes": "Commons: 'Direction of route to railway and London Underground station for pedestrians and pedal cycles (TSRGDNO 2606)'. Not a motorway sign."
+  },
+  {
+    "id": "cycle-route-direction-junction",
+    "caption": "Cycle route direction (National Cycle Network)",
+    "category": "direction",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "blue background, white bicycle and arrow, red National Cycle Network route number patch",
+    "diagram": "2601.1",
+    "asset": "UK_traffic_sign_2601.1.svg",
+    "composite": false,
+    "explanation": "Points the way along a numbered National Cycle Network route at a junction; the red patch carries the route number. It guides cyclists, not motor traffic.",
+    "mnemonic": "Bike + red number = follow that National Cycle Network route.",
+    "searchTerms": [
+      "cycle route direction",
+      "national cycle network sign",
+      "ncn route number",
+      "blue bike direction arrow",
+      "cycle network fingerpost"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_2601.1.svg",
+    "notes": "Commons: 'Direction of a numbered route for pedal cycles forming part of a national cycle network at a junction (TSRGDNO 2601.1)'. Not a motorway sign."
+  },
+  {
+    "id": "national-cycle-route-number",
+    "caption": "National cycle route number",
+    "category": "direction",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "red patch with white route number on a blue cycle-route sign",
+    "diagram": "2602.2",
+    "asset": "UK_traffic_sign_2602.2.svg",
+    "composite": false,
+    "explanation": "The small red number patch identifying a National Cycle Network route, shown on cycle direction signs. The number tells cyclists which long-distance route this is.",
+    "mnemonic": "Red patch = National route; the number names it.",
+    "searchTerms": [
+      "national cycle route number",
+      "ncn red number",
+      "cycle route patch",
+      "sustrans route sign",
+      "bike route number"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_2602.2.svg",
+    "notes": "Commons: 'Number route for pedal cycles forming part of a national cycle route network (TSRGDNO 2602.2)'. Not a motorway sign."
+  },
+  {
+    "id": "regional-cycle-route-number",
+    "caption": "Regional cycle route number",
+    "category": "direction",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "blue patch with white route number on a cycle-route sign",
+    "diagram": "2602.3",
+    "asset": "UK_traffic_sign_2602.3.svg",
+    "composite": false,
+    "explanation": "The small blue number patch identifying a regional cycle route, shown on cycle direction signs. The number tells cyclists which regional route they are following.",
+    "mnemonic": "Blue patch = Regional route (red patch = National).",
+    "searchTerms": [
+      "regional cycle route number",
+      "blue cycle route patch",
+      "regional bike route sign",
+      "cycle network number blue",
+      "local cycle route number"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_2602.3.svg",
+    "notes": "Commons: 'The number of a route for pedal cycles forming part of a regional cycle route network (TSRGDNO 2602.3)'. Not a motorway sign."
+  },
+  {
+    "id": "county-boundary",
+    "caption": "County boundary",
+    "category": "direction",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "blue background, white lettering naming the county",
+    "diagram": "2928",
+    "asset": "UK_traffic_sign_2928.svg",
+    "composite": false,
+    "explanation": "A blue-and-white sign marking the point where you cross from one county into another; it names the county you are entering. It is informational and needs no action.",
+    "mnemonic": "Crossing the line = welcome to the next county.",
+    "searchTerms": [
+      "county boundary sign",
+      "entering county",
+      "county name sign",
+      "boundary direction sign",
+      "welcome to county"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_2928.svg",
+    "notes": "Commons: 'County boundary sign (TSRGDNO 2928)'. A boundary/locational direction sign; not a motorway sign."
+  },
+  {
+    "id": "park-and-ride-direction",
+    "caption": "Park and Ride direction",
+    "category": "direction",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "white background, black lettering and arrow, with Park & Ride symbol",
+    "diagram": "2503",
+    "asset": "UK_traffic_sign_2503.svg",
+    "composite": false,
+    "explanation": "Shows the distance and direction to a car park from which a Park and Ride bus service runs into town. Follow it to leave your vehicle and continue by bus.",
+    "mnemonic": "Park here, ride the bus the rest of the way.",
+    "searchTerms": [
+      "park and ride sign",
+      "park ride direction",
+      "parking and bus into town",
+      "p and r sign",
+      "park and ride car park"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_2503.svg",
+    "notes": "Commons: 'Distance and direction to a parking place ahead from which a Park and Ride scheme operates (TSRGDNO 2503)'. Not a motorway sign."
   }
 ]

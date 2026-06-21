@@ -11,7 +11,13 @@
     "composite": false,
     "explanation": "You must stop completely at the line and only move off when it is safe; the road ahead has restricted visibility.",
     "mnemonic": "Only octagon on UK roads means STOP every time.",
-    "searchTerms": ["stop sign", "red octagon", "stop and give way", "eight sided red sign", "halt"],
+    "searchTerms": [
+      "stop sign",
+      "red octagon",
+      "stop and give way",
+      "eight sided red sign",
+      "halt"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_601.1.svg",
     "notes": "Commons description: 'UK traffic sign: Stop (TSRGDNO 601.1)'. Only octagonal sign in TSRGD."
@@ -28,7 +34,13 @@
     "composite": false,
     "explanation": "Give way to traffic on the major road and only emerge when there is a safe gap; you need not stop if the way is clear.",
     "mnemonic": "Upside-down triangle = give way.",
-    "searchTerms": ["give way", "yield", "upside down triangle", "red triangle pointing down", "junction priority"],
+    "searchTerms": [
+      "give way",
+      "yield",
+      "upside down triangle",
+      "red triangle pointing down",
+      "junction priority"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_602.svg",
     "notes": "Commons description: 'UK traffic sign: Give way (TSRGDNO 602)'. Inverted triangle is unique to give way."
@@ -45,7 +57,13 @@
     "composite": false,
     "explanation": "Do not exceed the speed shown (here 30 mph); the limit applies until a different limit or the national speed limit sign is seen.",
     "mnemonic": "Red ring round a number = your ceiling speed.",
-    "searchTerms": ["speed limit", "30 mph sign", "red circle number", "maximum speed", "mph sign"],
+    "searchTerms": [
+      "speed limit",
+      "30 mph sign",
+      "red circle number",
+      "maximum speed",
+      "mph sign"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_670V30.svg",
     "notes": "Diagram 670 is the maximum speed roundel; verified file 670V30 (30 mph) used as the canonical example. Commons: 'Maximum speed limit of 30 miles per hour (TSRGDNO 670V30)'."
@@ -62,7 +80,13 @@
     "composite": false,
     "explanation": "The national speed limit now applies for your vehicle and road type; know your limit, as a motorcycle is 60 mph on a single carriageway and 70 mph on a dual carriageway.",
     "mnemonic": "Black slash on white = national limit, you decide the number.",
-    "searchTerms": ["national speed limit", "black diagonal line", "white circle slash", "derestriction sign", "end of speed limit"],
+    "searchTerms": [
+      "national speed limit",
+      "black diagonal line",
+      "white circle slash",
+      "derestriction sign",
+      "end of speed limit"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_671.svg",
     "notes": "Commons description: 'National speed limits apply (TSRGDNO 671)'."
@@ -79,7 +103,13 @@
     "composite": false,
     "explanation": "Vehicles must not pass beyond this sign; it usually marks the exit of a one-way street, so do not enter.",
     "mnemonic": "Red circle, white bar = barred from entry.",
-    "searchTerms": ["no entry", "red circle white line", "do not enter", "one way exit", "white bar red sign"],
+    "searchTerms": [
+      "no entry",
+      "red circle white line",
+      "do not enter",
+      "one way exit",
+      "white bar red sign"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_616.svg",
     "notes": "Commons description: 'No entry (TSRGDNO 616)'."
@@ -95,8 +125,14 @@
     "asset": "UK_traffic_sign_619.svg",
     "composite": false,
     "explanation": "Motor vehicles, including motorcycles, are prohibited beyond this point; do not ride through.",
-    "mnemonic": "Car and bike crossed out = no engines allowed.",
-    "searchTerms": ["no motor vehicles", "no cars or motorbikes", "car and motorcycle symbol", "motor vehicles prohibited", "no engines"],
+    "mnemonic": "Red ring round a car and a bike = no motor vehicles.",
+    "searchTerms": [
+      "no motor vehicles",
+      "no cars or motorbikes",
+      "car and motorcycle symbol",
+      "motor vehicles prohibited",
+      "no engines"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_619.svg",
     "notes": "Commons description: 'Motor vehicles prohibited (TSRGDNO 619)'. Shows car plus motorcycle symbol."
@@ -113,7 +149,13 @@
     "composite": false,
     "explanation": "Overtaking is prohibited until you pass an end sign; stay in lane and do not pull out to pass.",
     "mnemonic": "Red car can't pass black car.",
-    "searchTerms": ["no overtaking", "two cars sign", "do not pass", "red car black car", "overtaking prohibited"],
+    "searchTerms": [
+      "no overtaking",
+      "two cars sign",
+      "do not pass",
+      "red car black car",
+      "overtaking prohibited"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_632.svg",
     "notes": "Commons description: 'No overtaking.' Two cars, one red, side by side in red circle."
@@ -130,7 +172,13 @@
     "composite": false,
     "explanation": "You must not make a U-turn here; continue and turn round elsewhere where it is permitted and safe.",
     "mnemonic": "U-arrow with a red ring = no turning back.",
-    "searchTerms": ["no u turn", "u turn prohibited", "no turning around", "u shaped arrow crossed", "no reverse direction"],
+    "searchTerms": [
+      "no u turn",
+      "u turn prohibited",
+      "no turning around",
+      "u shaped arrow crossed",
+      "no reverse direction"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_614.svg",
     "notes": "Commons description: 'No U-turns.'"
@@ -147,7 +195,13 @@
     "composite": false,
     "explanation": "Turning right is prohibited at this junction; carry on or find an alternative route.",
     "mnemonic": "Right arrow struck through = no right.",
-    "searchTerms": ["no right turn", "right turn prohibited", "arrow crossed out right", "cannot turn right", "no turning right"],
+    "searchTerms": [
+      "no right turn",
+      "right turn prohibited",
+      "arrow crossed out right",
+      "cannot turn right",
+      "no turning right"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_612.svg",
     "notes": "Commons description: 'No right turn.'"
@@ -164,7 +218,13 @@
     "composite": false,
     "explanation": "Turning left is prohibited at this junction; carry on or find an alternative route.",
     "mnemonic": "Left arrow struck through = no left.",
-    "searchTerms": ["no left turn", "left turn prohibited", "arrow crossed out left", "cannot turn left", "no turning left"],
+    "searchTerms": [
+      "no left turn",
+      "left turn prohibited",
+      "arrow crossed out left",
+      "cannot turn left",
+      "no turning left"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_613.svg",
     "notes": "Commons description: 'No left turn.'"
@@ -181,7 +241,13 @@
     "composite": false,
     "explanation": "You are entering a 20 mph zone with traffic-calming measures; keep to 20 mph until you see the end-of-zone sign.",
     "mnemonic": "ZONE word means it lasts, not just one limit.",
-    "searchTerms": ["20 mph zone", "twenty zone entry", "20 zone sign", "speed zone start", "traffic calming sign"],
+    "searchTerms": [
+      "20 mph zone",
+      "twenty zone entry",
+      "20 zone sign",
+      "speed zone start",
+      "traffic calming sign"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_674.svg",
     "notes": "Commons description: 'Entrance to a 20 miles per hour speed limit zone (TSRGDNO 674)'."
@@ -198,7 +264,13 @@
     "composite": false,
     "explanation": "You must not stop on the main carriageway at any time, even to set down or pick up; this is a clearway.",
     "mnemonic": "Red X means no stopping at all.",
-    "searchTerms": ["clearway", "no stopping", "red cross blue circle", "no stopping any time", "red x sign"],
+    "searchTerms": [
+      "clearway",
+      "no stopping",
+      "red cross blue circle",
+      "no stopping any time",
+      "red x sign"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_642.svg",
     "notes": "Commons description: 'No stopping.' Blue circle with red ring and red diagonal cross (clearway)."
@@ -215,7 +287,13 @@
     "composite": false,
     "explanation": "You must not wait or park here, though you may stop briefly to load, unload, or set down passengers.",
     "mnemonic": "One red stroke = no waiting; two strokes (cross) = no stopping.",
-    "searchTerms": ["no waiting", "blue circle red line", "no parking", "single red diagonal", "waiting restriction"],
+    "searchTerms": [
+      "no waiting",
+      "blue circle red line",
+      "no parking",
+      "single red diagonal",
+      "waiting restriction"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_636.svg",
     "notes": "Commons description: 'No waiting.' Blue circle with red ring and one red diagonal bar; distinct from clearway (which has a full cross)."
@@ -232,7 +310,13 @@
     "composite": false,
     "explanation": "The 20 mph zone has ended and a new limit (commonly 30 mph) now applies; adjust your speed to the limit shown.",
     "mnemonic": "Greyed-out 20 = zone is over.",
-    "searchTerms": ["end of 20 zone", "20 zone ends", "start of 30 zone", "grey 20 sign", "end speed zone"],
+    "searchTerms": [
+      "end of 20 zone",
+      "20 zone ends",
+      "start of 30 zone",
+      "grey 20 sign",
+      "end speed zone"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_675.svg",
     "notes": "Commons description: 'End of 20 miles per hour zone and start of 30 miles per hour zone (TSRGDNO 675)'."
@@ -249,7 +333,13 @@
     "composite": false,
     "explanation": "Vehicles taller than the height shown must not proceed; if your machine plus load exceeds it, find another route.",
     "mnemonic": "Number with arrows top and bottom = how tall you can be.",
-    "searchTerms": ["maximum height", "low bridge height", "height limit sign", "vehicle height restriction", "max height feet"],
+    "searchTerms": [
+      "maximum height",
+      "low bridge height",
+      "height limit sign",
+      "vehicle height restriction",
+      "max height feet"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_629.2.svg",
     "notes": "Commons description: 'Vehicles exceeding 14-6 in height prohibited (TSRGDNO 629.2)'. Imperial-only variant; modern dual-unit form is 629.2A."
@@ -266,7 +356,13 @@
     "composite": false,
     "explanation": "Vehicles wider than the width shown must not proceed; check your width including mirrors and load before continuing.",
     "mnemonic": "Arrows pointing in from each side = how wide you can be.",
-    "searchTerms": ["maximum width", "width limit sign", "narrow road width", "vehicle width restriction", "max width feet"],
+    "searchTerms": [
+      "maximum width",
+      "width limit sign",
+      "narrow road width",
+      "vehicle width restriction",
+      "max width feet"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_629.svg",
     "notes": "Commons description: 'Vehicles exceeding 6-6 in width indicated prohibited (TSRGDNO 629)'. Width arrows point inward from the sides."
@@ -283,7 +379,13 @@
     "composite": false,
     "explanation": "No vehicle over the gross weight shown (in tonnes) may pass, typically protecting a weak bridge or structure; do not proceed if you are over the limit.",
     "mnemonic": "Just a weight, no lorry = applies to every vehicle.",
-    "searchTerms": ["maximum gross weight", "weight limit sign", "weak bridge weight", "tonnes limit red circle", "no vehicles over weight"],
+    "searchTerms": [
+      "maximum gross weight",
+      "weight limit sign",
+      "weak bridge weight",
+      "tonnes limit red circle",
+      "no vehicles over weight"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_626.1.svg",
     "notes": "Commons description: 'Vehicles exceeding a gross weight of 20T prohibited (TSRGDNO 626.1)'. Plain weight roundel (no lorry symbol) applying to all vehicles; this is the historic-style SVG available, matching the Highway Code 'no vehicles over maximum gross weight shown' design."
@@ -299,8 +401,14 @@
     "asset": "UK_traffic_sign_615.svg",
     "composite": false,
     "explanation": "Priority must be given to oncoming vehicles at a narrow section; wait and let approaching traffic through before you proceed.",
-    "mnemonic": "Big red arrow points at you, so you give way.",
-    "searchTerms": ["give priority oncoming", "narrow road priority", "red arrow black arrow", "give way to oncoming", "priority over oncoming opposite"],
+    "mnemonic": "Red ring = you give way; the bigger black arrow (oncoming) has priority.",
+    "searchTerms": [
+      "give priority oncoming",
+      "narrow road priority",
+      "red arrow black arrow",
+      "give way to oncoming",
+      "priority over oncoming opposite"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_615.svg",
     "notes": "Commons description: 'Priority must be given to vehicles from the opposite direction (TSRGDNO 615)'. Red arrow (you) yields to black arrow (oncoming). Pairs with mandatory blue 'priority over oncoming' 811."
@@ -317,7 +425,13 @@
     "composite": false,
     "explanation": "Riding pedal cycles is prohibited beyond this sign; cyclists must dismount or use another route.",
     "mnemonic": "Bicycle in a red ring = no riding here.",
-    "searchTerms": ["no cycling", "no bikes", "bicycle prohibited", "cycling not allowed", "no bicycles sign"],
+    "searchTerms": [
+      "no cycling",
+      "no bikes",
+      "bicycle prohibited",
+      "cycling not allowed",
+      "no bicycles sign"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_951.svg",
     "notes": "Commons description: 'Riding of pedal cycles prohibited (TSRGDNO 951)'."
@@ -334,7 +448,13 @@
     "composite": false,
     "explanation": "Towed caravans are prohibited beyond this point; if you are towing one, take an alternative route.",
     "mnemonic": "Caravan in a red ring = leave the van behind.",
-    "searchTerms": ["no caravans", "towed caravan prohibited", "no towing caravan", "caravan symbol red circle", "no trailer caravan"],
+    "searchTerms": [
+      "no caravans",
+      "towed caravan prohibited",
+      "no towing caravan",
+      "caravan symbol red circle",
+      "no trailer caravan"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_622.7.svg",
     "notes": "Commons description: 'Towed caravans prohibited (TSRGDNO 622.7)'."
@@ -351,7 +471,13 @@
     "composite": false,
     "explanation": "Vehicles longer than the length shown must not proceed; measure your machine plus any trailer before continuing.",
     "mnemonic": "Arrows front and back = how long you can be.",
-    "searchTerms": ["maximum length", "length limit sign", "vehicle length restriction", "max length feet", "long vehicle prohibited"],
+    "searchTerms": [
+      "maximum length",
+      "length limit sign",
+      "vehicle length restriction",
+      "max length feet",
+      "long vehicle prohibited"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_629.1.svg",
     "notes": "Commons description: 'Vehicles exceeding 32 feet and 6 inches in length prohibited (TSRGDNO 629.1)'. Length arrows point outward front and rear."
@@ -368,7 +494,13 @@
     "composite": false,
     "explanation": "Parking here is reserved for permit holders only; do not park unless you hold a valid permit for the zone.",
     "mnemonic": "Permit holders only means no permit, no parking.",
-    "searchTerms": ["permit holders only", "permit parking", "residents parking only", "no parking without permit", "parking permit zone"],
+    "searchTerms": [
+      "permit holders only",
+      "permit parking",
+      "residents parking only",
+      "no parking without permit",
+      "parking permit zone"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_660.svg",
     "notes": "Commons description: 'Parking only allowed for parking permit holders.' Diagram 660 permit-holders parking sign."
@@ -385,7 +517,13 @@
     "composite": false,
     "explanation": "Pedestrians are prohibited beyond this sign, for example on a slip road or in a tunnel; walking here is not allowed.",
     "mnemonic": "Walker in a red ring = no walking.",
-    "searchTerms": ["no pedestrians", "pedestrians prohibited", "no walking", "walking figure crossed", "no foot traffic"],
+    "searchTerms": [
+      "no pedestrians",
+      "pedestrians prohibited",
+      "no walking",
+      "walking figure crossed",
+      "no foot traffic"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_625.1.svg",
     "notes": "Commons description: 'Pedestrians prohibited.' (TSRGDNO 625.1)."
@@ -402,7 +540,13 @@
     "composite": false,
     "explanation": "Goods vehicles over the maximum gross weight shown are prohibited, except for access or loading; lighter vehicles and cars may still pass.",
     "mnemonic": "Lorry plus weight = only heavy goods vehicles are banned.",
-    "searchTerms": ["no lorries over weight", "hgv weight limit", "goods vehicle weight restriction", "7.5 tonne lorry sign", "no trucks over weight"],
+    "searchTerms": [
+      "no lorries over weight",
+      "hgv weight limit",
+      "goods vehicle weight restriction",
+      "7.5 tonne lorry sign",
+      "no trucks over weight"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_622.1A.svg",
     "notes": "Commons description: 'Vehicles exceeding a gross weight of 7.5t prohibited...' Lorry symbol plus weight; commonly 7.5t. Differs from plain weight sign (626.x) by the lorry symbol."
@@ -419,9 +563,245 @@
     "composite": false,
     "explanation": "No vehicles of any kind may pass, except those being pushed by hand by a pedestrian; do not ride or drive through.",
     "mnemonic": "Empty red ring = no vehicles at all.",
-    "searchTerms": ["no vehicles", "all vehicles prohibited", "empty red circle", "blank red ring sign", "no traffic"],
+    "searchTerms": [
+      "no vehicles",
+      "all vehicles prohibited",
+      "empty red circle",
+      "blank red ring sign",
+      "no traffic"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_617.svg",
     "notes": "Commons description: 'All vehicles prohibited except non-mechanically propelled vehicles being pushed by pedestrians' (TSRGDNO 617). Highway Code caption is 'No vehicles'."
+  },
+  {
+    "id": "no-motor-vehicles-except-solo-motorcycles",
+    "caption": "No motor vehicles except solo motorcycles",
+    "category": "prohibitory",
+    "tier": "edge",
+    "shape": "circle",
+    "colour": "red ring, black car and bus crossed but solo motorcycle allowed",
+    "diagram": "619.1",
+    "asset": "UK_traffic_sign_619.1.svg",
+    "composite": false,
+    "explanation": "All motor vehicles are banned except solo motorcycles (no sidecar); as a solo rider you may proceed, but cars and other motor vehicles must not.",
+    "mnemonic": "Same as 'no motor vehicles' but the bike survives the ban.",
+    "searchTerms": [
+      "no motor vehicles except motorcycles",
+      "solo motorcycles allowed",
+      "bikes ok cars banned",
+      "motorcycle exception sign",
+      "no cars but motorbikes"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_619.1.svg",
+    "notes": "Commons: 'Motor vehicles except solo motor cycles prohibited (TSRGDNO 619.1)'. Distinct from 619 'No motor vehicles' because solo motorcycles are exempt."
+  },
+  {
+    "id": "no-solo-motorcycles",
+    "caption": "No solo motorcycles",
+    "category": "prohibitory",
+    "tier": "edge",
+    "shape": "circle",
+    "colour": "red ring, black solo motorcycle on white",
+    "diagram": "619.2",
+    "asset": "UK_traffic_sign_619.2.svg",
+    "composite": false,
+    "explanation": "Solo motorcycles are specifically prohibited beyond this point; if you are riding a solo machine you must not proceed and should take another route.",
+    "mnemonic": "Just a bike in the red ring = bikes barred.",
+    "searchTerms": [
+      "no solo motorcycles",
+      "no motorbikes",
+      "motorcycle prohibited",
+      "bikes not allowed",
+      "no motorcycle symbol red circle"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_619.2.svg",
+    "notes": "Commons: 'Solo motor cycles prohibited (TSRGDNO 619.2)'. The single most rider-specific prohibition."
+  },
+  {
+    "id": "no-buses",
+    "caption": "No buses (over 8 passenger seats)",
+    "category": "prohibitory",
+    "tier": "edge",
+    "shape": "circle",
+    "colour": "red ring, black bus on white",
+    "diagram": "952",
+    "asset": "UK_traffic_sign_952.svg",
+    "composite": false,
+    "explanation": "Buses with more than eight passenger seats (and usually coaches) must not proceed beyond this sign; it does not affect motorcycles or cars.",
+    "mnemonic": "Bus in a red ring = coaches keep out.",
+    "searchTerms": [
+      "no buses",
+      "no coaches",
+      "bus prohibited",
+      "no buses over 8 seats",
+      "bus symbol red circle"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_952.svg",
+    "notes": "Commons: 'Buses prohibited (TSRGDNO 952)'."
+  },
+  {
+    "id": "no-articulated-vehicles",
+    "caption": "No articulated vehicles",
+    "category": "prohibitory",
+    "tier": "edge",
+    "shape": "circle",
+    "colour": "red ring, black articulated lorry (cab + trailer)",
+    "diagram": "622.4",
+    "asset": "UK_traffic_sign_622.4_(variant_1).svg",
+    "composite": false,
+    "explanation": "Articulated vehicles (a tractor unit with a separate trailer) are prohibited beyond this point, typically because of tight bends or a weak structure ahead.",
+    "mnemonic": "Bendy lorry in a red ring = no artics.",
+    "searchTerms": [
+      "no articulated vehicles",
+      "no artics",
+      "articulated lorry prohibited",
+      "no hgv trailer",
+      "bendy lorry sign"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_622.4_(variant_1).svg",
+    "notes": "Commons: 'Articulated vehicles prohibited (TSRGDNO 622.4)'. Plain 622.4.svg redirects to the variant-1 file."
+  },
+  {
+    "id": "no-horse-drawn-vehicles",
+    "caption": "No horse-drawn vehicles",
+    "category": "prohibitory",
+    "tier": "edge",
+    "shape": "circle",
+    "colour": "red ring, black horse-and-cart on white",
+    "diagram": "622.5",
+    "asset": "UK_traffic_sign_622.5.svg",
+    "composite": false,
+    "explanation": "Horse-drawn vehicles such as carriages and carts must not proceed beyond this sign; it does not restrict ridden horses (which have their own sign).",
+    "mnemonic": "Horse pulling a cart, crossed by the ring = no carriages.",
+    "searchTerms": [
+      "no horse drawn vehicles",
+      "no carriages",
+      "horse and cart prohibited",
+      "no carts",
+      "horse drawn carriage sign"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_622.5.svg",
+    "notes": "Commons: 'Horse-drawn vehicles prohibited.' (TSRGDNO 622.5)."
+  },
+  {
+    "id": "no-ridden-or-accompanied-horses",
+    "caption": "No ridden or accompanied horses",
+    "category": "prohibitory",
+    "tier": "edge",
+    "shape": "circle",
+    "colour": "red ring, black ridden horse on white",
+    "diagram": "622.6",
+    "asset": "UK_traffic_sign_622.6.svg",
+    "composite": false,
+    "explanation": "Horses that are ridden or led must not proceed beyond this sign; riders and handlers must use an alternative route.",
+    "mnemonic": "Horse with a rider in the red ring = no horses here.",
+    "searchTerms": [
+      "no ridden horses",
+      "no horses",
+      "ridden or accompanied horses prohibited",
+      "no horse riding",
+      "horse and rider sign"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_622.6.svg",
+    "notes": "Commons: 'Ridden or accompanied horses prohibited.' (TSRGDNO 622.6)."
+  },
+  {
+    "id": "no-explosives",
+    "caption": "No vehicles carrying explosives",
+    "category": "prohibitory",
+    "tier": "edge",
+    "shape": "circle",
+    "colour": "red ring, black lorry with explosion symbol",
+    "diagram": "622.8",
+    "asset": "UK_traffic_sign_622.8.svg",
+    "composite": false,
+    "explanation": "Vehicles carrying explosives are prohibited beyond this point, for example near a tunnel or fuel depot; ordinary traffic, including motorcycles, is unaffected.",
+    "mnemonic": "Lorry with a blast = no explosives through.",
+    "searchTerms": [
+      "no explosives",
+      "no vehicles carrying explosives",
+      "explosives prohibited",
+      "dangerous load sign",
+      "lorry explosion symbol"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_622.8.svg",
+    "notes": "Commons: 'Vehicles carrying explosives prohibited.' (TSRGDNO 622.8)."
+  },
+  {
+    "id": "no-dangerous-goods-tunnel",
+    "caption": "No vehicles carrying dangerous goods (tunnels)",
+    "category": "prohibitory",
+    "tier": "edge",
+    "shape": "circle",
+    "colour": "red ring, black lorry, tunnel restriction code letter",
+    "diagram": "622.10",
+    "asset": "UK_traffic_sign_622.10_(roundel_only).svg",
+    "composite": false,
+    "explanation": "Vehicles carrying dangerous goods within the tunnel restriction category shown must not enter the tunnel ahead; ordinary vehicles may proceed.",
+    "mnemonic": "Lorry in a red ring at a tunnel = hazardous loads banned.",
+    "searchTerms": [
+      "no dangerous goods",
+      "tunnel dangerous goods prohibited",
+      "hazardous load tunnel",
+      "dangerous goods restriction code",
+      "no hazmat tunnel"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_622.10_(roundel_only).svg",
+    "notes": "Commons: 'Vehicles carrying dangerous goods within the tunnel restriction code indicated by the sign prohibited (TSRGD P 622.10).' Roundel-only variant."
+  },
+  {
+    "id": "no-loading-at-any-time",
+    "caption": "No loading at any time",
+    "category": "prohibitory",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "white rectangular plate, black words ‘No loading at any time’",
+    "diagram": "638",
+    "asset": "UK_traffic_sign_638.svg",
+    "composite": false,
+    "explanation": "You must not load or unload here at any time; this plate accompanies double yellow kerb dashes and applies even if you stay with the vehicle.",
+    "mnemonic": "Worded plate spells it out: ‘No loading at any time’ — no symbol to decode.",
+    "searchTerms": [
+      "no loading",
+      "no loading any time",
+      "double red kerb marks",
+      "loading prohibited",
+      "two red bars plate"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_638.svg",
+    "notes": "Commons: 'Continuous prohibition on loading and unloading (TSRGDNO 638)'."
+  },
+  {
+    "id": "all-vehicles-prohibited",
+    "caption": "All vehicles prohibited (pedestrian zone)",
+    "category": "prohibitory",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "white sign, red ring, 'No vehicles' worded panel",
+    "diagram": "618.1A",
+    "asset": "UK_traffic_sign_618.1A.svg",
+    "composite": false,
+    "explanation": "All vehicles are prohibited from entering, typically at a pedestrian zone or precinct; you must not ride or drive in beyond this sign.",
+    "mnemonic": "Worded 'no vehicles' at a precinct entrance = leave the bike outside.",
+    "searchTerms": [
+      "all vehicles prohibited",
+      "pedestrian zone no vehicles",
+      "no vehicles precinct",
+      "pedestrian area entry",
+      "no traffic zone sign"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_618.1A.svg",
+    "notes": "Commons: 'All vehicles prohibited (TSRGDNO 618.1A)'. Pedestrian-zone worded form; good distractor vs 617 'No vehicles'."
   }
 ]

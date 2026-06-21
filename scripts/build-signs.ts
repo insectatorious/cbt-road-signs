@@ -55,6 +55,49 @@ const CLUSTERS: string[][] = [
   ['parking', 'parking-solo-motorcycles', 'parking-restricted-to-permit-holders'],
   ['tunnel-ahead', 'opening-or-swing-bridge-ahead', 'hump-bridge'],
   ['give-way', 'give-priority-to-oncoming-vehicles'],
+
+  // --- extended (edge-tier) signs: look-alike groups for the comprehensive set ---
+  ['no-solo-motorcycles', 'no-motor-vehicles-except-solo-motorcycles', 'no-motor-vehicles', 'no-vehicles'],
+  ['no-horse-drawn-vehicles', 'no-ridden-or-accompanied-horses', 'accompanied-horses-or-ponies'],
+  ['no-articulated-vehicles', 'no-goods-vehicles-over-weight', 'no-towed-caravans', 'no-buses'],
+  ['no-buses', 'no-motor-vehicles', 'buses-and-cycles-only'],
+  ['no-explosives', 'no-dangerous-goods-tunnel', 'no-articulated-vehicles'],
+  ['no-loading-at-any-time', 'no-waiting', 'no-stopping-clearway'],
+  ['all-vehicles-prohibited', 'no-vehicles', 'no-motor-vehicles', 'no-entry'],
+  ['turn-right-at-junction', 'turn-left-at-junction', 'turn-right-ahead', 'turn-left-ahead'],
+  ['buses-and-trams-only', 'buses-and-cycles-only', 'trams-only'],
+  ['shared-horse-cycle-pedestrian-route', 'shared-cycle-and-pedestrian-route', 'segregated-pedal-cycle-and-pedestrian-route'],
+  ['with-flow-cycle-lane', 'with-flow-cycle-lane-ahead', 'with-flow-bus-lane', 'contra-flow-bus-lane'],
+  ['cycle-route-direction-junction', 'national-cycle-route-number', 'regional-cycle-route-number'],
+  ['pedestrian-route-direction', 'pedestrian-and-cycle-route-to-station'],
+  ['county-boundary', 'non-primary-route-direction-sign', 'primary-route-direction-sign'],
+  ['park-and-ride-direction', 'park-and-ride', 'parking'],
+  ['sheep', 'cattle', 'wild-animals', 'accompanied-horses-or-ponies'],
+  ['migratory-toad-crossing', 'wild-fowl', 'wild-animals'],
+  ['agricultural-vehicles', 'wild-animals', 'cattle'],
+  ['ford', 'road-liable-to-flooding', 'quayside-or-river-bank'],
+  ['try-your-brakes', 'ford', 'steep-hill-downwards'],
+  ['soft-verges', 'uneven-road'],
+  ['hidden-dip', 'road-humps-ahead', 'uneven-road'],
+  ['cattle-grid', 'sheep', 'cattle'],
+  ['area-infected-by-animal-disease', 'cattle', 'sheep'],
+  ['bend-to-the-left', 'bend-to-the-right', 'double-bend-first-to-the-left'],
+  ['sharp-deviation-of-route-left', 'sharp-deviation-of-route-right'],
+  ['junction-priority-over-minor-road', 'staggered-junction-side-road-left-first', 'staggered-junction'],
+  ['junction-on-a-bend', 'crossroads-on-a-bend', 'bend-to-the-right', 'bend-to-the-left'],
+  ['traffic-merges-from-left', 'traffic-merges-onto-main-carriageway'],
+  ['junction-on-a-bend', 'crossroads', 'crossroads-on-a-bend', 't-junction'],
+  ['level-crossing-countdown-marker', 'level-crossing-with-barrier-or-gate-ahead', 'level-crossing-without-barrier-or-gate-ahead', 'trams-crossing-ahead'],
+  ['priority-over-oncoming-vehicles', 'give-priority-to-oncoming-vehicles'],
+  ['no-through-road-from-junction', 'no-through-road'],
+  ['recommended-cycle-route', 'cycle-route-ahead', 'route-for-pedal-cycles-only'],
+  ['bus-stop', 'with-flow-bus-lane', 'contra-flow-bus-lane'],
+  ['camping-and-caravan-site', 'picnic-site', 'tourist-attraction-sign', 'tourist-information-point'],
+  ['pedestrian-zone', 'home-zone-entry'],
+  ['speed-camera-area', 'maximum-speed-limit'],
+  ['temporary-traffic-signals', 'traffic-signals-ahead', 'stop-go-board'],
+  ['temporary-road-layout-sharp-bends', 'diversion-route', 'ramp-roadworks'],
+  ['construction-traffic-direction', 'slow-moving-works-traffic-crossing'],
 ]
 
 interface Raw {
@@ -70,6 +113,7 @@ interface Raw {
   explanation: string
   mnemonic?: string
   searchTerms?: string[]
+  sourceUrl?: string
 }
 
 const raw: Raw[] = []
@@ -121,6 +165,9 @@ const clean = raw.map((s) => {
   if (s.mnemonic) o.mnemonic = s.mnemonic
   o.confusedWith = (confused.get(s.id) ?? []).slice(0, 4)
   o.searchTerms = s.searchTerms ?? []
+  // keep the OGL source link (Wikimedia Commons File: page) so the UI can
+  // credit/cite each sign; composites have no single-file source
+  if (s.sourceUrl) o.source = s.sourceUrl
   return o
 })
 

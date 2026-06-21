@@ -1,15 +1,24 @@
 /** Deck filtering + daily study-queue construction. */
-import { CATEGORY_META, type ReviewState, type Settings, type SignDefinition, type Tier } from './types'
+import {
+  CATEGORY_META,
+  SCOPE_TIERS,
+  type ReviewState,
+  type Settings,
+  type SignDefinition,
+  type Tier,
+} from './types'
 import { isDue } from './scheduler'
 
 const TIER_RANK: Record<Tier, number> = { core: 0, standard: 1, edge: 2 }
 
-/** Signs in scope for the current settings: no motorway, edge/markings gated. */
+/** Signs in scope for the current settings: no motorway; tier gated by the
+ *  deck-scope slider; markings gated by their own toggle. */
 export function activeDeck(signs: SignDefinition[], settings: Settings): SignDefinition[] {
+  const tiers = SCOPE_TIERS[settings.deckScope] ?? SCOPE_TIERS.standard
   return signs.filter(
     (s) =>
       !s.excludeFromV1 &&
-      (s.tier !== 'edge' || settings.includeEdge) &&
+      tiers.includes(s.tier) &&
       (s.category !== 'marking' || settings.includeMarkings),
   )
 }

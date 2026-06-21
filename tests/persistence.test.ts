@@ -59,4 +59,29 @@ describe('migrate', () => {
     expect(migrate({ settings: { newPerDay: -5 } }, NOW).settings.newPerDay).toBeGreaterThanOrEqual(1)
     expect(migrate({ settings: { newPerDay: 9999 } }, NOW).settings.newPerDay).toBeLessThanOrEqual(100)
   })
+
+  it('defaults deckScope to standard and ignores junk values', () => {
+    expect(migrate({}, NOW).settings.deckScope).toBe('standard')
+    expect(migrate({ settings: { deckScope: 'everything' } }, NOW).settings.deckScope).toBe('standard')
+  })
+
+  it('keeps a valid deckScope', () => {
+    expect(migrate({ settings: { deckScope: 'comprehensive' } }, NOW).settings.deckScope).toBe('comprehensive')
+    expect(migrate({ settings: { deckScope: 'essential' } }, NOW).settings.deckScope).toBe('essential')
+  })
+
+  it('migrates the legacy includeEdge boolean to a deckScope', () => {
+    // pre-slider backups only had includeEdge: true ⇒ comprehensive, false ⇒ standard
+    expect(migrate({ settings: { includeEdge: true } }, NOW).settings.deckScope).toBe('comprehensive')
+    expect(migrate({ settings: { includeEdge: false } }, NOW).settings.deckScope).toBe('standard')
+    // an explicit deckScope wins over the legacy field
+    expect(
+      migrate({ settings: { includeEdge: true, deckScope: 'essential' } }, NOW).settings.deckScope,
+    ).toBe('essential')
+  })
+
+  it('does not persist the legacy includeEdge field forward', () => {
+    const s = migrate({ settings: { includeEdge: true } }, NOW).settings as Record<string, unknown>
+    expect('includeEdge' in s).toBe(false)
+  })
 })

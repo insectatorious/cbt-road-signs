@@ -11,7 +11,13 @@
     "composite": false,
     "explanation": "You must continue straight ahead in the direction of the arrow; turning is not permitted here. Keep moving forward and do not turn off.",
     "mnemonic": "Blue means do; arrow up means go straight through.",
-    "searchTerms": ["straight ahead", "go straight", "blue arrow up", "ahead only", "no turning"],
+    "searchTerms": [
+      "straight ahead",
+      "go straight",
+      "blue arrow up",
+      "ahead only",
+      "no turning"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_606_(ahead).svg",
     "notes": "Commons description: 'Go straight ahead only.' Diagram 606 (ahead variant); blue circle with white up arrow. Verified file page exists."
@@ -28,7 +34,13 @@
     "composite": false,
     "explanation": "You must turn left at the junction ahead; the angled arrow warns the turn is coming up. Prepare to turn left.",
     "mnemonic": "Arrow leaning forward-left = the left turn is just ahead.",
-    "searchTerms": ["turn left ahead", "blue turn left", "left turn coming", "mandatory left", "left arrow sign"],
+    "searchTerms": [
+      "turn left ahead",
+      "blue turn left",
+      "left turn coming",
+      "mandatory left",
+      "left arrow sign"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_609.svg",
     "notes": "Commons description: 'Turn left ahead.' Diagram 609; blue circle, white arrow pointing up and to the left. Verified."
@@ -45,7 +57,13 @@
     "composite": false,
     "explanation": "You must turn right at the junction ahead; the angled arrow warns the turn is coming up. Prepare to turn right.",
     "mnemonic": "Arrow leaning forward-right = the right turn is just ahead.",
-    "searchTerms": ["turn right ahead", "blue turn right", "right turn coming", "mandatory right", "right arrow sign"],
+    "searchTerms": [
+      "turn right ahead",
+      "blue turn right",
+      "right turn coming",
+      "mandatory right",
+      "right arrow sign"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_609_(right).svg",
     "notes": "Commons description: 'Turn right ahead.' Diagram 609 (right variant); blue circle, white arrow up and to the right. Verified."
@@ -62,7 +80,13 @@
     "composite": false,
     "explanation": "You must pass to the left of the sign, for example at a central island or obstruction. Keep to the left-hand side.",
     "mnemonic": "Horizontal arrow = pass that side now (left), not a turn ahead.",
-    "searchTerms": ["keep left", "pass left of island", "blue arrow left", "bollard keep left", "left of obstruction"],
+    "searchTerms": [
+      "keep left",
+      "pass left of island",
+      "blue arrow left",
+      "bollard keep left",
+      "left of obstruction"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_610.svg",
     "notes": "Commons description: 'Keep left.' Diagram 610; blue circle, white horizontal arrow pointing left. Verified. Often mounted on keep-left bollards."
@@ -79,7 +103,13 @@
     "composite": false,
     "explanation": "You must pass to the right of the sign, for example at a central island or obstruction. Keep to the right-hand side.",
     "mnemonic": "Horizontal arrow = pass that side now (right), not a turn ahead.",
-    "searchTerms": ["keep right", "pass right of island", "blue arrow right", "bollard keep right", "right of obstruction"],
+    "searchTerms": [
+      "keep right",
+      "pass right of island",
+      "blue arrow right",
+      "bollard keep right",
+      "right of obstruction"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_610_(right).svg",
     "notes": "Commons description: 'Keep right.' Diagram 610 (right variant); blue circle, white horizontal arrow pointing right. Verified."
@@ -96,7 +126,13 @@
     "composite": false,
     "explanation": "A mini-roundabout is ahead: give way to traffic coming from your right and go round it clockwise. Slow down and be ready to give way.",
     "mnemonic": "Round arrows = go round; always give way to the right.",
-    "searchTerms": ["mini roundabout", "small roundabout", "give way right", "circular arrows blue", "roundabout clockwise"],
+    "searchTerms": [
+      "mini roundabout",
+      "small roundabout",
+      "give way right",
+      "circular arrows blue",
+      "roundabout clockwise"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_611.1.svg",
     "notes": "Commons description: 'Mini-roundabout (give way to traffic from the right and circulate clockwise).' Diagram 611.1; blue circle with three white clockwise arrows. Verified."
@@ -113,7 +149,13 @@
     "composite": false,
     "explanation": "You may pass on either side of the obstruction or island ahead to reach the same destination. Choose a clear side and pass safely.",
     "mnemonic": "Two arrows splitting = take either side, they meet again.",
-    "searchTerms": ["pass either side", "two arrows blue", "split arrows", "either side of island", "left or right pass"],
+    "searchTerms": [
+      "pass either side",
+      "two arrows blue",
+      "split arrows",
+      "either side of island",
+      "left or right pass"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_611.svg",
     "notes": "Commons description: 'Pass on either side (to reach the same destination).' Diagram 611; blue circle, two diverging white arrows. Verified."
@@ -130,7 +172,13 @@
     "composite": false,
     "explanation": "This route is for pedal cycles only; motor vehicles must not use it. As a rider, do not enter on your motorcycle.",
     "mnemonic": "Blue circle, bike only = pedal power, no engines.",
-    "searchTerms": ["cycle route only", "bicycle only path", "blue bike sign", "pedal cycles only", "cycle track"],
+    "searchTerms": [
+      "cycle route only",
+      "bicycle only path",
+      "blue bike sign",
+      "pedal cycles only",
+      "cycle track"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_955.svg",
     "notes": "Commons description: 'Route for use by pedal cycles only.' Diagram 955; blue circle, white bicycle. Verified. (Note: triangular 950 is the cycle-route warning, not this.)"
@@ -147,7 +195,13 @@
     "composite": false,
     "explanation": "At the junction you must turn left; the horizontal arrow shows the turn is here, not further ahead. Turn left now.",
     "mnemonic": "Flat arrow = turn here; angled arrow (609) = ahead.",
-    "searchTerms": ["turn left", "mandatory left turn", "blue left arrow junction", "left only", "must turn left"],
+    "searchTerms": [
+      "turn left",
+      "mandatory left turn",
+      "blue left arrow junction",
+      "left only",
+      "must turn left"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_606.svg",
     "notes": "Commons description: 'Turn left.' Diagram 606 (left variant); blue circle, white horizontal arrow pointing left. Verified. Distinct from 609 'turn left ahead' (angled arrow)."
@@ -164,7 +218,13 @@
     "composite": false,
     "explanation": "A shared route where cyclists and pedestrians have separate sides divided by a line; each must keep to their own side. Motor vehicles must not enter.",
     "mnemonic": "Line down the middle = stay in your lane, segregated.",
-    "searchTerms": ["segregated cycle path", "bike and walk separate", "divided cycle footway", "cyclist pedestrian line", "split path sign"],
+    "searchTerms": [
+      "segregated cycle path",
+      "bike and walk separate",
+      "divided cycle footway",
+      "cyclist pedestrian line",
+      "split path sign"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_957.svg",
     "notes": "Commons description: 'Route for segregated use by pedal cycles and pedestrians only.' Diagram 957; blue circle, bicycle and pedestrian separated by a vertical white line. Verified."
@@ -181,7 +241,13 @@
     "composite": false,
     "explanation": "A route shared by cyclists and pedestrians with no separation; both use the same space, so cyclists must give way considerately. Motor vehicles must not enter.",
     "mnemonic": "No line = shared space, watch out for each other.",
-    "searchTerms": ["shared cycle path", "bike and pedestrian shared", "shared use path", "cyclist walker together", "no line cycle sign"],
+    "searchTerms": [
+      "shared cycle path",
+      "bike and pedestrian shared",
+      "shared use path",
+      "cyclist walker together",
+      "no line cycle sign"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_956.svg",
     "notes": "Commons description: 'Route for shared use by pedal cycles and pedestrians only.' Diagram 956; blue circle, bicycle and pedestrian with no dividing line. Verified."
@@ -198,7 +264,13 @@
     "composite": false,
     "explanation": "You must not drive slower than the speed shown unless conditions make it unsafe. Keep your speed at or above this figure.",
     "mnemonic": "Blue = must do; so you must do at least this speed.",
-    "searchTerms": ["minimum speed", "blue speed sign", "must go this fast", "30 blue circle", "minimum speed limit"],
+    "searchTerms": [
+      "minimum speed",
+      "blue speed sign",
+      "must go this fast",
+      "30 blue circle",
+      "minimum speed limit"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_672.svg",
     "notes": "Commons description: 'Minimum speed limit of 30 miles per hour (TSRGDNO 672).' Diagram 672; blue circle, white number. Verified. Number varies; 30 shown as the standard example."
@@ -215,7 +287,13 @@
     "composite": false,
     "explanation": "The minimum speed limit no longer applies from this point. You are free to travel below that figure if needed.",
     "mnemonic": "Red slash through it = that rule is now crossed out.",
-    "searchTerms": ["end of minimum speed", "minimum speed ends", "blue speed crossed out", "red line through speed", "no more minimum speed"],
+    "searchTerms": [
+      "end of minimum speed",
+      "minimum speed ends",
+      "blue speed crossed out",
+      "red line through speed",
+      "no more minimum speed"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_673.svg",
     "notes": "Commons description: 'End of 30 miles per hour minimum speed limit (TSRGDNO 673).' Diagram 673; blue circle, white number with red diagonal bar. Verified."
@@ -232,7 +310,13 @@
     "composite": false,
     "explanation": "This route is for buses and pedal cycles only; other motor vehicles must not use it. Do not enter on your motorcycle.",
     "mnemonic": "Bus + bike in blue = only these two belong.",
-    "searchTerms": ["buses and cycles only", "bus and bike lane", "blue bus bicycle", "bus cycle route", "no cars bus lane"],
+    "searchTerms": [
+      "buses and cycles only",
+      "bus and bike lane",
+      "blue bus bicycle",
+      "bus cycle route",
+      "no cars bus lane"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_953.svg",
     "notes": "Commons description: 'Route for use by buses and cycles only (TSRGDNO 953).' Diagram 953; blue circle with white bus and bicycle symbols. Verified."
@@ -249,7 +333,13 @@
     "composite": false,
     "explanation": "This route is for trams only; all other vehicles are prohibited. Never enter a tram-only route on your motorcycle.",
     "mnemonic": "Blue circle, tram only = rails, not road for you.",
-    "searchTerms": ["trams only", "tram route", "blue tram sign", "tramcar only", "no cars trams"],
+    "searchTerms": [
+      "trams only",
+      "tram route",
+      "blue tram sign",
+      "tramcar only",
+      "no cars trams"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_953.1.svg",
     "notes": "Commons description: 'Route for use by tramcars only (TSRGDNO 953.1).' Diagram 953.1; blue circle, white tram. Verified. (953.2 is the explanatory plate, not this sign.)"
@@ -266,7 +356,13 @@
     "composite": false,
     "explanation": "Ahead, buses travel towards you in a lane running against the normal traffic flow; expect oncoming buses and do not enter that lane. Stay in your correct lane.",
     "mnemonic": "Contra = against; the bus arrow faces back at you.",
-    "searchTerms": ["contra flow bus lane", "buses coming towards you", "oncoming bus lane", "blue bus arrow sign", "bus lane against traffic"],
+    "searchTerms": [
+      "contra flow bus lane",
+      "buses coming towards you",
+      "oncoming bus lane",
+      "blue bus arrow sign",
+      "bus lane against traffic"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_960.svg",
     "notes": "Commons description: 'Contra-flow bus lane (TSRGDNO 960).' Diagram 960; blue rectangular sign with white bus symbol and arrow indicating buses against the flow. Verified."
@@ -283,9 +379,130 @@
     "composite": true,
     "explanation": "A bus lane runs ahead in the same direction as the traffic flow, usually with a cycle (and sometimes taxi) symbol and its hours of operation; do not drive in it during those times. Stay in the general traffic lane.",
     "mnemonic": "With-flow = bus goes your way; check the times before using it.",
-    "searchTerms": ["with flow bus lane", "bus lane ahead", "bus lane times", "blue bus lane sign", "bus cycle taxi lane"],
+    "searchTerms": [
+      "with flow bus lane",
+      "bus lane ahead",
+      "bus lane times",
+      "blue bus lane sign",
+      "bus cycle taxi lane"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Diagram 958 (with-flow bus, cycle and taxi lane). Treated as composite: 'UK_traffic_sign_958.svg' returns HTTP 404 on Commons (no single canonical SVG) because the sign varies with vehicle symbols and an incorporated time-of-operation plate (diagram 961). Unverified; best-guess diagram 958 confirmed via TSRGD/Traffic Signs Manual references. 959.1 on Commons is the with-flow CYCLE lane, not this."
+  },
+  {
+    "id": "turn-right-at-junction",
+    "caption": "Turn right at junction",
+    "category": "mandatory",
+    "tier": "edge",
+    "shape": "circle",
+    "colour": "blue circle, white arrow pointing right",
+    "diagram": "606",
+    "asset": "UK_traffic_sign_606_(right).svg",
+    "composite": false,
+    "explanation": "At the junction you must turn right; the horizontal arrow shows the turn is here, not further ahead. Turn right now.",
+    "mnemonic": "Flat arrow = turn here; angled arrow (609) = ahead.",
+    "searchTerms": [
+      "turn right",
+      "mandatory right turn",
+      "blue right arrow junction",
+      "right only",
+      "must turn right"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_606_(right).svg",
+    "notes": "Commons: 'Turn right.' Diagram 606 (right variant). Mirror of existing turn-left-at-junction (606 left)."
+  },
+  {
+    "id": "buses-and-trams-only",
+    "caption": "Buses and trams only",
+    "category": "mandatory",
+    "tier": "edge",
+    "shape": "circle",
+    "colour": "blue circle, white bus and white tram",
+    "diagram": "953.1V",
+    "asset": "UK_traffic_sign_953.1V.svg",
+    "composite": false,
+    "explanation": "This route is for buses and trams only; other motor vehicles must not use it. Do not enter on your motorcycle.",
+    "mnemonic": "Bus + tram in blue = only those two belong.",
+    "searchTerms": [
+      "buses and trams only",
+      "bus and tram lane",
+      "blue bus tram sign",
+      "tram and bus route",
+      "no cars bus tram"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_953.1V.svg",
+    "notes": "Commons: 'Route for use by buses and tramcars only (TSRGDNO 953.1V)'. Distinct from 953 buses-and-cycles and 953.1 trams-only."
+  },
+  {
+    "id": "shared-horse-cycle-pedestrian-route",
+    "caption": "Shared route for horses, cycles and pedestrians",
+    "category": "mandatory",
+    "tier": "edge",
+    "shape": "circle",
+    "colour": "blue circle, white horse-and-rider, bicycle and pedestrian, no dividing line",
+    "diagram": "956.1",
+    "asset": "UK_traffic_sign_956.1.svg",
+    "composite": false,
+    "explanation": "A route shared by horse riders, cyclists and pedestrians with no separation between them; all use the same space, so give way considerately. Motor vehicles must not enter.",
+    "mnemonic": "Horse, bike, walker together = share nicely, no line.",
+    "searchTerms": [
+      "shared horse cycle pedestrian",
+      "bridleway shared use",
+      "horse rider cycle path",
+      "blue horse bike walker",
+      "shared use with horses"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_956.1.svg",
+    "notes": "Commons: 'Route for shared use by accompanied horses, pedal cycles and pedestrians only.' Diagram 956.1. Extends existing 956."
+  },
+  {
+    "id": "with-flow-cycle-lane",
+    "caption": "With-flow cycle lane",
+    "category": "mandatory",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "blue rectangle, white bicycle and upward arrow with the traffic flow",
+    "diagram": "959.1",
+    "asset": "UK_traffic_sign_959.1.svg",
+    "composite": false,
+    "explanation": "A cycle lane runs ahead in the same direction as the traffic flow; you must not drive or park in it during its hours of operation. Keep out of the marked cycle lane.",
+    "mnemonic": "Bike + arrow your way = leave the cycle lane for cycles.",
+    "searchTerms": [
+      "with flow cycle lane",
+      "cycle lane sign",
+      "blue bike lane arrow",
+      "bicycle lane ahead",
+      "mandatory cycle lane"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_959.1.svg",
+    "notes": "Commons: 'With-flow cycle lane (TSRGDNO 959.1)'. Cycle counterpart to existing 958 with-flow bus lane."
+  },
+  {
+    "id": "with-flow-cycle-lane-ahead",
+    "caption": "With-flow cycle lane ahead",
+    "category": "mandatory",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "blue square, white bicycle, lane diagram and arrow with the traffic flow",
+    "diagram": "958.1",
+    "asset": "UK_traffic_sign_958.1.svg",
+    "composite": false,
+    "explanation": "Warns that a with-flow cycle lane begins on the road ahead; get ready to keep out of the cycle lane once it starts. Position yourself in the correct traffic lane.",
+    "mnemonic": "Lane diagram = cycle lane is just ahead, stay out of it.",
+    "searchTerms": [
+      "with flow cycle lane ahead",
+      "cycle lane starts ahead",
+      "blue cycle lane diagram",
+      "bike lane coming up",
+      "cycle lane begins"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_958.1.svg",
+    "notes": "Commons: 'With-flow cycle lane ahead (TSRGDNO 958.1)'. Advance version of 959.1."
   }
 ]

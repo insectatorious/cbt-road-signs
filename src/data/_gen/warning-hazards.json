@@ -11,7 +11,13 @@
     "composite": false,
     "explanation": "The road ahead may be slippery; ease off the throttle, avoid harsh braking or steering, and keep the bike upright.",
     "mnemonic": "Skid marks = slippery.",
-    "searchTerms": ["slippery road", "skid", "slippery surface", "car skidding sign", "wet road warning"],
+    "searchTerms": [
+      "slippery road",
+      "skid",
+      "slippery surface",
+      "car skidding sign",
+      "wet road warning"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_557.svg",
     "notes": "Commons description: 'Slippery road ahead (TSRGDNO 557)'. Category: SVG warning road signs - slippery surface."
@@ -27,8 +33,14 @@
     "asset": "UK_traffic_sign_523.1.svg",
     "composite": false,
     "explanation": "A steep descent is ahead; select a low gear in good time and use engine braking so you are not relying only on the brakes.",
-    "mnemonic": "Arrow points down = going down.",
-    "searchTerms": ["steep hill down", "steep descent", "downhill sign", "hill with percentage", "10% gradient"],
+    "mnemonic": "Downhill wedge with a % = steep descent ahead.",
+    "searchTerms": [
+      "steep hill down",
+      "steep descent",
+      "downhill sign",
+      "hill with percentage",
+      "10% gradient"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_523.1.svg",
     "notes": "Commons description: 'Steep hill downwards ahead (10%) (TSRGD Drawing No. P 523.1)'. Number shown varies with the actual gradient."
@@ -44,8 +56,14 @@
     "asset": "UK_traffic_sign_524.1.svg",
     "composite": false,
     "explanation": "A steep climb is ahead; change down to a lower gear early to keep power and momentum up the hill.",
-    "mnemonic": "Arrow points up = going up.",
-    "searchTerms": ["steep hill up", "steep climb", "uphill sign", "hill ahead", "20% gradient"],
+    "mnemonic": "Uphill wedge with a % = steep climb ahead.",
+    "searchTerms": [
+      "steep hill up",
+      "steep climb",
+      "uphill sign",
+      "hill ahead",
+      "20% gradient"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_524.1.svg",
     "notes": "Commons description: 'Steep hill upwards ahead (20%) (TSRGDNO 524.1)'. Number shown varies with the actual gradient."
@@ -62,7 +80,13 @@
     "composite": false,
     "explanation": "Children may be crossing on their way to or from a school or playground; slow down and watch carefully for them stepping out.",
     "mnemonic": "Two kids = keep it slow.",
-    "searchTerms": ["children", "school sign", "kids crossing", "two children walking", "playground"],
+    "searchTerms": [
+      "children",
+      "school sign",
+      "kids crossing",
+      "two children walking",
+      "playground"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_545.svg",
     "notes": "Commons description: 'Children going to or from school or playground ahead (TSRGDNO 545)'. Often shown with a 'School' or 'Patrol' plate."
@@ -73,13 +97,19 @@
     "category": "warning",
     "tier": "standard",
     "shape": "triangle",
-    "colour": "red triangle, black symbol of patrol with STOP-children lollipop",
+    "colour": "white plate, black word ‘Patrol’",
     "diagram": "547.1",
     "asset": "UK_traffic_sign_547.1.svg",
     "composite": false,
     "explanation": "A school crossing patrol (lollipop person) may be ahead; be ready to stop when they step into the road with their sign.",
-    "mnemonic": "Lollipop ahead = ready to stop.",
-    "searchTerms": ["school crossing patrol", "lollipop man", "lollipop lady", "crossing patrol", "stop children"],
+    "mnemonic": "Just the word ‘Patrol’ = school-crossing (lollipop) patrol ahead.",
+    "searchTerms": [
+      "school crossing patrol",
+      "lollipop man",
+      "lollipop lady",
+      "crossing patrol",
+      "stop children"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_547.1.svg",
     "notes": "Commons description: 'School crossing patrol ahead (TSRGDNO 547.1)'."
@@ -96,7 +126,13 @@
     "composite": false,
     "explanation": "Pedestrians may be walking in the road ahead, often where there is no footway; slow down and give them plenty of room.",
     "mnemonic": "One walker = people in the road.",
-    "searchTerms": ["pedestrians in road", "person walking sign", "no footpath", "people walking", "pedestrian warning"],
+    "searchTerms": [
+      "pedestrians in road",
+      "person walking sign",
+      "no footpath",
+      "people walking",
+      "pedestrian warning"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_544.1.svg",
     "notes": "Commons file UK traffic sign 544.1: pedestrians in road ahead (single walking figure). Distinct from 544 which shows two figures on a crossing."
@@ -107,13 +143,19 @@
     "category": "warning",
     "tier": "core",
     "shape": "triangle",
-    "colour": "red triangle, black symbol of two people on a crossing",
+    "colour": "red triangle, black single walking figure on crossing stripes",
     "diagram": "544",
     "asset": "UK_traffic_sign_544.svg",
     "composite": false,
     "explanation": "A pedestrian (zebra) crossing is ahead; slow down and be ready to stop for anyone waiting to cross.",
-    "mnemonic": "Two figures on stripes = crossing ahead.",
-    "searchTerms": ["zebra crossing", "pedestrian crossing ahead", "crossing sign", "two people crossing", "stripes crossing"],
+    "mnemonic": "One figure on the stripes = crossing ahead.",
+    "searchTerms": [
+      "zebra crossing",
+      "pedestrian crossing ahead",
+      "crossing sign",
+      "two people crossing",
+      "stripes crossing"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_544.svg",
     "notes": "Commons description: 'Pedestrian crossing ahead' (TSRGDNO 544), the warning used before a zebra crossing. Two figures on a crossing distinguish it from 544.1."
@@ -130,7 +172,13 @@
     "composite": false,
     "explanation": "Frail or disabled people may be crossing slowly ahead; approach gently and give them extra time to cross.",
     "mnemonic": "Walking stick = slower walkers.",
-    "searchTerms": ["frail pedestrians", "elderly crossing", "disabled people crossing", "old people sign", "walking stick crossing"],
+    "searchTerms": [
+      "frail pedestrians",
+      "elderly crossing",
+      "disabled people crossing",
+      "old people sign",
+      "walking stick crossing"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_544.2.svg",
     "notes": "Commons description: 'Frail or disabled pedestrians likely to cross road ahead (TSRGDNO 544.2)'."
@@ -147,7 +195,13 @@
     "composite": false,
     "explanation": "Cyclists may be crossing or joining the road ahead on a cycle route; look out for them and give them room.",
     "mnemonic": "Bike in a triangle = cyclists about.",
-    "searchTerms": ["cycle route", "bicycle sign", "cyclists ahead", "bike crossing", "cycle path"],
+    "searchTerms": [
+      "cycle route",
+      "bicycle sign",
+      "cyclists ahead",
+      "bike crossing",
+      "cycle path"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_950.svg",
     "notes": "Commons description: 'Cycle route ahead warning (TSRGDNO 950)'. Standard red triangle with black bicycle; fast-model shape guesses were unreliable but the file description confirms the sign."
@@ -164,7 +218,13 @@
     "composite": false,
     "explanation": "Cattle may be in or crossing the road ahead; slow down, be ready to stop, and pass any animals slowly and quietly.",
     "mnemonic": "Cow sign = cattle crossing.",
-    "searchTerms": ["cattle", "cow sign", "cows crossing", "farm animals", "livestock"],
+    "searchTerms": [
+      "cattle",
+      "cow sign",
+      "cows crossing",
+      "farm animals",
+      "livestock"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_548.svg",
     "notes": "Commons description: 'Cattle likely to be in road ahead (TSRGDNO 548)'."
@@ -181,7 +241,13 @@
     "composite": false,
     "explanation": "Wild animals such as deer may run into the road ahead; reduce speed and stay alert, especially at dawn and dusk.",
     "mnemonic": "Leaping deer = wild animals.",
-    "searchTerms": ["wild animals", "deer sign", "deer crossing", "wildlife", "animals ahead"],
+    "searchTerms": [
+      "wild animals",
+      "deer sign",
+      "deer crossing",
+      "wildlife",
+      "animals ahead"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_551.svg",
     "notes": "Commons description: 'Wild animals likely to be in road ahead (TSRGDNO 551)'. Depicts a leaping deer."
@@ -198,7 +264,13 @@
     "composite": false,
     "explanation": "Ridden or led horses may be in or crossing the road ahead; slow right down and pass wide and slow to avoid startling them.",
     "mnemonic": "Horse and rider = pass wide and slow.",
-    "searchTerms": ["horses ahead", "ridden horses", "ponies crossing", "horse rider sign", "accompanied horses"],
+    "searchTerms": [
+      "horses ahead",
+      "ridden horses",
+      "ponies crossing",
+      "horse rider sign",
+      "accompanied horses"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_550.1.svg",
     "notes": "Commons description: 'Accompanied horses or ponies likely to be in or crossing road ahead (TSRGDNO 550.1)'. Distinct from 550 (wild horses)."
@@ -215,7 +287,13 @@
     "composite": false,
     "explanation": "The road ahead may be icy or have packed snow; slow down, keep smooth, and allow much greater stopping distance.",
     "mnemonic": "Snowflake = slippery ice.",
-    "searchTerms": ["risk of ice", "ice warning", "icy road", "snowflake sign", "black ice"],
+    "searchTerms": [
+      "risk of ice",
+      "ice warning",
+      "icy road",
+      "snowflake sign",
+      "black ice"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_554.2.svg",
     "notes": "Commons description: 'Risk of ice or packed snow ahead.' (TSRGDNO 554.2)."
@@ -232,7 +310,13 @@
     "composite": false,
     "explanation": "Strong crosswinds are likely ahead; hold the bike firmly, expect to be pushed sideways, and take care when overtaking or passing gaps.",
     "mnemonic": "Windsock = blown sideways.",
-    "searchTerms": ["side winds", "crosswind", "windsock sign", "strong winds", "gusty"],
+    "searchTerms": [
+      "side winds",
+      "crosswind",
+      "windsock sign",
+      "strong winds",
+      "gusty"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_581.svg",
     "notes": "Commons description: 'Side winds likely ahead.' (TSRGDNO 581). Depicts a windsock."
@@ -249,7 +333,13 @@
     "composite": false,
     "explanation": "A steep humpback bridge is ahead; slow down so you keep control and do not lose grip or visibility over the crest.",
     "mnemonic": "Bump shape = hump bridge.",
-    "searchTerms": ["hump bridge", "humpback bridge", "bumpy bridge", "bridge hump", "bridge ahead"],
+    "searchTerms": [
+      "hump bridge",
+      "humpback bridge",
+      "bumpy bridge",
+      "bridge hump",
+      "bridge ahead"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_528.svg",
     "notes": "Commons description: 'Hump bridge ahead (TSRGDNO 528)'."
@@ -266,7 +356,13 @@
     "composite": false,
     "explanation": "Rocks may fall onto, or already lie on, the road ahead; stay alert and be ready to slow or steer around debris.",
     "mnemonic": "Rocks tumbling = watch the road surface.",
-    "searchTerms": ["falling rocks", "fallen rocks", "rockfall", "landslide sign", "rocks on road"],
+    "searchTerms": [
+      "falling rocks",
+      "fallen rocks",
+      "rockfall",
+      "landslide sign",
+      "rocks on road"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_559.svg",
     "notes": "Commons description: 'Risk of falling or fallen rocks ahead.' (TSRGDNO 559). A left-facing variant exists."
@@ -283,7 +379,13 @@
     "composite": false,
     "explanation": "A tunnel is ahead where light levels change suddenly; remove sunglasses, switch on dipped headlights, and watch for the change in light.",
     "mnemonic": "Black arch = tunnel mouth.",
-    "searchTerms": ["tunnel ahead", "tunnel sign", "road tunnel", "tunnel entrance", "tunnel warning"],
+    "searchTerms": [
+      "tunnel ahead",
+      "tunnel sign",
+      "road tunnel",
+      "tunnel entrance",
+      "tunnel warning"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_529.1.svg",
     "notes": "Commons description: 'Tunnel ahead (TSRGDNO 529.1)'."
@@ -300,7 +402,13 @@
     "composite": false,
     "explanation": "Low-flying aircraft or sudden loud aircraft noise may startle you ahead, often near an airfield; stay relaxed on the controls and do not be distracted.",
     "mnemonic": "Plane symbol = sudden noise overhead.",
-    "searchTerms": ["low flying aircraft", "aircraft noise", "aeroplane sign", "airfield", "planes overhead"],
+    "searchTerms": [
+      "low flying aircraft",
+      "aircraft noise",
+      "aeroplane sign",
+      "airfield",
+      "planes overhead"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_558.svg",
     "notes": "Commons description: 'Low flying aircraft or sudden aircraft noise likely ahead (TSRGDNO 558)'. A helicopter variant is 558.1."
@@ -317,7 +425,13 @@
     "composite": false,
     "explanation": "An opening or swing bridge is ahead that may be raised or turned for boats; be ready to stop and wait if it is open.",
     "mnemonic": "Bridge lifting = may have to wait.",
-    "searchTerms": ["opening bridge", "swing bridge", "lifting bridge", "bridge ahead", "movable bridge"],
+    "searchTerms": [
+      "opening bridge",
+      "swing bridge",
+      "lifting bridge",
+      "bridge ahead",
+      "movable bridge"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_529.svg",
     "notes": "Commons description: 'Opening or swing bridge ahead (TSRGDNO 529)'."
@@ -334,7 +448,13 @@
     "composite": false,
     "explanation": "There is an unfenced quayside or river bank ahead with a risk of riding into the water; slow down and keep well back from the edge.",
     "mnemonic": "Car off the edge = water ahead.",
-    "searchTerms": ["quayside", "river bank", "edge of water", "dock edge", "car into water"],
+    "searchTerms": [
+      "quayside",
+      "river bank",
+      "edge of water",
+      "dock edge",
+      "car into water"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_555.svg",
     "notes": "Commons description: 'Quayside or river bank ahead (TSRGDNO 555)'."
@@ -351,7 +471,13 @@
     "composite": false,
     "explanation": "The road passes under an electrified overhead cable ahead; note the maximum safe height shown and do not exceed it.",
     "mnemonic": "Cable with a height = mind the wire.",
-    "searchTerms": ["overhead cable", "electric cable", "overhead power line", "electrified cable", "max height cable"],
+    "searchTerms": [
+      "overhead cable",
+      "electric cable",
+      "overhead power line",
+      "electrified cable",
+      "max height cable"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_779.svg",
     "notes": "Commons description: 'Electrified overhead cable ahead (TSRGD drawing P 779)'. Normally shown with a maximum-height plate."
@@ -368,9 +494,268 @@
     "composite": false,
     "explanation": "There is a hazard ahead not covered by other signs, usually explained on a plate beneath; slow down and read the plate.",
     "mnemonic": "Exclamation mark = something unexpected.",
-    "searchTerms": ["other danger", "exclamation mark sign", "hazard ahead", "warning triangle", "danger sign"],
+    "searchTerms": [
+      "other danger",
+      "exclamation mark sign",
+      "hazard ahead",
+      "warning triangle",
+      "danger sign"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_562.svg",
     "notes": "Commons description: 'Other danger ahead (TSRGDNO 562)'. Almost always accompanied by an explanatory plate."
+  },
+  {
+    "id": "ford",
+    "caption": "Ford",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "red triangle, the word ‘Ford’ in black (no symbol)",
+    "diagram": "554",
+    "asset": "UK_traffic_sign_554.svg",
+    "composite": false,
+    "explanation": "A ford lies ahead where a stream crosses the road; slow right down, check the depth gauge, and ride through gently in a low gear as the surface will be wet and slippery.",
+    "mnemonic": "Triangle just says the word ‘Ford’ = watch for water across the road.",
+    "searchTerms": [
+      "ford",
+      "water crossing road",
+      "stream over road",
+      "ford ahead",
+      "river crossing"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_554.svg",
+    "notes": "Commons: 'Ford ahead.' (TSRGD 554)."
+  },
+  {
+    "id": "try-your-brakes",
+    "caption": "Try your brakes",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "white rectangular plate with red triangle and the words 'Try your brakes'",
+    "diagram": "554.1",
+    "asset": "UK_traffic_sign_554.1.svg",
+    "composite": false,
+    "explanation": "Placed just after a ford or before a steep descent, this reminds you to test your brakes; pump them gently to dry them out and confirm they bite before you need them.",
+    "mnemonic": "Just crossed water? Try the brakes.",
+    "searchTerms": [
+      "try your brakes",
+      "test brakes",
+      "dry brakes after ford",
+      "brake test sign",
+      "wet brakes warning"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_554.1.svg",
+    "notes": "Commons: worded supplementary warning after a ford / before a steep gradient (TSRGD 554.1)."
+  },
+  {
+    "id": "soft-verges",
+    "caption": "Soft verges",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "red triangle, black symbol of a vehicle sinking at the road edge",
+    "diagram": "556.1",
+    "asset": "UK_traffic_sign_556.1.svg",
+    "composite": false,
+    "explanation": "The verges beside the road ahead are soft and may give way under a wheel; keep to the firm carriageway and avoid pulling onto the edge, especially to pass or stop.",
+    "mnemonic": "Soft edge = stay on the tarmac.",
+    "searchTerms": [
+      "soft verges",
+      "soft verge",
+      "soft edges",
+      "verge gives way",
+      "edge of road soft"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_556.1.svg",
+    "notes": "Commons: 'Soft verges ahead (TSRGDNO 556.1)'. Distinct from existing 556 'Uneven road'."
+  },
+  {
+    "id": "hidden-dip",
+    "caption": "Hidden dip",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "white rectangular plate with red triangle and the words 'Hidden dip'",
+    "diagram": "563V9",
+    "asset": "UK_traffic_sign_563V9.svg",
+    "composite": false,
+    "explanation": "There is a dip ahead that hides the road and any traffic in it; slow down so you are not surprised by stopped or oncoming vehicles, walkers or animals you cannot yet see.",
+    "mnemonic": "Hidden dip = something out of sight.",
+    "searchTerms": [
+      "hidden dip",
+      "dip in road",
+      "concealed dip",
+      "hidden dip ahead",
+      "road dips out of sight"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_563V9.svg",
+    "notes": "Commons: 'Hidden dip ahead (TSRGDNO 563V9)'. Worded 563-series warning plate."
+  },
+  {
+    "id": "road-liable-to-flooding",
+    "caption": "Road liable to flooding",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "white rectangular plate, black words ‘Road liable to flooding’",
+    "diagram": "563V12",
+    "asset": "UK_traffic_sign_563V12.svg",
+    "composite": false,
+    "explanation": "The road ahead floods easily and standing water may be deep; slow down, assess the depth before entering, and turn back rather than ride through water you cannot judge.",
+    "mnemonic": "Worded ‘Road liable to flooding’ = water could be deep.",
+    "searchTerms": [
+      "flood",
+      "road liable to flooding",
+      "flooding ahead",
+      "standing water",
+      "flooded road sign"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_563V12.svg",
+    "notes": "Commons: 'Road liable to flooding ahead (TSRGDNO 563V12)'."
+  },
+  {
+    "id": "cattle-grid",
+    "caption": "Cattle grid",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "red triangle, black symbol of a cattle grid across the road",
+    "diagram": "552",
+    "asset": "UK_traffic_sign_552.svg",
+    "composite": false,
+    "explanation": "A cattle grid spans the road ahead; slow down well before it, as the metal bars are slippery and jolting, and cross squarely and steadily to keep the bike stable.",
+    "mnemonic": "Bars across the road = cattle grid.",
+    "searchTerms": [
+      "cattle grid",
+      "cattle grid ahead",
+      "metal grid in road",
+      "stock grid",
+      "grid bars road"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_552.svg",
+    "notes": "Commons: 'Cattle grid ahead.' (TSRGD 552)."
+  },
+  {
+    "id": "sheep",
+    "caption": "Sheep",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "red triangle, black sheep symbol on white",
+    "diagram": "549",
+    "asset": "UK_traffic_sign_549.svg",
+    "composite": false,
+    "explanation": "Sheep may be in or crossing the road ahead, often on open moorland; slow down, be ready to stop, and pass them slowly and quietly so they do not bolt.",
+    "mnemonic": "Sheep symbol = flock on the road.",
+    "searchTerms": [
+      "sheep",
+      "sheep crossing",
+      "sheep in road",
+      "flock of sheep",
+      "lambs ahead"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_549.svg",
+    "notes": "Commons: 'Sheep likely to be in road ahead (TSRGDNO 549)'. Distinct from 548 'Cattle'."
+  },
+  {
+    "id": "agricultural-vehicles",
+    "caption": "Agricultural vehicles",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "red triangle, black tractor symbol on white",
+    "diagram": "553.1",
+    "asset": "UK_traffic_sign_553.1.svg",
+    "composite": false,
+    "explanation": "Slow-moving tractors or other farm vehicles may be in or pulling onto the road ahead; expect mud, be patient, and only overtake when you can see well past them.",
+    "mnemonic": "Tractor symbol = slow farm traffic.",
+    "searchTerms": [
+      "agricultural vehicles",
+      "tractor sign",
+      "farm vehicles",
+      "slow tractors",
+      "tractors ahead"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_553.1.svg",
+    "notes": "Commons: 'Agricultural vehicles likely to be in road ahead (TSRGDNO 553.1)'."
+  },
+  {
+    "id": "migratory-toad-crossing",
+    "caption": "Migratory toad crossing",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "red triangle, black toad symbol on white",
+    "diagram": "551.1",
+    "asset": "UK_traffic_sign_551.1.svg",
+    "composite": false,
+    "explanation": "Large numbers of toads may be crossing the road ahead in the breeding season; slow down so you can avoid them and any volunteers helping them across.",
+    "mnemonic": "Toad symbol = amphibians on the road.",
+    "searchTerms": [
+      "toad crossing",
+      "migratory toads",
+      "toads in road",
+      "frog crossing",
+      "amphibian crossing"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_551.1.svg",
+    "notes": "Commons: 'Migratory toad crossing ahead.' (TSRGD 551.1)."
+  },
+  {
+    "id": "wild-fowl",
+    "caption": "Wild fowl",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "red triangle, black duck symbol on white",
+    "diagram": "551.2",
+    "asset": "UK_traffic_sign_551.2.svg",
+    "composite": false,
+    "explanation": "Ducks or other wild fowl may be in or crossing the road ahead, often near water; slow down and give them room as they may waddle out slowly.",
+    "mnemonic": "Duck symbol = wild fowl about.",
+    "searchTerms": [
+      "wild fowl",
+      "ducks crossing",
+      "ducks in road",
+      "wildfowl sign",
+      "waterfowl ahead"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_551.2.svg",
+    "notes": "Commons: 'Wild fowl likely to be in road ahead (TSRGDNO 551.2)'. Depicts a duck."
+  },
+  {
+    "id": "area-infected-by-animal-disease",
+    "caption": "Area infected by animal disease",
+    "category": "warning",
+    "tier": "edge",
+    "shape": "triangle",
+    "colour": "white rectangular plate with red triangle and worded animal-disease warning",
+    "diagram": "574",
+    "asset": "UK_traffic_sign_574.svg",
+    "composite": false,
+    "explanation": "You are entering an area subject to animal-disease controls such as foot-and-mouth; obey any disinfection or movement restrictions and do not stop where you might spread infection.",
+    "mnemonic": "Disease area = follow the controls.",
+    "searchTerms": [
+      "animal disease",
+      "infected area",
+      "foot and mouth",
+      "disease control zone",
+      "livestock disease sign"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_574.svg",
+    "notes": "Commons: 'Area infected by animal disease ahead (TSRGDNO 574)'. Rare, deployed during outbreaks."
   }
 ]

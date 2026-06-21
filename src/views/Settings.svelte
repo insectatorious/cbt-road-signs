@@ -2,8 +2,10 @@
   import { onMount } from 'svelte'
   import ThemeControl from '../components/ThemeControl.svelte'
   import Switch from '../components/Switch.svelte'
+  import ScopeSlider from '../components/ScopeSlider.svelte'
   import Icon from '../components/Icon.svelte'
   import { store, setSetting, resetProgress, downloadBackup, importData, SIGNS } from '../lib/store.svelte'
+  import type { DeckScope } from '../lib/types'
   import { requestPersistence, storageStatus, storageEstimate } from '../lib/storage'
 
   let confirming = $state(false)
@@ -14,7 +16,20 @@
   let storagePersisted = $state(false)
   let usageKb = $state<number | null>(null)
 
-  const edgeCount = SIGNS.filter((s) => s.tier === 'edge').length
+  const tierCount = (t: string) => SIGNS.filter((s) => s.tier === t && !s.excludeFromV1).length
+  const cCore = tierCount('core')
+  const cStandard = tierCount('standard')
+  const cEdge = tierCount('edge')
+  const scopeStages = [
+    { value: 'essential' as DeckScope, label: 'Essentials', count: cCore },
+    { value: 'standard' as DeckScope, label: 'Standard', count: cCore + cStandard },
+    { value: 'comprehensive' as DeckScope, label: 'Comprehensive', count: cCore + cStandard + cEdge },
+  ]
+  const scopeDesc: Record<DeckScope, string> = {
+    essential: 'Just the core signs every rider must know — the must-pass minimum.',
+    standard: 'The recommended set: core plus the standard signs you’ll regularly meet on the road.',
+    comprehensive: 'Every non-motorway sign, including rare and specialist ones.',
+  }
 
   async function refreshStorage() {
     const st = await storageStatus()
@@ -88,12 +103,17 @@
       <Switch label="Show category hint" checked={store.settings.showCategoryHint} onchange={(v) => setSetting('showCategoryHint', v)} />
     </div>
 
-    <div class="row">
+    <div class="scope-row">
       <div class="row__text">
-        <span class="row__title">Include rare signs</span>
-        <span class="row__desc t-caption">Add {edgeCount} less-common “edge” signs to your study deck.</span>
+        <span class="row__title">Sign coverage</span>
+        <span class="row__desc t-caption">{scopeDesc[store.settings.deckScope]}</span>
       </div>
-      <Switch label="Include rare signs" checked={store.settings.includeEdge} onchange={(v) => setSetting('includeEdge', v)} />
+      <ScopeSlider
+        value={store.settings.deckScope}
+        stages={scopeStages}
+        onchange={(v) => setSetting('deckScope', v)}
+        label="Sign coverage"
+      />
     </div>
 
     <div class="row">
@@ -199,6 +219,17 @@
   }
   .row__desc {
     max-width: 42ch;
+  }
+
+  .scope-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+    padding: var(--s-3) 0 var(--s-2);
+    border-top: 1px solid var(--divider);
+  }
+  .scope-row .row__desc {
+    min-height: 2lh; /* reserve space so the slider doesn't jump as the line changes */
   }
 
   .stepper {

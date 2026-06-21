@@ -11,7 +11,13 @@
     "composite": false,
     "explanation": "Warns that road works or a temporary obstruction lie ahead; slow down, watch for workers and changed road layout, and be ready to stop.",
     "mnemonic": "Man with a shovel means slow down.",
-    "searchTerms": ["roadworks ahead", "men at work sign", "construction ahead", "worker digging sign", "road works triangle"],
+    "searchTerms": [
+      "roadworks ahead",
+      "men at work sign",
+      "construction ahead",
+      "worker digging sign",
+      "road works triangle"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_7001.svg",
     "notes": "Commons description: 'Road works or temporary obstruction of the carriageway ahead.' Red warning triangle with black symbol of a worker digging. File confirmed via Commons file page."
@@ -28,7 +34,13 @@
     "composite": false,
     "explanation": "Newly laid surface dressing means loose stone chippings on the road; slow right down to avoid skidding and protect your screen and paintwork from flying chips.",
     "mnemonic": "Loose stones, loose grip - ease off.",
-    "searchTerms": ["loose chippings", "loose stones road", "loose gravel sign", "new surface stones", "chippings warning"],
+    "searchTerms": [
+      "loose chippings",
+      "loose stones road",
+      "loose gravel sign",
+      "new surface stones",
+      "chippings warning"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_7009.svg",
     "notes": "Commons description: 'UK traffic sign: Loose chippings on road ahead (TSRGDNO 7009)'. Red warning triangle showing a car with stones thrown up from the wheels. File confirmed via Commons file page. Often paired with a '20 mph' advisory plate (7009.1)."
@@ -45,7 +57,13 @@
     "composite": true,
     "explanation": "Marks the end of the road works and of any temporary restrictions, including temporary speed limits; you may return to normal driving for the road.",
     "mnemonic": "'End' means restrictions end.",
-    "searchTerms": ["end of roadworks", "end of road works", "roadworks finished sign", "end restrictions", "end speed limit roadworks"],
+    "searchTerms": [
+      "end of roadworks",
+      "end of road works",
+      "roadworks finished sign",
+      "end restrictions",
+      "end speed limit roadworks"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite: drawn in-app. Highway Code caption: 'End of road works and any temporary restrictions including speed limits.' It is a plain white rectangle with black 'End' text (TSRGD diagram 2715 family); no single matching standalone SVG exists on Wikimedia Commons (2715/2716 are temporary-diversion junction signs, not this 'End' panel), so it is authored as a composite."
@@ -62,7 +80,13 @@
     "composite": true,
     "explanation": "Shows which traffic lane is closed ahead, marked by a red bar; merge in good time into a lane that stays open and do not change lane at the last moment.",
     "mnemonic": "Red bar = that lane's barred.",
-    "searchTerms": ["lane closed ahead", "lane closure sign", "merge lane roadworks", "red bar lane sign", "lane shut motorway"],
+    "searchTerms": [
+      "lane closed ahead",
+      "lane closure sign",
+      "merge lane roadworks",
+      "red bar lane sign",
+      "lane shut motorway"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite: drawn in-app. Rectangular 'wicket' sign showing the carriageway lanes with a red bar over the lane that is closed (TSRGD 7202/7203 family). No standalone matching SVG exists on Wikimedia Commons (the 72-series index has no 7202/7203 file; 7404 is the rear-of-vehicle version), so authored as a composite."
@@ -79,7 +103,13 @@
     "composite": true,
     "explanation": "Advises the maximum speed in mph that applies through the road works ahead; reduce speed now so you are within the limit before you reach the works.",
     "mnemonic": "Slow before the cones, not at them.",
-    "searchTerms": ["temporary speed limit roadworks", "max speed ahead roadworks", "roadworks speed limit", "50 mph roadworks sign", "reduce speed works"],
+    "searchTerms": [
+      "temporary speed limit roadworks",
+      "max speed ahead roadworks",
+      "roadworks speed limit",
+      "50 mph roadworks sign",
+      "reduce speed works"
+    ],
     "verified": false,
     "sourceUrl": "",
     "notes": "Composite: drawn in-app. Advance warning of a temporary mandatory maximum speed at road works - a red-ring speed roundel (number varies, e.g. 40/50), often on a yellow backing board with 'works' wording. Because the number varies and it is the standard speed roundel rather than a fixed roadworks-specific SVG, it is authored as a composite. Highway Code caption: 'Maximum speed advised through road works.'"
@@ -96,24 +126,36 @@
     "composite": false,
     "explanation": "A manually operated board controlling single-line traffic at road works; obey it exactly - wait at the STOP face and only move on when it is turned to GO.",
     "mnemonic": "Operator's board: STOP means stop, full stop.",
-    "searchTerms": ["stop go board", "manual traffic control roadworks", "stop sign roadworks", "lollipop stop go", "traffic controller sign"],
+    "searchTerms": [
+      "stop go board",
+      "manual traffic control roadworks",
+      "stop sign roadworks",
+      "lollipop stop go",
+      "traffic controller sign"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_7023.svg",
     "notes": "Commons description: 'United Kingdom traffic sign, used for manual traffic control, instructing vehicles to stop and wait. Sign no. 7024 is typically on the reverse of this sign.' STOP face is a red octagon with white 'STOP'; the reverse (diagram 7024) is a green circle with white 'GO'. File confirmed via Commons file page; asset depicts the STOP face."
   },
   {
     "id": "slow-moving-works-traffic-crossing",
-    "caption": "Slow-moving works traffic crossing",
+    "caption": "Highway maintenance ahead",
     "category": "roadworks",
     "tier": "edge",
     "shape": "rectangle",
-    "colour": "red and white panel, works vehicle symbol",
+    "colour": "yellow rectangular plate, black ‘HIGHWAY MAINTENANCE’ wording",
     "diagram": "7404",
     "asset": "UK_traffic_sign_7404.svg",
     "composite": false,
-    "explanation": "Warns of a slow-moving or stationary works vehicle operating on the carriageway ahead; be ready for it to cross or block a lane and pass only when safe in the direction shown.",
-    "mnemonic": "Works vehicle = expect it to crawl.",
-    "searchTerms": ["works vehicle crossing", "slow moving works traffic", "works lorry on road", "highway maintenance vehicle sign", "mobile roadworks sign"],
+    "explanation": "A yellow ‘Highway Maintenance’ sign warns that maintenance crews and slow-moving works vehicles are operating on or beside the road ahead; pass slowly and leave plenty of room.",
+    "mnemonic": "Yellow ‘HIGHWAY MAINTENANCE’ plate = crews at work, expect slow vehicles.",
+    "searchTerms": [
+      "works vehicle crossing",
+      "slow moving works traffic",
+      "works lorry on road",
+      "highway maintenance vehicle sign",
+      "mobile roadworks sign"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_7404.svg",
     "notes": "Commons description: 'UK traffic sign: Nature of work being done by vehicle working on the highway (TSRGDNO 7404)'. Used on/with slow-moving or stationary works vehicles working on the carriageway (pass in the direction indicated). Categories: 'Diagrams of road works road signs of the United Kingdom (7000)'. File confirmed via Commons file page."
@@ -130,9 +172,107 @@
     "composite": false,
     "explanation": "Marks a temporary diversion route around a closure or road works; follow the arrow and stay with the diversion symbol at each junction until it ends.",
     "mnemonic": "Follow the symbol all the way round.",
-    "searchTerms": ["diversion sign", "diversion route", "follow diversion", "road closed diversion arrow", "detour sign uk"],
+    "searchTerms": [
+      "diversion sign",
+      "diversion route",
+      "follow diversion",
+      "road closed diversion arrow",
+      "detour sign uk"
+    ],
     "verified": true,
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_2702.svg",
     "notes": "Commons description: 'UK traffic sign: Start of temporary diversion route to the right (TSRGDNO 2702)'. Black legend and directional arrow on yellow; continuation/'ends' variants are 2702L/2702V and symbolic routes use 2716. File confirmed via Commons file page."
+  },
+  {
+    "id": "temporary-traffic-signals",
+    "caption": "Temporary traffic signals",
+    "category": "roadworks",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "red rectangular plate, white ‘TRAFFIC UNDER SIGNAL CONTROL’ wording with diverging arrows",
+    "diagram": "7021",
+    "asset": "UK_traffic_sign_7021.svg",
+    "composite": false,
+    "explanation": "Warns that traffic ahead is controlled by portable (temporary) traffic lights, usually at road works where only one lane is open. Approach ready to stop and obey the lights even though there may be no other traffic in sight.",
+    "mnemonic": "Red ‘TRAFFIC UNDER SIGNAL CONTROL’ plate = portable lights ahead, be ready to stop.",
+    "searchTerms": [
+      "temporary traffic lights",
+      "portable traffic signals",
+      "roadworks traffic lights",
+      "temporary signals sign",
+      "single lane lights"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_7021.svg",
+    "notes": "Commons: 'Traffic ... controlled by portable light signals' (TSRGD 7021). Red warning triangle with a signal-head symbol."
+  },
+  {
+    "id": "ramp-roadworks",
+    "caption": "Ramp",
+    "category": "roadworks",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "red rectangular plate, white word ‘RAMP’",
+    "diagram": "7013",
+    "asset": "UK_traffic_sign_7013.svg",
+    "composite": false,
+    "explanation": "Warns of a temporary sudden change in the level of the road surface, such as a ramp at the edge of resurfacing works. Slow right down so the step does not unsettle your motorcycle.",
+    "mnemonic": "Red plate, just the word RAMP — sudden step in the road, slow right down.",
+    "searchTerms": [
+      "ramp sign roadworks",
+      "sudden change in level",
+      "temporary ramp road",
+      "road surface step",
+      "ramp ahead works"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_7013.svg",
+    "notes": "Commons: 'Ramp. ... temporary sudden change in level of the carriageway' (TSRGD 7013)."
+  },
+  {
+    "id": "temporary-road-layout-sharp-bends",
+    "caption": "Sharp bends onto temporary road",
+    "category": "roadworks",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "yellow rectangular plate, three black S-curved (swerving) lane arrows",
+    "diagram": "7221",
+    "asset": "UK_traffic_sign_7221.svg",
+    "composite": false,
+    "explanation": "Warns that traffic is diverted onto a temporary road for a short distance, with sharp bends to get on and off it, often at a contraflow or crossover at road works. Reduce speed and follow the new line of the road carefully.",
+    "mnemonic": "Temporary road = sharp bends on and off, slow down.",
+    "searchTerms": [
+      "temporary road bends",
+      "crossover roadworks",
+      "diverted onto temporary road",
+      "sharp bends roadworks",
+      "contraflow bends sign"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_7221.svg",
+    "notes": "Commons: 'Sharp bends ... traffic ... diverted onto a temporary road' (TSRGD 7221)."
+  },
+  {
+    "id": "construction-traffic-direction",
+    "caption": "Construction traffic direction",
+    "category": "roadworks",
+    "tier": "edge",
+    "shape": "rectangle",
+    "colour": "red rectangular plate, white ‘WORKS TRAFFIC’ wording and a white direction arrow",
+    "diagram": "7304",
+    "asset": "UK_traffic_sign_7304.svg",
+    "composite": false,
+    "explanation": "Tells lorries and works vehicles which way to go for the site at the junction ahead; it is aimed at construction traffic, not at you. Watch for slow, heavy vehicles turning where the arrow points.",
+    "mnemonic": "Red ‘WORKS TRAFFIC’ plate with an arrow = site lorries turn that way, expect them.",
+    "searchTerms": [
+      "construction traffic sign",
+      "works traffic direction",
+      "site traffic arrow",
+      "lorries turning roadworks",
+      "construction vehicles route"
+    ],
+    "verified": true,
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_7304.svg",
+    "notes": "Commons: 'Direction to be taken by road works or construction traffic at a junction ahead' (TSRGD 7304). Black on yellow."
   }
 ]
