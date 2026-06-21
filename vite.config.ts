@@ -43,5 +43,9 @@ export default defineConfig({
   build: {
     target: 'es2020',
     sourcemap: false,
+    // Emit every sign SVG as a real file (don't inline small ones as base64):
+    // keeps the JS lean, lets each sign cache individually, and makes the
+    // bundle self-evidently complete.
+    assetsInlineLimit: 0,
   },
 })
