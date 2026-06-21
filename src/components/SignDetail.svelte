@@ -1,0 +1,241 @@
+<script lang="ts">
+  import SignPlate from './SignPlate.svelte'
+  import Icon from './Icon.svelte'
+  import { reviewFor, SIGN_BY_ID } from '../lib/store.svelte'
+  import { accuracyOf, isMastered } from '../lib/stats'
+  import { humanInterval, pct } from '../lib/util'
+  import { CATEGORY_META, type SignDefinition } from '../lib/types'
+
+  let {
+    sign,
+    onClose,
+    onOpen,
+  }: { sign: SignDefinition; onClose: () => void; onOpen: (id: string) => void } = $props()
+
+  const review = $derived(reviewFor(sign.id))
+  const confused = $derived(
+    sign.confusedWith.map((id) => SIGN_BY_ID.get(id)).filter((s): s is SignDefinition => !!s),
+  )
+  let closeBtn = $state<HTMLButtonElement>()
+
+  $effect(() => {
+    closeBtn?.focus()
+  })
+
+  function onKey(e: KeyboardEvent) {
+    if (e.key === 'Escape') onClose()
+  }
+</script>
+
+<svelte:window onkeydown={onKey} />
+
+<div
+  class="overlay"
+  role="button"
+  tabindex="-1"
+  aria-label="Close"
+  onclick={onClose}
+  onkeydown={(e) => e.key === 'Enter' && onClose()}
+></div>
+<div class="sheet" role="dialog" aria-modal="true" aria-label={sign.caption}>
+  <button class="sheet__close" onclick={onClose} bind:this={closeBtn} aria-label="Close">
+    <Icon name="x" size={20} />
+  </button>
+
+  <div class="sheet__art">
+    <SignPlate {sign} />
+  </div>
+
+  <div class="sheet__body">
+    <div class="sheet__chips">
+      <span class="chip">{CATEGORY_META[sign.category].label}</span>
+      {#if sign.diagram}<span class="chip chip--mono">{sign.diagram}</span>{/if}
+      {#if isMastered(review)}<span class="chip chip--good">Mastered</span>{/if}
+    </div>
+    <h2 class="t-title">{sign.caption}</h2>
+    <p class="explain">{sign.explanation}</p>
+
+    {#if sign.mnemonic}
+      <p class="mnemonic"><span class="t-micro">Memory aid</span>{sign.mnemonic}</p>
+    {/if}
+
+    {#if confused.length}
+      <div class="block">
+        <span class="t-micro">Often confused with</span>
+        <div class="chips">
+          {#each confused as c (c.id)}
+            <button class="lookalike" onclick={() => onOpen(c.id)}>{c.caption}</button>
+          {/each}
+        </div>
+      </div>
+    {/if}
+
+    <div class="block">
+      <span class="t-micro">Your progress</span>
+      {#if review?.introduced}
+        <div class="progress">
+          <span><strong class="t-num">{pct(accuracyOf(review))}</strong> accuracy</span>
+          <span><strong class="t-num">{review.timesSeen}</strong> seen</span>
+          <span>next in <strong class="t-num">{humanInterval(review.intervalDays)}</strong></span>
+        </div>
+      {:else}
+        <p class="t-caption">Not studied yet.</p>
+      {/if}
+    </div>
+  </div>
+</div>
+
+<style>
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: color-mix(in srgb, var(--ink-100) 45%, transparent);
+    backdrop-filter: blur(1px);
+    animation: fade var(--dur-fast) var(--ease-standard);
+  }
+  .sheet {
+    position: fixed;
+    z-index: 91;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 460px;
+    max-height: 92dvh;
+    overflow-y: auto;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+    padding: var(--s-5);
+    box-shadow: var(--shadow-3);
+    animation: rise var(--dur-base) var(--ease-standard);
+  }
+  @media (min-width: 600px) {
+    .sheet {
+      bottom: auto;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: var(--r-lg);
+      animation: pop var(--dur-base) var(--ease-standard);
+    }
+  }
+  .sheet__close {
+    position: absolute;
+    top: var(--s-3);
+    right: var(--s-3);
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--r-pill);
+    color: var(--text-muted);
+  }
+  .sheet__close:hover {
+    background: var(--surface-hover);
+    color: var(--text);
+  }
+  .sheet__art {
+    width: 168px;
+    margin: var(--s-2) auto var(--s-4);
+  }
+  .sheet__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+  }
+  .sheet__chips,
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+  }
+  .chip {
+    font-size: var(--fs-micro);
+    letter-spacing: var(--ls-micro);
+    text-transform: uppercase;
+    font-weight: var(--fw-semibold);
+    color: var(--text-muted);
+    padding: 3px 9px;
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-pill);
+  }
+  .chip--mono {
+    font-family: var(--font-mono);
+    text-transform: none;
+  }
+  .chip--good {
+    color: var(--grade-good);
+    border-color: color-mix(in srgb, var(--grade-good) 45%, var(--hairline));
+  }
+  .explain {
+    color: var(--text-secondary);
+  }
+  .mnemonic {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: var(--s-3);
+    border-left: 2px solid var(--amber);
+    background: var(--amber-tint);
+    border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    color: var(--text-secondary);
+    font-size: var(--fs-callout);
+  }
+  .mnemonic :global(.t-micro) {
+    color: var(--text-secondary);
+  }
+  .block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    padding-top: var(--s-2);
+    border-top: 1px solid var(--divider);
+  }
+  .lookalike {
+    font-size: var(--fs-caption);
+    color: var(--text-secondary);
+    padding: 5px 11px;
+    background: var(--surface-sunken);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-pill);
+  }
+  .lookalike:hover {
+    border-color: var(--amber);
+    color: var(--text);
+  }
+  .progress {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-4);
+    font-size: var(--fs-caption);
+    color: var(--text-muted);
+  }
+  .progress strong {
+    color: var(--text);
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes rise {
+    from {
+      transform: translate(-50%, 16px);
+      opacity: 0;
+    }
+  }
+  @keyframes pop {
+    from {
+      transform: translate(-50%, -48%) scale(0.98);
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .overlay,
+    .sheet {
+      animation: none;
+    }
+  }
+</style>

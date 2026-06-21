@@ -1,0 +1,118 @@
+/** Shared domain types. Content (SignDefinition) is immutable and shipped;
+ *  ReviewState is mutable per-user state persisted to localStorage. They join by id. */
+
+export type SignCategory =
+  | 'prohibitory' // round, red ring — "you must not"
+  | 'mandatory' // round, blue — "you must"
+  | 'warning' // triangle, red border
+  | 'direction' // rectangle (non-motorway only in v1)
+  | 'information' // rectangle, blue/white
+  | 'roadworks' // temporary
+  | 'marking' // road markings (drawn in-app)
+  | 'signal' // light signals (drawn in-app)
+
+export type SignShape =
+  | 'circle'
+  | 'triangle'
+  | 'inverted-triangle'
+  | 'octagon'
+  | 'rectangle'
+  | 'diamond'
+
+export type Tier = 'core' | 'standard' | 'edge'
+
+export interface SignDefinition {
+  /** stable kebab-case slug; used by stats + confusedWith */
+  id: string
+  /** the answer a learner must produce */
+  caption: string
+  category: SignCategory
+  subcategory?: string
+  tier: Tier
+  /** edge signs default false (toggle on in Settings) */
+  enabled: boolean
+  shape: SignShape
+  /** short human description of the sign's appearance */
+  colour: string
+  /** bundled SVG filename, or '' when composite (drawn in-app) */
+  asset: string
+  /** true => rendered by an in-app drawing, not a single SVG */
+  composite?: boolean
+  /** TSRGD diagram number */
+  diagram?: string
+  /** 1–2 sentences: the real-world meaning and required action */
+  explanation: string
+  mnemonic?: string
+  /** ids of look-alike signs */
+  confusedWith: string[]
+  /** layman phrases for the reference search */
+  searchTerms: string[]
+  /** motorway content — excluded from v1 study/quiz/browse, kept for v2 */
+  excludeFromV1?: boolean
+}
+
+/** 0 Again · 1 Hard · 2 Good · 3 Easy */
+export type Grade = 0 | 1 | 2 | 3
+
+export interface ReviewEvent {
+  t: number
+  grade: Grade
+  intervalDays: number
+}
+
+export interface ReviewState {
+  id: string
+  ease: number // SM-2 EF, starts 2.5, floor 1.3
+  intervalDays: number
+  reps: number // consecutive correct
+  lapses: number
+  dueAt: number // epoch ms
+  lastReviewedAt: number | null
+  introduced: boolean
+  timesSeen: number
+  correct: number
+  incorrect: number
+  streak: number
+  bestStreak: number
+  avgResponseMs: number
+  /** ids of distractors chosen when this card was missed in the quiz */
+  confusionLog: string[]
+  history: ReviewEvent[] // capped ring buffer
+}
+
+export type ThemePref = 'system' | 'light' | 'dark'
+
+export interface Settings {
+  newPerDay: number
+  includeEdge: boolean
+  includeMarkings: boolean
+  showCategoryHint: boolean
+}
+
+export interface SessionRecord {
+  date: string // YYYY-MM-DD (local)
+  reviewed: number
+  correct: number
+  newSeen: number
+}
+
+export const DEFAULT_SETTINGS: Settings = {
+  newPerDay: 12,
+  includeEdge: false,
+  includeMarkings: true,
+  showCategoryHint: true,
+}
+
+export const CATEGORY_META: Record<
+  SignCategory,
+  { label: string; short: string; order: number }
+> = {
+  prohibitory: { label: 'Prohibitory orders', short: 'Prohibition', order: 0 },
+  mandatory: { label: 'Mandatory orders', short: 'Mandatory', order: 1 },
+  warning: { label: 'Warning signs', short: 'Warning', order: 2 },
+  information: { label: 'Information signs', short: 'Information', order: 3 },
+  direction: { label: 'Direction signs', short: 'Direction', order: 4 },
+  roadworks: { label: 'Road works', short: 'Road works', order: 5 },
+  marking: { label: 'Road markings', short: 'Marking', order: 6 },
+  signal: { label: 'Light signals', short: 'Signal', order: 7 },
+}

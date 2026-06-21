@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#F4F2EC" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1A1A18" media="(prefers-color-scheme: dark)" />
+    <meta
+      name="description"
+      content="Spaced-repetition revision for the UK motorcycle CBT — learn your road signs with beautiful, focused flashcards."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Road Signs — CBT Revision</title>
+    <!-- No-flash theme bootstrap: resolve preference before first paint. -->
+    <script>
+      (function () {
+        try {
+          var pref = localStorage.getItem('cbt-theme') || 'system';
+          var dark =
+            pref === 'dark' ||
+            (pref === 'system' &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        } catch (e) {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

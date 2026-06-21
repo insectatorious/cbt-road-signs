@@ -1,0 +1,317 @@
+<script lang="ts">
+  import { onMount, tick } from 'svelte'
+  import SignPlate from '../components/SignPlate.svelte'
+  import Icon from '../components/Icon.svelte'
+  import { store, activeSigns, gradeQuiz, takeQuizFocus, SIGN_BY_ID } from '../lib/store.svelte'
+  import { buildStudyQueue } from '../lib/deck'
+  import { buildQuestion, type QuizQuestion } from '../lib/quiz'
+  import { pop, shake } from '../lib/motion'
+  import { navigate } from '../lib/router.svelte'
+  import { pct } from '../lib/util'
+
+  const SESSION = 15
+
+  let queue = $state<string[]>([])
+  let index = $state(0)
+  let question = $state<QuizQuestion>()
+  let selected = $state<number | null>(null)
+  let answered = $state(false)
+  let asked = $state(0)
+  let correct = $state(0)
+  let done = $state(false)
+  let started = Date.now()
+  let optionsEl = $state<HTMLElement>()
+
+  const currentId = $derived(queue[index])
+
+  function setQuestion() {
+    const sign = currentId ? SIGN_BY_ID.get(currentId) : undefined
+    question = sign ? buildQuestion(sign, activeSigns(), SIGN_BY_ID) : undefined
+    selected = null
+    answered = false
+    started = Date.now()
+  }
+
+  function build() {
+    const focus = takeQuizFocus()
+    if (focus.length) {
+      queue = focus.slice(0, SESSION)
+    } else {
+      const q = buildStudyQueue(activeSigns(), store.reviews, store.settings.newPerDay, Date.now())
+      queue = q.ids.slice(0, SESSION)
+    }
+    index = 0
+    asked = 0
+    correct = 0
+    done = false
+    setQuestion()
+  }
+
+  async function choose(i: number) {
+    if (answered || !question) return
+    selected = i
+    answered = true
+    asked += 1
+    const isRight = i === question.answerIndex
+    if (isRight) correct += 1
+    const responseMs = Date.now() - started
+    const chosenWrongId = isRight ? undefined : question.options[i].id
+    gradeQuiz(question.sign.id, isRight, responseMs, chosenWrongId)
+    await tick()
+    if (optionsEl) {
+      if (isRight) pop(optionsEl.children[i] as HTMLElement)
+      else shake(optionsEl.children[i] as HTMLElement)
+    }
+  }
+
+  function next() {
+    if (index + 1 >= queue.length) {
+      done = true
+      return
+    }
+    index += 1
+    setQuestion()
+  }
+
+  function onKey(e: KeyboardEvent) {
+    if (done) return
+    if (!answered && question && /^[1-4]$/.test(e.key)) {
+      const i = Number(e.key) - 1
+      if (i < question.options.length) choose(i)
+    } else if (answered && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault()
+      next()
+    }
+  }
+
+  // a wrong choice that is a known look-alike is worth calling out
+  const confusionNote = $derived.by(() => {
+    if (!answered || selected == null || !question) return ''
+    if (selected === question.answerIndex) return ''
+    const chosen = question.options[selected]
+    return question.sign.confusedWith.includes(chosen.id)
+      ? `Easy to mix up with “${chosen.caption}”.`
+      : ''
+  })
+
+  onMount(() => {
+    build()
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  })
+</script>
+
+<section class="quiz">
+  {#if done}
+    <div class="result">
+      <span class="result__score t-num">{pct(asked ? correct / asked : null)}</span>
+      <h1 class="t-title" id="view-heading" tabindex="-1">
+        {correct} of {asked} correct
+      </h1>
+      <p class="t-body result__sub">Quiz answers feed straight into your schedule and report.</p>
+      <div class="result__actions">
+        <button class="btn btn--primary" onclick={build}>New quiz</button>
+        <button class="btn btn--ghost" onclick={() => navigate('report')}>See report</button>
+      </div>
+    </div>
+  {:else if question}
+    <header class="quiz__head">
+      <h1 class="sr-only" id="view-heading" tabindex="-1">Quiz</h1>
+      <span class="t-caption">Which sign is this?</span>
+      <span class="quiz__pos t-num">{index + 1} / {queue.length}</span>
+    </header>
+
+    <div class="quiz__sign">
+      <SignPlate sign={question.sign} />
+    </div>
+
+    <div class="options" bind:this={optionsEl}>
+      {#each question.options as opt, i (opt.id)}
+        <button
+          class="option"
+          class:is-correct={answered && i === question.answerIndex}
+          class:is-wrong={answered && i === selected && i !== question.answerIndex}
+          class:is-dim={answered && i !== question.answerIndex && i !== selected}
+          disabled={answered}
+          onclick={() => choose(i)}
+        >
+          <span class="option__key" aria-hidden="true">{i + 1}</span>
+          <span class="option__text">{opt.caption}</span>
+          {#if answered && i === question.answerIndex}
+            <span class="option__mark"><Icon name="check" size={18} /></span>
+          {:else if answered && i === selected}
+            <span class="option__mark"><Icon name="x" size={18} /></span>
+          {/if}
+        </button>
+      {/each}
+    </div>
+
+    <div class="quiz__foot">
+      {#if answered}
+        <p class="feedback" class:feedback--ok={selected === question.answerIndex}>
+          {selected === question.answerIndex ? 'Correct.' : 'Not quite.'}
+          {#if confusionNote}<span class="feedback__note">{confusionNote}</span>{/if}
+        </p>
+        <button class="btn btn--primary" onclick={next}>
+          {index + 1 >= queue.length ? 'Finish' : 'Next'}
+          <Icon name="arrow-right" size={18} />
+        </button>
+      {:else}
+        <p class="t-caption quiz__hint">Tap an answer, or press 1–4</p>
+      {/if}
+    </div>
+  {/if}
+</section>
+
+<style>
+  .quiz {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .quiz__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .quiz__pos {
+    font-size: var(--fs-caption);
+    color: var(--text-faint);
+  }
+  .quiz__sign {
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  .options {
+    display: grid;
+    gap: var(--s-2);
+  }
+  .option {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    width: 100%;
+    padding: var(--s-3) var(--s-4);
+    min-height: 54px;
+    text-align: left;
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    background: var(--surface);
+    color: var(--text);
+    transition:
+      background var(--dur-fast) var(--ease-standard),
+      border-color var(--dur-fast) var(--ease-standard);
+  }
+  .option:hover:not(:disabled) {
+    background: var(--surface-hover);
+    border-color: var(--border-strong);
+  }
+  .option__key {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--text-muted);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-xs);
+  }
+  .option__text {
+    flex: 1;
+    font-size: var(--fs-callout);
+    font-weight: var(--fw-medium);
+  }
+  .option__mark {
+    flex: none;
+    display: grid;
+    place-items: center;
+  }
+  .option.is-correct {
+    border-color: var(--grade-good);
+    background: color-mix(in srgb, var(--grade-good) 14%, transparent);
+    color: var(--text);
+  }
+  .option.is-correct .option__mark {
+    color: var(--grade-good);
+  }
+  .option.is-wrong {
+    border-color: var(--grade-again);
+    background: color-mix(in srgb, var(--grade-again) 14%, transparent);
+  }
+  .option.is-wrong .option__mark {
+    color: var(--grade-again);
+  }
+  .option.is-dim {
+    opacity: 0.55;
+  }
+  .option:disabled {
+    cursor: default;
+  }
+
+  .quiz__foot {
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    align-items: flex-start;
+  }
+  .quiz__hint {
+    margin-top: var(--s-2);
+  }
+  .feedback {
+    font-size: var(--fs-callout);
+    font-weight: var(--fw-semibold);
+    color: var(--grade-again);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    align-items: baseline;
+  }
+  .feedback--ok {
+    color: var(--grade-good);
+  }
+  .feedback__note {
+    font-weight: var(--fw-regular);
+    color: var(--text-muted);
+  }
+  .quiz__foot .btn {
+    align-self: stretch;
+  }
+  @media (min-width: 560px) {
+    .quiz__foot .btn {
+      align-self: flex-end;
+    }
+  }
+
+  .result {
+    margin: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s-2);
+    max-width: 36ch;
+    padding-top: var(--s-7);
+  }
+  .result__score {
+    font-size: var(--fs-stat);
+    font-weight: var(--fw-semibold);
+    color: var(--amber-text);
+  }
+  .result__sub {
+    color: var(--text-secondary);
+  }
+  .result__actions {
+    display: flex;
+    gap: var(--s-2);
+    margin-top: var(--s-4);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+</style>
