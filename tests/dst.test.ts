@@ -6,7 +6,7 @@ process.env.TZ = 'Europe/London'
 
 import { describe, expect, it } from 'vitest'
 import { DAY_MS, endOfDay, newReviewState, startOfDay } from '../src/lib/scheduler'
-import { buildForecast, buildReport } from '../src/lib/stats'
+import { buildForecast, buildReport, windowedRetention } from '../src/lib/stats'
 import type { ReviewState, SignDefinition } from '../src/lib/types'
 
 const HOUR = 3_600_000
@@ -61,5 +61,15 @@ describe('DST day boundaries (Europe/London)', () => {
     expect(rep.dueToday).toBe(1)
     expect(f.buckets[0]).toBe(1)
     expect(f.buckets[0]).toBe(rep.dueToday)
+  })
+
+  it('windowedRetention keeps a review a fixed 24h×N window would wrongly drop after fall-back', () => {
+    // 14 calendar days before now spans the 25h fall-back day, so the true window
+    // reaches back to 2025-10-19T12:00 local; a hard 14*DAY_MS offset stops an hour
+    // short (12:00 UTC vs 11:00 UTC), excluding a review from that boundary hour.
+    const now = new Date('2025-11-02T12:00:00').getTime()
+    const ev = new Date('2025-10-19T12:30:00').getTime() // inside the calendar window only
+    const reviews = { a: rs('a', { history: [{ t: ev, grade: 2, intervalDays: 2 }] }) }
+    expect(windowedRetention(reviews, now, 14, 1)).toBe(1) // included → 100%, not null
   })
 })

@@ -128,7 +128,12 @@ export function windowedRetention(
   windowDays: number = RETENTION_WINDOW_DAYS,
   minEvents = 1,
 ): number | null {
-  const cutoff = now - windowDays * DAY_MS
+  // step back whole calendar days via setDate (not a fixed windowDays*DAY_MS offset):
+  // a DST transition day is 23h/25h, so a hard 24h*N window would drift ~1h for users
+  // in DST timezones. Matches the local-calendar date math used by the forecast.
+  const cutoffDate = new Date(now)
+  cutoffDate.setDate(cutoffDate.getDate() - windowDays)
+  const cutoff = cutoffDate.getTime()
   let remembered = 0
   let total = 0
   for (const rs of Object.values(reviews)) {
