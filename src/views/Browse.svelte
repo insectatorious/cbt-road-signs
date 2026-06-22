@@ -25,9 +25,10 @@
 
   // saved signs that are in scope to show here (a saved motorway sign is hidden
   // while that module is off — surfaced as a notice, never silently dropped)
+  const savedTotal = $derived(store.bookmarks.length)
   const savedInScope = $derived(reference.filter((s) => store.bookmarks.includes(s.id)))
   const savedCount = $derived(savedInScope.length)
-  const savedHidden = $derived(store.bookmarks.length - savedCount)
+  const savedHidden = $derived(savedTotal - savedCount)
 
   const filtered = $derived.by(() => {
     const base =
@@ -49,7 +50,7 @@
     <h1 class="t-display" id="view-heading" tabindex="-1">Every sign</h1>
     <p class="t-caption">
       {#if cat === 'bookmarked'}
-        {savedCount} saved {savedCount === 1 ? 'sign' : 'signs'}
+        {savedTotal} saved {savedTotal === 1 ? 'sign' : 'signs'}
       {:else}
         {reference.length} signs — search or filter to find one.
       {/if}

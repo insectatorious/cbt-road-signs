@@ -180,14 +180,19 @@
 
     {#if confirming}
       <div class="confirm">
-        <span class="t-caption">Erase all progress on this device? This can’t be undone.</span>
+        <span class="t-caption">
+          Erase your learning progress — reviews, stats and streak? Your saved signs and settings
+          are kept. This can’t be undone.
+        </span>
         <div class="confirm__actions">
-          <button class="btn btn--danger" onclick={doReset}>Erase everything</button>
+          <button class="btn btn--danger" onclick={doReset}>Reset progress</button>
           <button class="btn btn--ghost" onclick={() => (confirming = false)}>Cancel</button>
         </div>
       </div>
     {:else}
-      <button class="reset" onclick={() => (confirming = true)}><Icon name="trash" size={16} /> Reset all progress</button>
+      <button class="reset" onclick={() => (confirming = true)}>
+        <Icon name="trash" size={16} /> Reset progress
+      </button>
     {/if}
   </div>
 
