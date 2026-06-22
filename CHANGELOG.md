@@ -3,6 +3,11 @@
 All notable changes to this project. **Generated** from `src/data/changelog.ts`
 (the in-app release notes) — edit that and run `npm run build-changelog`.
 
+## 1.6.0 — 21 June 2026
+
+- Study cards now keep the road sign visible while you grade your recall — the answer expands below the sign instead of flipping it out of view, so you can check your memory against the real artwork.
+- Often-confused signs are now shown as side-by-side pictures, not just names, so you can compare lookalikes directly.
+
 ## 1.5.0 — 21 June 2026
 
 - New “Your learning plan” section in the Report shows what the spaced-repetition system has worked out: a 14-day forecast of when your signs come back, a learning-stage breakdown (New · Learning · Settling · Locked in), and a memory-strength view of how long each sign now sticks.

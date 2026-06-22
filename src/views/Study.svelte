@@ -76,6 +76,9 @@
 
   function onKey(e: KeyboardEvent) {
     if (done || !currentSign) return
+    // Let the in-card "Details" disclosure handle its own Enter/Space.
+    const active = document.activeElement
+    if (active instanceof HTMLElement && 'detailsToggle' in active.dataset) return
     if (!flipped) {
       if (e.key === ' ' || e.key === 'Enter') {
         e.preventDefault()
@@ -169,10 +172,14 @@
     max-width: 480px;
     margin: 0 auto;
     min-height: calc(100dvh - var(--tabbar-h) - var(--s-8));
+    /* Cap to the viewport so a long answer scrolls inside the card rather than
+       pushing the grade buttons (.controls) below the fold on mobile. */
+    max-height: calc(100dvh - var(--tabbar-h) - var(--s-8));
   }
   @media (min-width: 768px) {
     .study {
       min-height: auto;
+      max-height: none;
       padding-top: var(--s-4);
     }
   }
@@ -216,8 +223,9 @@
 
   .stage {
     flex: 1;
+    min-height: 0;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     will-change: transform, opacity;
   }
   .controls {

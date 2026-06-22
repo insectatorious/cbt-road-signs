@@ -18,14 +18,28 @@ function seconds(varName: string, fallback: number): number {
   return fallback
 }
 
-/** Rotate the card's inner face. The flip is the one moment of delight. */
-export function flip(inner: HTMLElement, showBack: boolean): void {
-  const rotateY = showBack ? 180 : 0
+/** Reveal the answer by expanding it open below the (always-visible) sign.
+ *  Replaces the old card flip: the sign never moves, so the learner can
+ *  verify their recall against the artwork while they grade it. */
+export function revealAnswer(panel: HTMLElement): void {
   if (prefersReduced()) {
-    gsap.set(inner, { rotateY })
+    gsap.set(panel, { height: 'auto', autoAlpha: 1 })
     return
   }
-  gsap.to(inner, { rotateY, duration: seconds('--dur-flip', 0.42), ease: 'back.out(1.4)' })
+  gsap.set(panel, { height: 'auto', autoAlpha: 1 })
+  gsap.from(panel, {
+    height: 0,
+    autoAlpha: 0,
+    duration: seconds('--dur-flip', 0.42),
+    ease: 'power3.out',
+    clearProps: 'height',
+    onStart: () => {
+      panel.style.overflow = 'hidden'
+    },
+    onComplete: () => {
+      panel.style.overflow = ''
+    },
+  })
 }
 
 /** Card leaves in the direction of meaning (Again → left, Easy → right). */

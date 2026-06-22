@@ -1,6 +1,9 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
+  import { gsap } from 'gsap'
   import SignPlate from './SignPlate.svelte'
-  import { flip } from '../lib/motion'
+  import Icon from './Icon.svelte'
+  import { revealAnswer, fadeUp } from '../lib/motion'
   import { lookalikesFor } from '../lib/store.svelte'
   import { CATEGORY_META, type SignDefinition } from '../lib/types'
 
@@ -16,106 +19,130 @@
     onflip: () => void
   } = $props()
 
-  let inner: HTMLElement
-
-  $effect(() => {
-    if (inner) flip(inner, flipped)
-  })
+  // Both panels only exist once their gate is true; as $state, the bind:this
+  // assignment re-triggers the matching effect so the open animates on mount.
+  let revealEl = $state<HTMLDivElement>()
+  let detailsEl = $state<HTMLDivElement>()
+  let showDetails = $state(false)
 
   const confused = $derived(lookalikesFor(sign))
+
+  $effect(() => {
+    if (flipped && revealEl) {
+      revealAnswer(revealEl)
+      fadeUp(Array.from(revealEl.children), { stagger: 0.04, y: 6 })
+    }
+  })
+
+  $effect(() => {
+    if (showDetails && detailsEl) revealAnswer(detailsEl)
+  })
+
+  onDestroy(() => {
+    if (revealEl) gsap.killTweensOf(revealEl)
+    if (detailsEl) gsap.killTweensOf(detailsEl)
+  })
 </script>
 
+<!-- The sign is ALWAYS visible (it's the cue). Revealing the answer expands a
+     panel BELOW it — the sign never moves or flips out of view, so the learner
+     can verify their recall against the artwork while grading it. The meaning
+     (caption) shows immediately; the rest sits behind a "Details" disclosure so
+     the sign + caption + grade buttons all fit without scrolling on small phones. -->
 <div class="card">
-  <div class="card__inner" bind:this={inner}>
-    <!-- FRONT -->
-    <button
-      type="button"
-      class="card__face card__face--front"
-      disabled={flipped}
-      aria-hidden={flipped}
-      onclick={onflip}
-    >
-      {#if showHint}
-        <span class="chip">{CATEGORY_META[sign.category].short}</span>
-      {:else}
-        <span></span>
-      {/if}
-      <div class="card__sign">
-        <SignPlate {sign} />
-      </div>
-      <p class="reveal t-caption">Tap or press <kbd>Space</kbd> to reveal</p>
-    </button>
+  {#if showHint}
+    <span class="chip">{CATEGORY_META[sign.category].short}</span>
+  {:else}
+    <span class="chip-slot" aria-hidden="true"></span>
+  {/if}
 
-    <!-- BACK — content is gated on `flipped` so the answer is NOT in the
-         accessibility tree until revealed (preserves recall for SR users),
-         and the aria-live region announces it when it mounts on flip. -->
-    <div class="card__face card__face--back" aria-live="polite" aria-hidden={!flipped} inert={!flipped}>
-      {#if flipped}
-        <span class="chip chip--accent">{CATEGORY_META[sign.category].short}</span>
-        <h2 class="answer t-title">{sign.caption}</h2>
-        <p class="explain">{sign.explanation}</p>
-        {#if sign.mnemonic}
-          <p class="mnemonic"><span class="t-micro">Memory aid</span>{sign.mnemonic}</p>
-        {/if}
-        {#if confused.length}
-          <div class="confused">
-            <span class="t-micro">Often confused with</span>
-            <div class="confused__chips">
-              {#each confused as c (c.id)}
-                <span class="lookalike">{c.caption}</span>
-              {/each}
+  <div class="card__sign">
+    <SignPlate {sign} />
+  </div>
+
+  {#if flipped}
+    <!-- Gated on `flipped`: the answer is absent from the DOM/a11y tree until
+         revealed (preserves active recall for SR users); aria-live announces it. -->
+    <div class="card__answer" bind:this={revealEl} aria-live="polite">
+      <span class="chip chip--accent">{CATEGORY_META[sign.category].short}</span>
+      <h2 class="answer t-title">{sign.caption}</h2>
+
+      <button
+        type="button"
+        class="details-toggle"
+        data-details-toggle
+        aria-expanded={showDetails}
+        onclick={() => (showDetails = !showDetails)}
+      >
+        <span>{showDetails ? 'Hide details' : 'Details'}</span>
+        <span class="details-toggle__chev" class:details-toggle__chev--open={showDetails}>
+          <Icon name="chevron" size={15} />
+        </span>
+      </button>
+
+      {#if showDetails}
+        <div class="card__details" bind:this={detailsEl}>
+          <p class="explain">{sign.explanation}</p>
+          {#if sign.mnemonic}
+            <p class="mnemonic"><span class="t-micro">Memory aid</span>{sign.mnemonic}</p>
+          {/if}
+          {#if confused.length}
+            <div class="confused">
+              <span class="t-micro">Often confused with</span>
+              <div class="confused__grid">
+                {#each confused.slice(0, 4) as c (c.id)}
+                  <figure class="lookalike">
+                    <span class="lookalike__art" aria-hidden="true">
+                      <SignPlate sign={c} pad={false} tag={false} />
+                    </span>
+                    <figcaption>{c.caption}</figcaption>
+                  </figure>
+                {/each}
+              </div>
             </div>
-          </div>
-        {/if}
+          {/if}
+        </div>
       {/if}
     </div>
-  </div>
+  {:else}
+    <button type="button" class="card__revealhint" onclick={onflip} aria-label="Reveal answer">
+      <span class="reveal t-caption">Tap or press <kbd>Space</kbd> to reveal</span>
+    </button>
+  {/if}
 </div>
 
 <style>
   .card {
-    position: relative;
     width: 100%;
     max-width: 440px;
+    max-height: 100%;
     margin: 0 auto;
-    aspect-ratio: 5 / 6;
-    perspective: 1600px;
-  }
-  .card__inner {
-    position: absolute;
-    inset: 0;
-    transform-style: preserve-3d;
-    will-change: transform;
-  }
-  .card__face {
-    position: absolute;
-    inset: 0;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
     border: 1px solid var(--border);
     border-radius: var(--r-lg);
     background: var(--surface-raised);
     padding: var(--s-5);
-    display: flex;
-    flex-direction: column;
-  }
-  .card__face--front {
-    cursor: pointer;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--s-3);
-    text-align: center;
-  }
-  .card__face--back {
-    transform: rotateY(180deg);
-    overflow-y: auto;
-    gap: var(--s-3);
   }
 
   .card__sign {
+    flex: 0 0 auto;
     width: 100%;
-    max-width: 248px;
-    margin: auto;
+    max-width: 160px;
+    margin: 0 auto;
+  }
+
+  /* Collapsed state: a tap target filling the space below the sign. */
+  .card__revealhint {
+    flex: 1 1 auto;
+    min-height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
   }
   .reveal {
     color: var(--text-faint);
@@ -126,6 +153,19 @@
     padding: 1px 5px;
     border: 1px solid var(--border);
     border-radius: var(--r-xs);
+  }
+
+  /* Revealed state: pinned sign above, this panel scrolls if the details are
+     expanded long, so the grade buttons (Study's .controls) stay above the fold. */
+  .card__answer {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+    width: 100%;
   }
 
   .chip {
@@ -139,6 +179,10 @@
     border: 1px solid var(--hairline);
     border-radius: var(--r-pill);
   }
+  /* Keeps the sign vertically anchored when the category hint is off. */
+  .chip-slot {
+    height: calc(1em + 6px + 2px);
+  }
   .chip--accent {
     color: var(--amber-text);
     border-color: color-mix(in srgb, var(--amber) 40%, var(--hairline));
@@ -146,6 +190,35 @@
 
   .answer {
     color: var(--text);
+  }
+
+  .details-toggle {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    padding: var(--s-2) 0;
+    color: var(--text-secondary);
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-medium);
+    cursor: pointer;
+  }
+  .details-toggle:hover {
+    color: var(--text);
+  }
+  .details-toggle__chev {
+    display: inline-flex;
+    transform: rotate(90deg); /* the right-pointing chevron now points down */
+    transition: transform var(--dur-base) var(--ease-standard);
+  }
+  .details-toggle__chev--open {
+    transform: rotate(-90deg); /* points up when expanded */
+  }
+
+  .card__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
   }
   .explain {
     color: var(--text-secondary);
@@ -166,23 +239,37 @@
   .mnemonic :global(.t-micro) {
     color: var(--text-secondary);
   }
+
   .confused {
-    margin-top: auto;
     display: flex;
     flex-direction: column;
     gap: var(--s-2);
+    padding-top: var(--s-3);
+    border-top: 1px solid var(--divider);
   }
-  .confused__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-2);
+  .confused__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+    gap: var(--s-3);
   }
   .lookalike {
-    font-size: var(--fs-caption);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .lookalike__art {
+    display: block;
+  }
+  .lookalike figcaption {
+    font-size: var(--fs-micro);
+    line-height: 1.25;
+    text-align: center;
     color: var(--text-secondary);
-    padding: 4px 10px;
-    background: var(--surface-sunken);
-    border: 1px solid var(--hairline);
-    border-radius: var(--r-pill);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 </style>

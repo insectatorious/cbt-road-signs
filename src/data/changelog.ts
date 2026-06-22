@@ -11,6 +11,14 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.6.0',
+    date: '2026-06-21',
+    changes: [
+      'Study cards now keep the road sign visible while you grade your recall — the answer expands below the sign instead of flipping it out of view, so you can check your memory against the real artwork.',
+      'Often-confused signs are now shown as side-by-side pictures, not just names, so you can compare lookalikes directly.',
+    ],
+  },
+  {
     version: '1.5.0',
     date: '2026-06-21',
     changes: [
