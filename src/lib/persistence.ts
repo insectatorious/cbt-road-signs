@@ -89,12 +89,20 @@ function sanitizeReviews(raw: unknown): Record<string, ReviewState> {
 
 function sanitizeSessions(raw: unknown): SessionRecord[] {
   if (!Array.isArray(raw)) return []
-  return raw
-    .filter(
-      (s): s is SessionRecord =>
-        !!s && typeof s === 'object' && typeof (s as SessionRecord).date === 'string',
-    )
-    .slice(-SESSION_CAP)
+  const out: SessionRecord[] = []
+  for (const s of raw) {
+    if (!s || typeof s !== 'object' || typeof (s as SessionRecord).date !== 'string') continue
+    const r = s as Partial<SessionRecord>
+    // coerce the counts so a missing/NaN field from an old or hand-edited backup
+    // can never reach the report/stats math (mirrors sanitizeReviews)
+    out.push({
+      date: r.date as string,
+      reviewed: num(r.reviewed, 0),
+      correct: num(r.correct, 0),
+      newSeen: num(r.newSeen, 0),
+    })
+  }
+  return out.slice(-SESSION_CAP)
 }
 
 /** Coerce bookmarks to a clean, de-duped, capped list of non-empty string ids.

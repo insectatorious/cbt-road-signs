@@ -55,6 +55,25 @@ describe('migrate', () => {
     expect(m.sessions[0].date).toBe('2026-06-01')
   })
 
+  it('coerces missing or non-numeric session counts to 0', () => {
+    const m = migrate(
+      {
+        sessions: [
+          { date: '2026-06-01' }, // counts absent entirely
+          { date: '2026-06-02', reviewed: 'x', correct: null, newSeen: Number.NaN },
+          { date: '2026-06-03', reviewed: 5, correct: 4, newSeen: 3 },
+        ],
+      },
+      NOW,
+    )
+    // a NaN newSeen here previously flowed into the Report's new-card budget math
+    expect(m.sessions).toHaveLength(3)
+    expect(m.sessions[0]).toEqual({ date: '2026-06-01', reviewed: 0, correct: 0, newSeen: 0 })
+    expect(m.sessions[1].newSeen).toBe(0)
+    expect(Number.isFinite(m.sessions[1].reviewed)).toBe(true)
+    expect(m.sessions[2]).toEqual({ date: '2026-06-03', reviewed: 5, correct: 4, newSeen: 3 })
+  })
+
   it('clamps an out-of-range imported newPerDay', () => {
     expect(migrate({ settings: { newPerDay: -5 } }, NOW).settings.newPerDay).toBeGreaterThanOrEqual(1)
     expect(migrate({ settings: { newPerDay: 9999 } }, NOW).settings.newPerDay).toBeLessThanOrEqual(100)

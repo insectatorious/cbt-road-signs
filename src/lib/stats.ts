@@ -402,9 +402,11 @@ export function sentenceForPlan(
 // ---- Coach view: honest, lifecycle-aware derived values ----
 
 /** Whole days the learner has been using the app (floored at 1, so day one reads
- *  "Day 1"). Measured from the EARLIEST of `createdAt` and the oldest session date,
- *  so a createdAt that was reset or restored from a backup can never claim more
- *  history than the sessions actually show. */
+ *  "Day 1"). Anchored on the EARLIEST of `createdAt` and the oldest session date:
+ *  `createdAt` is the usual anchor, but if it was reset or restored to a date more
+ *  recent than the real history, the oldest session date still counts so the "Day N"
+ *  label isn't understated. (Sessions are capped, so `createdAt` may legitimately
+ *  predate the oldest retained session — it stays authoritative in that case.) */
 export function daysSinceStart(
   createdAt: number,
   sessions: SessionRecord[],

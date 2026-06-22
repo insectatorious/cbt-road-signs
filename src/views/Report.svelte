@@ -33,9 +33,11 @@
   const days = daysSinceStart(store.createdAt, store.sessions, now)
   const hasData = report.totalReviews > 0
 
-  // today's remaining new-card budget — so a "learn new" action never overshoots
+  // today's remaining new-card budget — so a "learn new" action never overshoots.
+  // Guard newSeen (a malformed backup could leave it non-numeric → NaN budget).
   const last = store.sessions[store.sessions.length - 1]
-  const newSeenToday = last && last.date === todayStr(now) ? last.newSeen : 0
+  const newSeenToday =
+    last && last.date === todayStr(now) && Number.isFinite(last.newSeen) ? last.newSeen : 0
   const newRemainingToday = Math.max(0, store.settings.newPerDay - newSeenToday)
 
   const action = coachAction({
