@@ -13,12 +13,15 @@ import { newReviewState } from './scheduler'
 const KEY = 'cbt-signs:v1'
 const SCHEMA_VERSION = 1
 const SESSION_CAP = 120
+const BOOKMARK_CAP = 400
 
 export interface PersistShape {
   schemaVersion: number
   reviews: Record<string, ReviewState>
   settings: Settings
   sessions: SessionRecord[]
+  /** ids of signs the learner has saved (a hand-curated study list, not progress) */
+  bookmarks: string[]
   meta: {
     createdAt: number
     lastOpenedAt: number
@@ -37,6 +40,7 @@ function fresh(now: number): PersistShape {
     reviews: {},
     settings: { ...DEFAULT_SETTINGS },
     sessions: [],
+    bookmarks: [],
     meta: { createdAt: now, lastOpenedAt: now },
   }
 }
@@ -93,6 +97,18 @@ function sanitizeSessions(raw: unknown): SessionRecord[] {
     .slice(-SESSION_CAP)
 }
 
+/** Coerce bookmarks to a clean, de-duped, capped list of non-empty string ids.
+ *  Ids are NOT validated against the sign set here — persistence has no access to
+ *  it; the store prunes orphaned ids on load (as it does for reviews). */
+function sanitizeBookmarks(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return []
+  const seen = new Set<string>()
+  for (const v of raw) {
+    if (typeof v === 'string' && v) seen.add(v)
+  }
+  return [...seen].slice(-BOOKMARK_CAP)
+}
+
 function bool(v: unknown, fallback: boolean): boolean {
   return typeof v === 'boolean' ? v : fallback
 }
@@ -127,6 +143,7 @@ export function migrate(data: unknown, now: number): PersistShape {
     reviews: sanitizeReviews(d.reviews),
     settings: sanitizeSettings(d.settings),
     sessions: sanitizeSessions(d.sessions),
+    bookmarks: sanitizeBookmarks(d.bookmarks),
     meta: {
       createdAt: d.meta?.createdAt ?? now,
       lastOpenedAt: now,

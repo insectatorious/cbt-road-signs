@@ -2,6 +2,7 @@
   import { onMount, tick } from 'svelte'
   import Flashcard from '../components/Flashcard.svelte'
   import RecallBar from '../components/RecallBar.svelte'
+  import BookmarkButton from '../components/BookmarkButton.svelte'
   import Icon from '../components/Icon.svelte'
   import { store, activeSigns, gradeRecall, SIGN_BY_ID } from '../lib/store.svelte'
   import { buildStudyQueue } from '../lib/deck'
@@ -76,9 +77,11 @@
 
   function onKey(e: KeyboardEvent) {
     if (done || !currentSign) return
-    // Let the in-card "Details" disclosure handle its own Enter/Space.
+    // Let the in-card "Details" disclosure and the save toggle handle their own
+    // Enter/Space — without this, the global grade handler would also fire.
     const active = document.activeElement
     if (active instanceof HTMLElement && 'detailsToggle' in active.dataset) return
+    if (active instanceof HTMLElement && active.closest('.study__save')) return
     if (!flipped) {
       if (e.key === ' ' || e.key === 'Enter') {
         e.preventDefault()
@@ -154,6 +157,14 @@
       {/key}
     </div>
 
+    {#if flipped}
+      <!-- reveal-only: save the card you just checked. Pointer/Tab only — no hotkey,
+           so it can't collide with the 1/2/Arrow grading keys (see onKey guard). -->
+      <div class="study__save">
+        <BookmarkButton id={currentSign.id} caption={currentSign.caption} variant="sheet" />
+      </div>
+    {/if}
+
     <div class="controls">
       {#if flipped}
         <RecallBar onAnswer={answer} />
@@ -227,6 +238,11 @@
     display: flex;
     align-items: stretch;
     will-change: transform, opacity;
+  }
+  .study__save {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: calc(-1 * var(--s-2));
   }
   .controls {
     min-height: 76px;

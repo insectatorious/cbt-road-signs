@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { migrate } from '../src/lib/persistence'
+import { exportJSON, importJSON, migrate } from '../src/lib/persistence'
 
 const NOW = 1_700_000_000_000
 
@@ -89,5 +89,26 @@ describe('migrate', () => {
     expect(migrate({}, NOW).settings.shuffleCategories).toBe(false)
     expect(migrate({ settings: { shuffleCategories: true } }, NOW).settings.shuffleCategories).toBe(true)
     expect(migrate({ settings: { shuffleCategories: 'yes' } }, NOW).settings.shuffleCategories).toBe(false)
+  })
+
+  it('defaults bookmarks to an empty array when absent', () => {
+    expect(migrate({}, NOW).bookmarks).toEqual([])
+    expect(migrate({ bookmarks: 'not-an-array' }, NOW).bookmarks).toEqual([])
+  })
+
+  it('keeps string bookmark ids, dropping non-strings, blanks and duplicates', () => {
+    const m = migrate({ bookmarks: ['give-way', 'stop', 'give-way', '', 7, null, true] }, NOW)
+    expect(m.bookmarks).toEqual(['give-way', 'stop'])
+  })
+
+  it('caps a runaway bookmarks array', () => {
+    const huge = Array.from({ length: 450 }, (_, i) => `sign-${i}`)
+    expect(migrate({ bookmarks: huge }, NOW).bookmarks).toHaveLength(400)
+  })
+
+  it('round-trips bookmarks through export/import', () => {
+    const shape = migrate({ bookmarks: ['a', 'b'] }, NOW)
+    const restored = importJSON(exportJSON(shape), NOW)
+    expect(restored.bookmarks).toEqual(['a', 'b'])
   })
 })
