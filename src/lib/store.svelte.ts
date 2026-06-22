@@ -14,11 +14,13 @@ const loaded = persistence.load(Date.now())
 for (const id of Object.keys(loaded.reviews)) {
   if (!SIGN_BY_ID.has(id)) delete loaded.reviews[id] // drop orphans from old datasets
 }
+loaded.bookmarks = loaded.bookmarks.filter((id) => SIGN_BY_ID.has(id)) // same for saved ids
 
 export const store = $state({
   reviews: loaded.reviews as Record<string, ReviewState>,
   settings: loaded.settings,
   sessions: loaded.sessions,
+  bookmarks: loaded.bookmarks as string[],
   createdAt: loaded.meta.createdAt,
   pace: { study: loaded.meta.studyPaceMs, quiz: loaded.meta.quizPaceMs } as {
     study: number | undefined
@@ -48,6 +50,20 @@ export function lookalikesFor(sign: SignDefinition): SignDefinition[] {
     )
 }
 
+// ---- bookmarks (saved signs): a hand-curated study list, kept across resets ----
+export function isBookmarked(id: string): boolean {
+  return store.bookmarks.includes(id)
+}
+
+/** Add or remove a saved sign. Reassigns the array so Svelte 5 `$derived`
+ *  consumers (the Reference filter + the chip count) recompute. */
+export function toggleBookmark(id: string): void {
+  store.bookmarks = store.bookmarks.includes(id)
+    ? store.bookmarks.filter((b) => b !== id)
+    : [...store.bookmarks, id]
+  persist()
+}
+
 /** A one-shot set of ids for a focused "drill these" quiz (from the Report). */
 export const quizFocus = $state<{ ids: string[] }>({ ids: [] })
 export function setQuizFocus(ids: string[]): void {
@@ -68,6 +84,7 @@ function snapshot(): persistence.PersistShape {
     reviews: store.reviews,
     settings: store.settings,
     sessions: store.sessions,
+    bookmarks: store.bookmarks,
     meta: {
       createdAt: store.createdAt,
       lastOpenedAt: Date.now(),
@@ -146,10 +163,16 @@ export function setSetting<K extends keyof Settings>(key: K, value: Settings[K])
   persist()
 }
 
+/** Wipe learning progress (reviews + sessions) and restart the "day N" clock.
+ *  Deliberately KEEPS bookmarks and settings — they're curation/preferences, not
+ *  progress. Flushes synchronously (not the debounced persist) so the wiped state
+ *  and the surviving saved signs land on disk atomically, with no window where the
+ *  key is missing and a crash/reload could drop the kept bookmarks. */
 export function resetProgress(): void {
   store.reviews = {}
   store.sessions = []
-  persistence.clearProgress()
+  store.createdAt = Date.now()
+  flush()
 }
 
 export function exportData(): string {
@@ -187,6 +210,7 @@ export function importData(text: string): boolean {
     store.reviews = data.reviews
     store.settings = data.settings
     store.sessions = data.sessions
+    store.bookmarks = data.bookmarks.filter((id) => SIGN_BY_ID.has(id))
     store.createdAt = data.meta.createdAt
     store.pace = { study: data.meta.studyPaceMs, quiz: data.meta.quizPaceMs }
     store.lastBackupAt = data.meta.lastBackupAt

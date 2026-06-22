@@ -11,6 +11,15 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.7.0',
+    date: '2026-06-22',
+    changes: [
+      'Rebuilt the Report as a coach. It now opens with the one thing to do right now — review what’s due, learn a few new signs, or take a quiz — shows how many core signs you can recall unaided, and lists the handful tripping you up most with a “Drill these” shortcut. The detailed charts (accuracy, learning stages, memory strength, schedule, categories) now live in a tucked-away “Details & progress” section.',
+      'Every figure is now honest about how long you’ve actually been revising: it reads “over your 4 days”, never a confusing “30-day” score before you’ve been going 30 days, and a brand-new Report greets you with a clear starting point instead of empty stats. Resetting progress also restarts your “day 1” clock.',
+      'New saved signs: tap the star on any sign — in the Reference grid or on its detail card — to bookmark it, then use the “Saved” filter in the Reference to revise just those. Your saved signs are kept when you reset progress and travel with your backup.',
+    ],
+  },
+  {
     version: '1.6.0',
     date: '2026-06-21',
     changes: [

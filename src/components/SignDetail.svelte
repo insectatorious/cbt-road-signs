@@ -1,6 +1,7 @@
 <script lang="ts">
   import SignPlate from './SignPlate.svelte'
   import Icon from './Icon.svelte'
+  import BookmarkButton from './BookmarkButton.svelte'
   import { reviewFor, lookalikesFor } from '../lib/store.svelte'
   import { accuracyOf, isMastered } from '../lib/stats'
   import { humanInterval, pct } from '../lib/util'
@@ -36,9 +37,12 @@
   onkeydown={(e) => e.key === 'Enter' && onClose()}
 ></div>
 <div class="sheet" role="dialog" aria-modal="true" aria-label={sign.caption}>
-  <button class="sheet__close" onclick={onClose} bind:this={closeBtn} aria-label="Close">
-    <Icon name="x" size={20} />
-  </button>
+  <div class="sheet__actions">
+    <BookmarkButton id={sign.id} caption={sign.caption} variant="sheet" />
+    <button class="sheet__close" onclick={onClose} bind:this={closeBtn} aria-label="Close">
+      <Icon name="x" size={20} />
+    </button>
+  </div>
 
   <div class="sheet__art">
     <SignPlate {sign} />
@@ -144,10 +148,16 @@
       animation: pop var(--dur-base) var(--ease-standard);
     }
   }
-  .sheet__close {
+  .sheet__actions {
     position: absolute;
     top: var(--s-3);
     right: var(--s-3);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
+  .sheet__close {
     width: 36px;
     height: 36px;
     display: grid;

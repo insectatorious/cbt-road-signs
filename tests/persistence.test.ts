@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { migrate } from '../src/lib/persistence'
+import { exportJSON, importJSON, migrate } from '../src/lib/persistence'
 
 const NOW = 1_700_000_000_000
 
@@ -55,6 +55,25 @@ describe('migrate', () => {
     expect(m.sessions[0].date).toBe('2026-06-01')
   })
 
+  it('coerces missing or non-numeric session counts to 0', () => {
+    const m = migrate(
+      {
+        sessions: [
+          { date: '2026-06-01' }, // counts absent entirely
+          { date: '2026-06-02', reviewed: 'x', correct: null, newSeen: Number.NaN },
+          { date: '2026-06-03', reviewed: 5, correct: 4, newSeen: 3 },
+        ],
+      },
+      NOW,
+    )
+    // a NaN newSeen here previously flowed into the Report's new-card budget math
+    expect(m.sessions).toHaveLength(3)
+    expect(m.sessions[0]).toEqual({ date: '2026-06-01', reviewed: 0, correct: 0, newSeen: 0 })
+    expect(m.sessions[1].newSeen).toBe(0)
+    expect(Number.isFinite(m.sessions[1].reviewed)).toBe(true)
+    expect(m.sessions[2]).toEqual({ date: '2026-06-03', reviewed: 5, correct: 4, newSeen: 3 })
+  })
+
   it('clamps an out-of-range imported newPerDay', () => {
     expect(migrate({ settings: { newPerDay: -5 } }, NOW).settings.newPerDay).toBeGreaterThanOrEqual(1)
     expect(migrate({ settings: { newPerDay: 9999 } }, NOW).settings.newPerDay).toBeLessThanOrEqual(100)
@@ -89,5 +108,26 @@ describe('migrate', () => {
     expect(migrate({}, NOW).settings.shuffleCategories).toBe(false)
     expect(migrate({ settings: { shuffleCategories: true } }, NOW).settings.shuffleCategories).toBe(true)
     expect(migrate({ settings: { shuffleCategories: 'yes' } }, NOW).settings.shuffleCategories).toBe(false)
+  })
+
+  it('defaults bookmarks to an empty array when absent', () => {
+    expect(migrate({}, NOW).bookmarks).toEqual([])
+    expect(migrate({ bookmarks: 'not-an-array' }, NOW).bookmarks).toEqual([])
+  })
+
+  it('keeps string bookmark ids, dropping non-strings, blanks and duplicates', () => {
+    const m = migrate({ bookmarks: ['give-way', 'stop', 'give-way', '', 7, null, true] }, NOW)
+    expect(m.bookmarks).toEqual(['give-way', 'stop'])
+  })
+
+  it('caps a runaway bookmarks array', () => {
+    const huge = Array.from({ length: 450 }, (_, i) => `sign-${i}`)
+    expect(migrate({ bookmarks: huge }, NOW).bookmarks).toHaveLength(400)
+  })
+
+  it('round-trips bookmarks through export/import', () => {
+    const shape = migrate({ bookmarks: ['a', 'b'] }, NOW)
+    const restored = importJSON(exportJSON(shape), NOW)
+    expect(restored.bookmarks).toEqual(['a', 'b'])
   })
 })

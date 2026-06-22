@@ -1,16 +1,22 @@
 import { describe, expect, it } from 'vitest'
 import { DAY_MS, newReviewState, startOfDay } from '../src/lib/scheduler'
 import {
+  accuracyVerdict,
   buildForecast,
   buildReport,
+  canRecallUnaided,
   classifyStages,
+  coachAction,
+  daysSinceStart,
   intervalHistogram,
   isMastered,
   rankCards,
+  recallReadiness,
   sentenceForPlan,
   struggleScore,
+  windowedRetention,
 } from '../src/lib/stats'
-import type { ReviewState, SignDefinition } from '../src/lib/types'
+import type { ReviewEvent, ReviewState, SignDefinition } from '../src/lib/types'
 
 const NOW = new Date('2026-06-20T10:00:00').getTime()
 
@@ -280,5 +286,133 @@ describe('sentenceForPlan', () => {
     })
     expect(s).toContain('all caught up')
     expect(s).toContain('next 14 days') // not the vague "for a while"
+  })
+})
+
+describe('daysSinceStart', () => {
+  it('reads Day 1 on the first day and counts whole days from createdAt', () => {
+    expect(daysSinceStart(NOW, [], NOW)).toBe(1)
+    expect(daysSinceStart(NOW - 2 * DAY_MS, [], NOW)).toBe(3)
+  })
+
+  it('floors at 1 even if createdAt is somehow in the future', () => {
+    expect(daysSinceStart(NOW + 5 * DAY_MS, [], NOW)).toBe(1)
+  })
+
+  it('trusts the oldest session when createdAt was reset newer than the data', () => {
+    // createdAt says "today" but a session from 10 days ago proves longer history
+    const sessions = [{ date: '2026-06-10', reviewed: 3, correct: 2, newSeen: 1 }]
+    expect(daysSinceStart(NOW, sessions, NOW)).toBe(11) // 2026-06-10 → 2026-06-20 inclusive
+  })
+})
+
+describe('accuracyVerdict', () => {
+  it('maps accuracy bands to plain, jargon-free reads', () => {
+    expect(accuracyVerdict(0.95, 5)).toContain('strong')
+    expect(accuracyVerdict(0.8, 5)).toContain('good')
+    expect(accuracyVerdict(0.65, 5)).toContain('getting there')
+    expect(accuracyVerdict(0.4, 5)).toContain('early days')
+  })
+
+  it('softens with "so far" in the first 48h, except the already-early band', () => {
+    expect(accuracyVerdict(0.8, 1)).toContain('so far')
+    expect(accuracyVerdict(0.4, 1)).not.toContain('so far')
+  })
+})
+
+describe('windowedRetention', () => {
+  const ev = (t: number, grade: ReviewEvent['grade']): ReviewEvent => ({ t, grade, intervalDays: 1 })
+
+  it('is the share of in-window reviews graded > 0', () => {
+    const reviews = {
+      a: rs('a', {
+        history: [ev(NOW - DAY_MS, 2), ev(NOW - DAY_MS, 2), ev(NOW - DAY_MS, 0), ev(NOW - DAY_MS, 3)],
+      }),
+    }
+    expect(windowedRetention(reviews, NOW, 30)).toBeCloseTo(3 / 4, 5)
+  })
+
+  it('excludes events older than the window', () => {
+    const reviews = {
+      a: rs('a', { history: [ev(NOW - 2 * DAY_MS, 2), ev(NOW - 40 * DAY_MS, 0)] }),
+    }
+    expect(windowedRetention(reviews, NOW, 30)).toBe(1) // the 40-day-old miss is out of window
+  })
+
+  it('returns null until minEvents reviews fall in the window', () => {
+    const reviews = { a: rs('a', { history: [ev(NOW - DAY_MS, 2), ev(NOW - DAY_MS, 2)] }) }
+    expect(windowedRetention(reviews, NOW, 30, 8)).toBeNull()
+    expect(windowedRetention({}, NOW, 30, 1)).toBeNull()
+  })
+})
+
+describe('canRecallUnaided / recallReadiness', () => {
+  it('needs two looks, a correct last answer, and a solid hit-rate', () => {
+    expect(canRecallUnaided(rs('a', { timesSeen: 2, correct: 2, streak: 2 }))).toBe(true)
+    expect(canRecallUnaided(rs('a', { timesSeen: 1, correct: 1, streak: 1 }))).toBe(false) // one look
+    expect(canRecallUnaided(rs('a', { timesSeen: 2, correct: 2, streak: 0 }))).toBe(false) // just missed
+    expect(canRecallUnaided(rs('a', { timesSeen: 2, correct: 1, streak: 1 }))).toBe(false) // 50% hit-rate
+    expect(canRecallUnaided(undefined)).toBe(false)
+  })
+
+  it('is reachable long before isMastered (which needs ~3 weeks)', () => {
+    const fresh = rs('a', { intervalDays: 1, timesSeen: 2, correct: 2, streak: 2, lapses: 0 })
+    expect(canRecallUnaided(fresh)).toBe(true)
+    expect(isMastered(fresh)).toBe(false)
+  })
+
+  it('counts only in-scope core signs', () => {
+    const deck = [
+      sign('a', { tier: 'core' }),
+      sign('b', { tier: 'core' }),
+      sign('c', { tier: 'standard' }),
+    ]
+    const reviews = {
+      a: rs('a', { timesSeen: 2, correct: 2, streak: 2 }), // ready core
+      b: rs('b', { timesSeen: 2, correct: 0, streak: 0 }), // not ready core
+      c: rs('c', { timesSeen: 2, correct: 2, streak: 2 }), // ready but standard → ignored
+    }
+    expect(recallReadiness(deck, reviews)).toEqual({ ready: 1, coreTotal: 2 })
+  })
+})
+
+describe('coachAction', () => {
+  const base = { introduced: 5, dueNow: 0, tomorrow: 0, next7: 0, newAvailable: 0, newRemainingToday: 0 }
+
+  it('tells a brand-new learner to start', () => {
+    const a = coachAction({ ...base, introduced: 0 })
+    expect(a.mode).toBe('start')
+    expect(a.cta).toEqual({ label: 'Start studying', route: 'study' })
+  })
+
+  it('leads with review when something is due, and forecasts tomorrow', () => {
+    const a = coachAction({ ...base, dueNow: 3, tomorrow: 2 })
+    expect(a.mode).toBe('review')
+    expect(a.heading).toBe('3 signs ready to review')
+    expect(a.cta).toEqual({ label: 'Review 3 now', route: 'study' })
+    expect(a.forward).toBe('Then 2 more land tomorrow.')
+  })
+
+  it('is plural-safe for a single due/tomorrow sign', () => {
+    const a = coachAction({ ...base, dueNow: 1, tomorrow: 1 })
+    expect(a.heading).toBe('1 sign ready to review')
+    expect(a.forward).toBe('Then 1 more lands tomorrow.')
+  })
+
+  it('offers new cards when nothing is due, capped by today\'s budget', () => {
+    const a = coachAction({ ...base, dueNow: 0, newAvailable: 9, newRemainingToday: 4 })
+    expect(a.mode).toBe('learn')
+    expect(a.cta).toEqual({ label: 'Learn 4 new', route: 'study' })
+  })
+
+  it('is caught-up when due and new are both exhausted, and points at a quiz', () => {
+    const deckDone = coachAction({ ...base, dueNow: 0, newAvailable: 0 })
+    expect(deckDone.mode).toBe('caught-up')
+    expect(deckDone.sub).toContain('met every sign')
+    expect(deckDone.cta).toEqual({ label: 'Take a quick quiz', route: 'quiz' })
+
+    const budgetHit = coachAction({ ...base, dueNow: 0, newAvailable: 9, newRemainingToday: 0 })
+    expect(budgetHit.mode).toBe('caught-up')
+    expect(budgetHit.sub).toContain("today's new signs")
   })
 })
