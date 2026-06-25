@@ -1,0 +1,29 @@
+# Dependabot configuration — keeps npm packages and GitHub Actions current.
+# Docs: https://docs.github.com/code-security/dependabot/dependabot-version-updates
+# Note: Dependabot *alerts* and *security updates* are toggled separately under
+# Settings -> Code security and analysis (they are not configured in this file).
+version: 2
+updates:
+  # ---- npm (package.json / package-lock.json) ----
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      # routine dev-tooling bumps (vite, svelte, vitest, typescript, ...) as one PR
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+      # the four self-hosted font packages move together
+      fontsource:
+        patterns:
+          - "@fontsource*"
+
+  # ---- GitHub Actions used by the Pages deploy workflow ----
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
