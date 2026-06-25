@@ -21,7 +21,7 @@ jobs:
       # Pages must be enabled once: repo Settings → Pages → Source:
       # "GitHub Actions". This is a per-repo PROJECT page —
       # https://<user>.github.io/<repo>/ — independent of any user page.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
