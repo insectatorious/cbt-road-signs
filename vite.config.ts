@@ -20,8 +20,8 @@ export default defineConfig({
         short_name: 'CBT Signs',
         description:
           'Spaced-repetition revision for the UK motorcycle CBT road signs.',
-        theme_color: '#1a1a18',
-        background_color: '#1a1a18',
+        theme_color: '#1c1a16',
+        background_color: '#1c1a16',
         display: 'standalone',
         orientation: 'portrait',
         start_url: '.',

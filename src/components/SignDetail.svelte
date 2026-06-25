@@ -187,7 +187,6 @@
   .chip {
     font-size: var(--fs-micro);
     letter-spacing: var(--ls-micro);
-    text-transform: uppercase;
     font-weight: var(--fw-semibold);
     color: var(--text-muted);
     padding: 3px 9px;

@@ -145,7 +145,7 @@
     text-align: center;
   }
   .reveal {
-    color: var(--text-faint);
+    color: var(--text-muted);
   }
   .reveal kbd {
     font-family: var(--font-mono);

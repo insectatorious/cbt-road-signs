@@ -177,7 +177,7 @@
     font-size: var(--fs-body);
   }
   .search__input::placeholder {
-    color: var(--text-faint);
+    color: var(--text-muted);
   }
   .search__input:focus-visible {
     border-color: var(--accent);
