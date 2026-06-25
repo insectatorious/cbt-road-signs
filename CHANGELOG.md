@@ -3,6 +3,11 @@
 All notable changes to this project. **Generated** from `src/data/changelog.ts`
 (the in-app release notes) — edit that and run `npm run build-changelog`.
 
+## 1.8.1 — 25 June 2026
+
+- Sharpened the hand-drawn road-marking and signal illustrations so they match the real signs more faithfully. Green primary-route and route-confirmation signs now show their route numbers in yellow; the temporary roadworks speed limit sits on its yellow backing board; and the zebra crossing, red-route, kerb-loading and give-way markings are drawn the way you’ll meet them on the road.
+- Smaller touch-ups across the rest: a clearer lane-merge arrow, a black-and-white police chequer cap, a single-housing tram signal, a bus-and-cycle lane sign, and tidier motorway boards. The official sign artwork is untouched — only the in-app illustrations were corrected.
+
 ## 1.8.0 — 25 June 2026
 
 - A calmer new look. The app now wears warm paper and soft ink, with a single quiet red for emphasis — gentler on the eyes for long study, and friendlier for ADHD, dyslexia and PDA. The road signs are untouched: still the only bright, official thing on the page.

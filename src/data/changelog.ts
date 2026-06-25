@@ -11,6 +11,14 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.8.1',
+    date: '2026-06-25',
+    changes: [
+      'Sharpened the hand-drawn road-marking and signal illustrations so they match the real signs more faithfully. Green primary-route and route-confirmation signs now show their route numbers in yellow; the temporary roadworks speed limit sits on its yellow backing board; and the zebra crossing, red-route, kerb-loading and give-way markings are drawn the way you’ll meet them on the road.',
+      'Smaller touch-ups across the rest: a clearer lane-merge arrow, a black-and-white police chequer cap, a single-housing tram signal, a bus-and-cycle lane sign, and tidier motorway boards. The official sign artwork is untouched — only the in-app illustrations were corrected.',
+    ],
+  },
+  {
     version: '1.8.0',
     date: '2026-06-25',
     changes: [

@@ -66,7 +66,7 @@
     <svg viewBox="0 0 150 150" aria-label={sign.caption}>
       <rect x="20" y="0" width="110" height="150" fill={C.tar} />
       <rect x="68" y="0" width="6" height="150" fill={C.line} />
-      {#each dash(80, [6, 36, 66, 96, 126], 6, 18) as d}
+      {#each dash(80, [8, 48, 88, 128], 6, 8) as d}
         <rect x={d.x} y={d.y} width={d.w} height={d.h} fill={C.line} />
       {/each}
     </svg>
@@ -84,13 +84,13 @@
         <rect {x} y="40" width="9" height="9" fill={C.line} />
         <rect {x} y="54" width="9" height="9" fill={C.line} />
       {/each}
-      <path d="M55 78h40L75 116z" fill="none" stroke={C.line} stroke-width="5" stroke-linejoin="round" />
+      <path d="M63 72h24L75 136z" fill="none" stroke={C.line} stroke-width="5" stroke-linejoin="round" />
     </svg>
   {:else if sign.id === 'zig-zag-lines-pedestrian-crossing'}
     <svg viewBox="0 0 150 150" aria-label={sign.caption}>
       <rect x="20" y="0" width="110" height="150" fill={C.tar} />
       {#each [0, 1, 2, 3] as i}
-        <rect x="60" y={10 + i * 38} width="30" height="20" fill={C.line} />
+        <rect x="46" y={46 + i * 18} width="58" height="12" fill={C.line} />
       {/each}
       <polyline points="30,4 42,22 30,40 42,58 30,76 42,94 30,112 42,130 30,148" fill="none" stroke={C.line} stroke-width="4" />
       <polyline points="120,4 108,22 120,40 108,58 120,76 108,94 120,112 108,130 120,148" fill="none" stroke={C.line} stroke-width="4" />
@@ -114,20 +114,35 @@
     {@const isBus = sign.id === 'with-flow-bus-lane'}
     {@const bg = isBus ? C.blue : isGreen ? C.green : '#f4f4f2'}
     {@const fg = isBus || isGreen ? '#ffffff' : '#1a1a18'}
+    {@const route = '#ffdd00'}
     <svg viewBox="0 0 210 120" aria-label={sign.caption}>
       <rect x="6" y="18" width="198" height="84" rx="6" fill={bg} stroke={isGreen || isBus ? 'none' : '#1a1a18'} stroke-width="3" />
       {#if isBus}
-        <rect x="22" y="46" width="34" height="20" rx="3" fill="#fff" />
-        <circle cx="29" cy="68" r="4" fill="#fff" /><circle cx="49" cy="68" r="4" fill="#fff" />
-        <text x="118" y="65" text-anchor="middle" fill={fg} font-family="var(--font-sans)" font-size="20" font-weight="700">BUS LANE</text>
+        <rect x="20" y="44" width="30" height="18" rx="3" fill="#fff" />
+        <circle cx="27" cy="64" r="3.5" fill="#fff" /><circle cx="43" cy="64" r="3.5" fill="#fff" />
+        <g fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="64" cy="64" r="7.5" /><circle cx="88" cy="64" r="7.5" />
+          <path d="M64 64l8-13h9" /><path d="M72 51l8 13" /><path d="M80 64h8" /><path d="M85 51h7" />
+        </g>
+        <circle cx="76" cy="51" r="1.8" fill="#fff" />
+        <text x="152" y="68" text-anchor="middle" fill={fg} font-family="var(--font-sans)" font-size="18" font-weight="700">BUS LANE</text>
       {:else if sign.id === 'route-confirmation-sign'}
-        <text x="24" y="50" fill={fg} font-family="var(--font-sans)" font-size="17" font-weight="600">A40  Oxford  9</text>
-        <text x="24" y="82" fill={fg} font-family="var(--font-sans)" font-size="17" font-weight="600">A40  London  24</text>
-      {:else}
-        <path d="M30 60h120M150 50l14 10-14 10" fill="none" stroke={fg} stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
-        <text x="30" y="50" fill={fg} font-family="var(--font-sans)" font-size="17" font-weight="600">
-          {sign.id === 'primary-route-direction-sign' ? 'A40  The NORTH' : sign.id === 'local-direction-sign' ? 'Town Centre' : 'Riverside'}
+        <text x="24" y="52" font-family="var(--font-sans)" font-size="16" font-weight="600">
+          <tspan fill={route}>A40</tspan><tspan fill={fg} dx="8">Oxford 9</tspan>
         </text>
+        <text x="24" y="84" font-family="var(--font-sans)" font-size="16" font-weight="600">
+          <tspan fill={route}>A40</tspan><tspan fill={fg} dx="8">London 24</tspan>
+        </text>
+      {:else if sign.id === 'primary-route-direction-sign'}
+        <text x="22" y="65" font-family="var(--font-sans)" font-size="15" font-weight="700">
+          <tspan fill={route}>A40</tspan><tspan fill={fg} dx="7">The NORTH</tspan>
+        </text>
+        <path d="M164 60h22M178 52l10 8-10 8" fill="none" stroke={fg} stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+      {:else}
+        <text x="24" y="65" fill={fg} font-family="var(--font-sans)" font-size="15" font-weight="600">
+          {sign.id === 'local-direction-sign' ? 'Town Centre' : 'Riverside'}
+        </text>
+        <path d="M150 60h30M172 52l10 8-10 8" fill="none" stroke={fg} stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
       {/if}
     </svg>
 
@@ -135,14 +150,15 @@
   {:else if sign.id === 'lane-closed-ahead'}
     <svg viewBox="0 0 130 150" aria-label={sign.caption}>
       <rect x="8" y="8" width="114" height="134" rx="6" fill="#f4f4f2" stroke="#1a1a18" stroke-width="3" />
-      <rect x="30" y="24" width="30" height="100" fill="#1a1a18" />
-      <rect x="70" y="24" width="30" height="100" fill="#1a1a18" />
-      <rect x="68" y="22" width="34" height="22" fill={C.red} />
-      <path d="M50 118q15 -24 30 -48" fill="none" stroke="#1a1a18" stroke-width="4" />
+      <rect x="22" y="24" width="26" height="100" fill="#1a1a18" />
+      <rect x="82" y="24" width="26" height="100" fill="#1a1a18" />
+      <rect x="80" y="22" width="30" height="20" fill={C.red} />
+      <path d="M95 110 L95 86 C95 66 80 60 64 60" fill="none" stroke="#1a1a18" stroke-width="8" stroke-linecap="round" />
+      <path d="M70 47 L52 60 L70 73 Z" fill="#1a1a18" />
     </svg>
   {:else if sign.id === 'temporary-maximum-speed-ahead'}
     <svg viewBox="0 0 140 150" aria-label={sign.caption}>
-      <rect x="8" y="8" width="124" height="134" rx="6" fill="#f4f4f2" stroke="#1a1a18" stroke-width="3" />
+      <rect x="8" y="8" width="124" height="134" rx="6" fill="#f2c200" stroke="#1a1a18" stroke-width="3" />
       <circle cx="70" cy="66" r="40" fill="#fff" stroke={C.red} stroke-width="10" />
       <text x="70" y="80" text-anchor="middle" font-family="var(--font-sans)" font-size="38" font-weight="700" fill="#1a1a18">50</text>
       <text x="70" y="128" text-anchor="middle" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#1a1a18">AHEAD</text>
@@ -150,8 +166,7 @@
   {:else if sign.id === 'end-of-road-works'}
     <svg viewBox="0 0 140 140" aria-label={sign.caption}>
       <rect x="10" y="20" width="120" height="100" rx="6" fill="#f4f4f2" stroke="#1a1a18" stroke-width="3" />
-      <text x="70" y="64" text-anchor="middle" font-family="var(--font-sans)" font-size="20" font-weight="700" fill="#1a1a18">END</text>
-      <text x="70" y="92" text-anchor="middle" font-family="var(--font-sans)" font-size="13" font-weight="500" fill="#565550">of road works</text>
+      <text x="70" y="80" text-anchor="middle" font-family="var(--font-sans)" font-size="32" font-weight="700" fill="#1a1a18">End</text>
     </svg>
   {:else if art}
     <!-- eslint-disable-next-line svelte/no-at-html-tags -- our own static art -->
