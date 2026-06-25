@@ -22,7 +22,7 @@ jobs:
       # "GitHub Actions". This is a per-repo PROJECT page —
       # https://<user>.github.io/<repo>/ — independent of any user page.
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: '22'
           cache: 'npm'
