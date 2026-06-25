@@ -493,7 +493,7 @@ export interface CoachAction {
   sub: string
   /** optional secondary line under the card body */
   forward?: string
-  cta?: { label: string; route: 'study' | 'quiz' }
+  cta?: { label: string; route: 'study' | 'quiz' | 'browse' }
 }
 
 const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? '' : 's'}`
@@ -556,6 +556,6 @@ export function coachAction(i: CoachActionInput): CoachAction {
         ? "You've met every sign in your set and nothing's due — keep reviews ticking over."
         : "Reviews are clear and you've met today's new signs. Rest is part of remembering.",
     forward,
-    cta: { label: 'Take a quick quiz', route: 'quiz' },
+    cta: { label: 'Browse the reference', route: 'browse' },
   }
 }

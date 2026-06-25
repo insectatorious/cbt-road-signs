@@ -405,11 +405,11 @@ describe('coachAction', () => {
     expect(a.cta).toEqual({ label: 'Learn 4 new', route: 'study' })
   })
 
-  it('is caught-up when due and new are both exhausted, and points at a quiz', () => {
+  it('is caught-up when due and new are both exhausted, and points at the reference', () => {
     const deckDone = coachAction({ ...base, dueNow: 0, newAvailable: 0 })
     expect(deckDone.mode).toBe('caught-up')
     expect(deckDone.sub).toContain('met every sign')
-    expect(deckDone.cta).toEqual({ label: 'Take a quick quiz', route: 'quiz' })
+    expect(deckDone.cta).toEqual({ label: 'Browse the reference', route: 'browse' })
 
     const budgetHit = coachAction({ ...base, dueNow: 0, newAvailable: 9, newRemainingToday: 0 })
     expect(budgetHit.mode).toBe('caught-up')

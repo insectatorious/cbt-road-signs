@@ -160,6 +160,18 @@
         <p class="t-caption quiz__hint">Tap an answer, or press 1–4</p>
       {/if}
     </div>
+  {:else}
+    <div class="result">
+      <span class="empty__check"><Icon name="check" size={26} /></span>
+      <h1 class="t-title" id="view-heading" tabindex="-1">All caught up</h1>
+      <p class="t-body result__sub">
+        Nothing to quiz right now. Come back when reviews are due, or browse the reference.
+      </p>
+      <div class="result__actions">
+        <button class="btn btn--primary" onclick={() => navigate('browse')}>Browse the reference</button>
+        <button class="btn btn--ghost" onclick={() => navigate('report')}>See report</button>
+      </div>
+    </div>
   {/if}
 </section>
 
@@ -313,5 +325,15 @@
     margin-top: var(--s-4);
     flex-wrap: wrap;
     justify-content: center;
+  }
+  .empty__check {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--r-pill);
+    color: var(--grade-good);
+    background: color-mix(in srgb, var(--grade-good) 14%, transparent);
+    margin-bottom: var(--s-2);
   }
 </style>
