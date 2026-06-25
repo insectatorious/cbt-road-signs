@@ -35,7 +35,7 @@ jobs:
           # to your GoatCounter count endpoint; unset = no analytics shipped.
           VITE_GOATCOUNTER: ${{ vars.GOATCOUNTER }}
       - run: touch dist/.nojekyll
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
