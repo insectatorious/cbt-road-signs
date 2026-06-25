@@ -64,7 +64,11 @@
     <!-- Gated on `flipped`: the answer is absent from the DOM/a11y tree until
          revealed (preserves active recall for SR users); aria-live announces it. -->
     <div class="card__answer" bind:this={revealEl} aria-live="polite">
-      <span class="chip chip--accent">{CATEGORY_META[sign.category].short}</span>
+      <!-- Only label the category here when the grey hint pill above the plate
+           is off — otherwise it'd show the same category twice on reveal. -->
+      {#if !showHint}
+        <span class="chip chip--accent">{CATEGORY_META[sign.category].short}</span>
+      {/if}
       <h2 class="answer t-title">{sign.caption}</h2>
 
       <button

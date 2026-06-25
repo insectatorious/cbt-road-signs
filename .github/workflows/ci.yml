@@ -1,0 +1,32 @@
+name: CI
+
+# Runs the type-check, unit tests (incl. the composite render-guard) and a
+# production build on every push to main and every PR — so type errors,
+# composite-art regressions or build breakage fail before they can reach a
+# Pages deploy (deploy.yml is the only other place the Vite build runs).
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      # Exercise the real Vite/Rollup/PWA build along the same path as the
+      # deploy, so a build break is caught on the PR rather than at deploy time.
+      - run: npm run build
+        env:
+          DEPLOY_TARGET: gh-pages
