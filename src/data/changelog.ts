@@ -20,6 +20,14 @@ export const CHANGELOG: Release[] = [
     ],
   },
   {
+    version: '1.7.1',
+    date: '2026-06-25',
+    changes: [
+      'Fixed a blank Quiz screen when you’d finished everything for the day: it now shows a clear “All caught up” message instead of an empty page.',
+      'Cleared up the mixed signals when you’re all caught up — the Report and Study no longer nudge you toward a quiz that has nothing to ask; they point you to the Reference to keep browsing instead.',
+    ],
+  },
+  {
     version: '1.7.0',
     date: '2026-06-22',
     changes: [

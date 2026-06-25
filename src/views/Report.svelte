@@ -54,7 +54,7 @@
     learn: 'Next up',
     'caught-up': 'All caught up',
   } as const
-  const CTA_ICON = { review: 'target', learn: 'layers', 'caught-up': 'help', start: 'layers' } as const
+  const CTA_ICON = { review: 'target', learn: 'layers', 'caught-up': 'search', start: 'layers' } as const
 
   // gauge: how many in-scope CORE signs the learner can recall unaided right now
   const readyPct = readiness.coreTotal ? readiness.ready / readiness.coreTotal : 0
