@@ -71,7 +71,9 @@
   --text-strong: var(--ink-100); /* headings / strongest text */
   --text-secondary: var(--ink-80);
   --text-muted: var(--stone-70);
-  --text-faint: var(--stone-60);
+  /* faint ink: darker than Sumanas ink-3 so faint labels clear WCAG AA on the
+     warm paper (the raw stone-60 tone is ~2.9:1; this is ~4.8:1). */
+  --text-faint: #74695a;
   --text-on-accent: #fffdf8; /* paper-white on the dark-red fill */
   --link: var(--accent-ink);
 
@@ -196,7 +198,7 @@
   --text-strong: #f3efe6;
   --text-secondary: #c2bcae;
   --text-muted: #968f81;
-  --text-faint: #6f6a5e;
+  --text-faint: #928b7c; /* AA-readable faint on the dark ground (~4.6:1) */
   --text-on-accent: #1c1a16; /* ink on the lifted (lighter) dark-mode red */
   --link: var(--accent-ink);
 
