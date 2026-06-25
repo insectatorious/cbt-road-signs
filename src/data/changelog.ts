@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.8.2',
+    date: '2026-06-25',
+    changes: [
+      'Fixed the Study card showing a sign’s category twice when you reveal the answer — “Prohibition” (or whichever category) appeared both above the sign and above its name. It now shows once.',
+    ],
+  },
+  {
     version: '1.8.1',
     date: '2026-06-25',
     changes: [

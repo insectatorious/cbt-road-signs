@@ -172,7 +172,10 @@
     <!-- eslint-disable-next-line svelte/no-at-html-tags -- our own static art -->
     {@html artSvg}
   {:else}
-    <svg viewBox="0 0 140 140" aria-label={sign.caption}>
+    <!-- Unresolved composite: no hand-coded branch and no COMPOSITE_ART entry.
+         `data-fallback` lets the render-guard test (tests/composite.test.ts)
+         assert no composite sign ever lands here. -->
+    <svg viewBox="0 0 140 140" aria-label={sign.caption} data-fallback="true">
       <rect x="14" y="14" width="112" height="112" rx="8" fill="#f4f4f2" stroke="#9a988f" stroke-width="3" />
       <text x="70" y="78" text-anchor="middle" font-family="var(--font-mono)" font-size="40" font-weight="600" fill="#9a988f">?</text>
     </svg>

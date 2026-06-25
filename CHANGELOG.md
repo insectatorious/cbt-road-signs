@@ -3,6 +3,10 @@
 All notable changes to this project. **Generated** from `src/data/changelog.ts`
 (the in-app release notes) — edit that and run `npm run build-changelog`.
 
+## 1.8.2 — 25 June 2026
+
+- Fixed the Study card showing a sign’s category twice when you reveal the answer — “Prohibition” (or whichever category) appeared both above the sign and above its name. It now shows once.
+
 ## 1.8.1 — 25 June 2026
 
 - Sharpened the hand-drawn road-marking and signal illustrations so they match the real signs more faithfully. Green primary-route and route-confirmation signs now show their route numbers in yellow; the temporary roadworks speed limit sits on its yellow backing board; and the zebra crossing, red-route, kerb-loading and give-way markings are drawn the way you’ll meet them on the road.
