@@ -3,6 +3,11 @@
 All notable changes to this project. **Generated** from `src/data/changelog.ts`
 (the in-app release notes) — edit that and run `npm run build-changelog`.
 
+## 1.7.1 — 25 June 2026
+
+- Fixed a blank Quiz screen when you’d finished everything for the day: it now shows a clear “All caught up” message instead of an empty page.
+- Cleared up the mixed signals when you’re all caught up — the Report and Study no longer nudge you toward a quiz that has nothing to ask; they point you to the Reference to keep browsing instead.
+
 ## 1.7.0 — 22 June 2026
 
 - Rebuilt the Report as a coach. It now opens with the one thing to do right now — review what’s due, learn a few new signs, or take a quiz — shows how many core signs you can recall unaided, and lists the handful tripping you up most with a “Drill these” shortcut. The detailed charts (accuracy, learning stages, memory strength, schedule, categories) now live in a tucked-away “Details & progress” section.

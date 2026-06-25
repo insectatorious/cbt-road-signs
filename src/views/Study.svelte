@@ -125,11 +125,12 @@
       <span class="done__check"><Icon name="check" size={26} /></span>
       <h1 class="t-title" id="view-heading" tabindex="-1">All caught up</h1>
       <p class="t-body done__sub">
-        Nothing is due right now. Browse the reference, or take a quick quiz to stay sharp.
+        Nothing is due right now — you're all caught up. Come back when reviews are due, or browse the
+        reference.
       </p>
       <div class="done__actions">
-        <button class="btn btn--primary" onclick={() => navigate('quiz')}>Take a quiz</button>
-        <button class="btn btn--ghost" onclick={() => navigate('browse')}>Browse signs</button>
+        <button class="btn btn--primary" onclick={() => navigate('browse')}>Browse the reference</button>
+        <button class="btn btn--ghost" onclick={() => navigate('report')}>See report</button>
       </div>
     </div>
   {:else}
