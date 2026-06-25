@@ -70,16 +70,17 @@ export function enterCard(card: HTMLElement): void {
   )
 }
 
-/** Wrong-answer shake. */
+/** Wrong-answer shake. A quick, damped horizontal nudge that signals "not
+ *  quite" and settles — functional feedback, not a spring (Sumanas: no bounce). */
 export function shake(node: HTMLElement): void {
   if (prefersReduced()) return
-  gsap.fromTo(node, { x: -7 }, { x: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' })
+  gsap.to(node, { duration: 0.36, ease: 'power2.out', keyframes: { x: [0, -6, 4, -2, 0] } })
 }
 
-/** Right-answer confirm pop. */
+/** Right-answer confirm pop. A calm settle into place — no overshoot. */
 export function pop(node: HTMLElement): void {
   if (prefersReduced()) return
-  gsap.fromTo(node, { scale: 0.94 }, { scale: 1, duration: 0.35, ease: 'back.out(2.2)' })
+  gsap.fromTo(node, { scale: 0.96 }, { scale: 1, duration: 0.28, ease: 'power2.out' })
 }
 
 /** Animate a number from 0 → value, formatting each frame. */

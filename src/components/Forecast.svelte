@@ -83,7 +83,7 @@
     transition: height 0.6s var(--ease-standard);
   }
   .fc__fill--today {
-    background: var(--amber);
+    background: var(--accent);
   }
   .fc__tick {
     font-size: 11px;

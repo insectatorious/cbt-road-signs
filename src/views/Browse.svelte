@@ -177,10 +177,10 @@
     font-size: var(--fs-body);
   }
   .search__input::placeholder {
-    color: var(--text-faint);
+    color: var(--text-muted);
   }
   .search__input:focus-visible {
-    border-color: var(--amber);
+    border-color: var(--accent);
   }
   .search__clear {
     position: absolute;
@@ -223,8 +223,8 @@
   }
   .filter.is-active {
     color: var(--text-on-accent);
-    background: var(--amber-strong);
-    border-color: var(--amber-strong);
+    background: var(--accent);
+    border-color: var(--accent);
   }
   .filter--saved {
     display: inline-flex;

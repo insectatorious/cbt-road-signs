@@ -37,7 +37,7 @@
     { value: 'comprehensive' as DeckScope, label: 'Comprehensive', count: cCore + cStandard + cEdge },
   ]
   const scopeDesc: Record<DeckScope, string> = {
-    essential: 'Just the core signs every rider must know — the must-pass minimum.',
+    essential: 'The core signs every rider learns first — the essentials for your test.',
     standard: 'The recommended set: core plus the standard signs you’ll regularly meet on the road.',
     comprehensive: 'Every non-motorway sign, including rare and specialist ones.',
   }
@@ -362,6 +362,6 @@
     text-underline-offset: 2px;
   }
   .version__notes:hover {
-    color: var(--amber-text);
+    color: var(--accent-ink);
   }
 </style>

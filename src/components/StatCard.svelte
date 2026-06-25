@@ -46,7 +46,7 @@
     margin-top: 4px;
   }
   .stat__num--accent {
-    color: var(--amber-text);
+    color: var(--accent-ink);
   }
   .stat__sub {
     margin-top: 2px;

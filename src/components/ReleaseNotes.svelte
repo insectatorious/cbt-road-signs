@@ -128,11 +128,10 @@
   .chip--latest {
     font-size: var(--fs-micro);
     letter-spacing: var(--ls-micro);
-    text-transform: uppercase;
     font-weight: var(--fw-semibold);
-    color: var(--amber-text);
+    color: var(--accent-ink);
     padding: 2px 8px;
-    border: 1px solid color-mix(in srgb, var(--amber) 45%, var(--hairline));
+    border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--hairline));
     border-radius: var(--r-pill);
   }
   .release__changes {

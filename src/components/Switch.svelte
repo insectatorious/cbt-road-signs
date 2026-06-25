@@ -32,8 +32,8 @@
       border-color var(--dur-base) var(--ease-standard);
   }
   .switch.is-on {
-    background: var(--amber-strong);
-    border-color: var(--amber-strong);
+    background: var(--accent);
+    border-color: var(--accent);
   }
   .switch__thumb {
     display: block;

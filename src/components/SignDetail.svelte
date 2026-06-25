@@ -187,7 +187,6 @@
   .chip {
     font-size: var(--fs-micro);
     letter-spacing: var(--ls-micro);
-    text-transform: uppercase;
     font-weight: var(--fw-semibold);
     color: var(--text-muted);
     padding: 3px 9px;
@@ -204,14 +203,15 @@
   }
   .explain {
     color: var(--text-secondary);
+    font-family: var(--font-reading);
   }
   .mnemonic {
     display: flex;
     flex-direction: column;
     gap: 3px;
     padding: var(--s-3);
-    border-left: 2px solid var(--amber);
-    background: var(--amber-tint);
+    border-left: 2px solid var(--accent);
+    background: var(--accent-wash);
     border-radius: 0 var(--r-sm) var(--r-sm) 0;
     color: var(--text-secondary);
     font-size: var(--fs-callout);
@@ -235,7 +235,7 @@
     border-radius: var(--r-pill);
   }
   .lookalike:hover {
-    border-color: var(--amber);
+    border-color: var(--accent);
     color: var(--text);
   }
   .progress {
@@ -258,7 +258,7 @@
     font-weight: var(--fw-medium);
   }
   .source:hover {
-    color: var(--amber-text);
+    color: var(--accent-ink);
   }
   .source-note {
     color: var(--text-muted);

@@ -50,7 +50,7 @@
     fill: currentColor;
   }
   .bm.is-on {
-    color: var(--amber);
+    color: var(--accent);
   }
 
   .bm--sheet {
@@ -66,8 +66,8 @@
     background: var(--surface-hover);
   }
   .bm--sheet.is-on {
-    border-color: color-mix(in srgb, var(--amber) 45%, var(--hairline));
-    background: var(--amber-tint);
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--hairline));
+    background: var(--accent-wash);
   }
 
   .bm--card {
@@ -78,7 +78,7 @@
     transition: opacity var(--dur-fast) var(--ease-standard);
   }
   .bm--card:hover {
-    color: var(--amber);
+    color: var(--accent);
     background: var(--surface-hover);
   }
 </style>

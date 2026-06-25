@@ -1,7 +1,7 @@
 {
   "name": "cbt-flashcards",
   "private": true,
-  "version": "1.7.1",
+  "version": "1.8.0",
   "type": "module",
   "description": "Spaced-repetition revision for UK motorcycle CBT road signs",
   "scripts": {
@@ -30,6 +30,10 @@
     "vitest": "^4.1.9"
   },
   "dependencies": {
+    "@fontsource-variable/lexend": "^5.2.11",
+    "@fontsource-variable/newsreader": "^5.2.10",
+    "@fontsource/atkinson-hyperlegible": "^5.2.8",
+    "@fontsource/ibm-plex-mono": "^5.2.7",
     "gsap": "^3.15.0"
   }
 }

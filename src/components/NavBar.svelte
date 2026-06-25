@@ -15,7 +15,7 @@
   <span class="nav__brand" aria-hidden="true">
     <svg viewBox="0 0 64 64" width="26" height="26">
       <circle cx="32" cy="32" r="18" fill="none" stroke="currentColor" stroke-width="5" />
-      <circle cx="32" cy="32" r="6.5" fill="var(--amber)" />
+      <circle cx="32" cy="32" r="6.5" fill="var(--accent)" />
     </svg>
   </span>
   {#each tabs as tab (tab.route)}
@@ -66,13 +66,12 @@
     color: var(--text-secondary);
   }
   .nav__tab.is-active {
-    color: var(--amber);
+    color: var(--accent);
   }
 
   .nav__label {
     font-size: var(--fs-micro);
     letter-spacing: var(--ls-micro);
-    text-transform: uppercase;
     font-weight: var(--fw-semibold);
   }
 
@@ -83,7 +82,7 @@
     transform: translateX(-50%) scaleX(0);
     width: 26px;
     height: 2px;
-    background: var(--amber);
+    background: var(--accent);
     border-radius: var(--r-pill);
     transition: transform var(--dur-base) var(--ease-standard);
   }

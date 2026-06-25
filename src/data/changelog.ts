@@ -11,6 +11,15 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.8.0',
+    date: '2026-06-25',
+    changes: [
+      'A calmer new look. The app now wears warm paper and soft ink, with a single quiet red for emphasis — gentler on the eyes for long study, and friendlier for ADHD, dyslexia and PDA. The road signs are untouched: still the only bright, official thing on the page.',
+      'New reading typefaces — an editorial serif for headings, and the highly legible Lexend and Atkinson Hyperlegible for everything you read — with roomier line spacing. Labels are sentence case now, never shouted in capitals.',
+      'Gentler motion throughout: things settle into place instead of bouncing, and it still steps out of the way entirely when you’ve asked for reduced motion.',
+    ],
+  },
+  {
     version: '1.7.1',
     date: '2026-06-25',
     changes: [

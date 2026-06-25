@@ -3,6 +3,12 @@
 All notable changes to this project. **Generated** from `src/data/changelog.ts`
 (the in-app release notes) — edit that and run `npm run build-changelog`.
 
+## 1.8.0 — 25 June 2026
+
+- A calmer new look. The app now wears warm paper and soft ink, with a single quiet red for emphasis — gentler on the eyes for long study, and friendlier for ADHD, dyslexia and PDA. The road signs are untouched: still the only bright, official thing on the page.
+- New reading typefaces — an editorial serif for headings, and the highly legible Lexend and Atkinson Hyperlegible for everything you read — with roomier line spacing. Labels are sentence case now, never shouted in capitals.
+- Gentler motion throughout: things settle into place instead of bouncing, and it still steps out of the way entirely when you’ve asked for reduced motion.
+
 ## 1.7.1 — 25 June 2026
 
 - Fixed a blank Quiz screen when you’d finished everything for the day: it now shows a clear “All caught up” message instead of an empty page.

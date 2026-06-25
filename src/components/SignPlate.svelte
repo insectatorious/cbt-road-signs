@@ -35,7 +35,7 @@
     {/if}
   </div>
   {#if sign.composite && tag}
-    <span class="plate__tag" title="In-app illustration — not the official sign artwork">illustration</span>
+    <span class="plate__tag" title="In-app illustration — not the official sign artwork">Illustration</span>
   {/if}
 </div>
 
@@ -79,7 +79,6 @@
     font-size: 9px;
     line-height: 1;
     letter-spacing: 0.04em;
-    text-transform: uppercase;
     font-weight: 600;
     pointer-events: none;
   }

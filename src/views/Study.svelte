@@ -227,7 +227,7 @@
   }
   .study__progress-fill {
     height: 100%;
-    background: var(--amber);
+    background: var(--accent);
     border-radius: var(--r-pill);
     transform-origin: left center;
     transition: transform var(--dur-base) var(--ease-standard);

@@ -145,7 +145,7 @@
     text-align: center;
   }
   .reveal {
-    color: var(--text-faint);
+    color: var(--text-muted);
   }
   .reveal kbd {
     font-family: var(--font-mono);
@@ -172,7 +172,6 @@
     align-self: flex-start;
     font-size: var(--fs-micro);
     letter-spacing: var(--ls-micro);
-    text-transform: uppercase;
     font-weight: var(--fw-semibold);
     color: var(--text-muted);
     padding: 3px 9px;
@@ -184,8 +183,8 @@
     height: calc(1em + 6px + 2px);
   }
   .chip--accent {
-    color: var(--amber-text);
-    border-color: color-mix(in srgb, var(--amber) 40%, var(--hairline));
+    color: var(--accent-ink);
+    border-color: color-mix(in srgb, var(--accent) 40%, var(--hairline));
   }
 
   .answer {
@@ -230,8 +229,8 @@
     flex-direction: column;
     gap: 3px;
     padding: var(--s-3);
-    border-left: 2px solid var(--amber);
-    background: var(--amber-tint);
+    border-left: 2px solid var(--accent);
+    background: var(--accent-wash);
     border-radius: 0 var(--r-sm) var(--r-sm) 0;
     color: var(--text-secondary);
     font-size: var(--fs-callout);
