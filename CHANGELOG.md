@@ -3,6 +3,12 @@
 All notable changes to this project. **Generated** from `src/data/changelog.ts`
 (the in-app release notes) — edit that and run `npm run build-changelog`.
 
+## 1.8.0 — 25 June 2026
+
+- A calmer new look. The app now wears warm paper and soft ink, with a single quiet red for emphasis — gentler on the eyes for long study, and friendlier for ADHD, dyslexia and PDA. The road signs are untouched: still the only bright, official thing on the page.
+- New reading typefaces — an editorial serif for headings, and the highly legible Lexend and Atkinson Hyperlegible for everything you read — with roomier line spacing. Labels are sentence case now, never shouted in capitals.
+- Gentler motion throughout: things settle into place instead of bouncing, and it still steps out of the way entirely when you’ve asked for reduced motion.
+
 ## 1.7.0 — 22 June 2026
 
 - Rebuilt the Report as a coach. It now opens with the one thing to do right now — review what’s due, learn a few new signs, or take a quiz — shows how many core signs you can recall unaided, and lists the handful tripping you up most with a “Drill these” shortcut. The detailed charts (accuracy, learning stages, memory strength, schedule, categories) now live in a tucked-away “Details & progress” section.

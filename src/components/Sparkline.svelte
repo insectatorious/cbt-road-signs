@@ -19,7 +19,7 @@
   <path
     d={path}
     fill="none"
-    stroke="var(--amber)"
+    stroke="var(--accent)"
     stroke-width="1.6"
     stroke-linejoin="round"
     stroke-linecap="round"

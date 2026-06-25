@@ -1,51 +1,58 @@
 /* ============================================================
-   STRATA — a Dieter Rams–inspired token system
-   "Weniger, aber besser." Less, but better.
+   SUMANAS — a design system for understanding.
 
-   The statutory road signs are the only saturated thing on
-   screen. The chrome is near-achromatic, warm, and quiet, with
-   ONE disciplined accent (amber — the Braun control colour, and
-   the one strong hue the signs don't own). Depth comes from
-   value steps + hairlines, not heavy shadow. Plain CSS custom
-   properties: no build dependency, long-lasting.
+   Warm paper, soft ink, and ONE Tufte red. The statutory road
+   signs stay the only saturated, multi-coloured thing on screen;
+   the chrome is calm cream-and-ink, marked sparingly with a single
+   red for emphasis. Depth comes from hairlines + value steps, not
+   heavy shadow. Corners are nearly square. Motion is calm ease-out,
+   never a bounce. (ADHD-/PDA-/dyslexia-friendly by default.)
 
-   Theme model: the inline bootstrap in index.html resolves the
-   user preference (system/light/dark) to a concrete value and
-   sets [data-theme] on <html> before first paint. So CSS only
-   needs the light :root defaults + the [data-theme="dark"] block.
+   Type: four families — Newsreader (editorial display serif),
+   Lexend (reading-optimised UI + body sans), Atkinson Hyperlegible
+   (long-form prose & data labels), IBM Plex Mono (tabular figures).
+   Self-hosted via @fontsource (imported in main.ts) so the offline
+   PWA needs no network for fonts.
+
+   Plain CSS custom properties: no build dependency, long-lasting.
+
+   Theme model: the inline bootstrap in index.html resolves the user
+   preference (system/light/dark) to a concrete value and sets
+   [data-theme] on <html> before first paint. So CSS only needs the
+   light :root defaults + the [data-theme="dark"] block.
    ============================================================ */
 
 :root {
-  /* ---- PALETTE PRIMITIVES — warm neutral ramp (hue ~80, low chroma) */
-  --paper-00: #fbfaf6; /* lightest */
-  --paper-05: #f7f5ef;
-  --paper-10: #f4f2ec; /* app base */
-  --paper-15: #efede5;
-  --paper-20: #e8e5dc; /* raised / active */
-  --stone-30: #dad6cc; /* hairline */
-  --stone-40: #c5c2b8; /* border */
-  --stone-50: #a8a59b; /* strong border */
-  --stone-60: #8a8881; /* faint ink */
-  --stone-70: #6e6c65; /* muted ink */
-  --ink-80: #565550; /* secondary ink */
-  --ink-90: #3a3936;
-  --ink-95: #2a2926;
-  --ink-100: #1a1a18; /* primary ink — warm black */
+  /* ---- PALETTE PRIMITIVES — warm paper → soft ink (Sumanas cream/ink) */
+  --paper-00: #fffdf8; /* lifted surface / cards (lightest) */
+  --paper-05: #fbf7ee; /* secondary surface */
+  --paper-10: #f7f2e6; /* app base */
+  --paper-15: #f4eee0; /* sunken */
+  --paper-20: #ebe3d2; /* raised / active, quiet fills */
+  --stone-30: #dcd3c1; /* hairline */
+  --stone-40: #c6bba4; /* border */
+  --stone-50: #aea48c; /* strong border */
+  --stone-60: #998e7c; /* faint ink */
+  --stone-70: #6b6356; /* muted ink */
+  --ink-80: #524a3d; /* secondary ink */
+  --ink-90: #38332b;
+  --ink-95: #2a251e;
+  --ink-100: #211e18; /* primary ink — soft near-black (never pure #000) */
 
-  /* ---- ACCENT — amber (single functional accent) */
-  --amber-text: #9a6a12; /* AA as text on paper */
-  --amber: #c8881c; /* canonical accent */
-  --amber-strong: #d99b2b; /* fill (ink text passes AAA) */
-  --amber-bright: #e0a23a; /* dark-mode accent */
-  --amber-tint: #f6ebd6; /* selected wash, light */
-  --amber-tint-d: #3a2f1a; /* selected wash, dark */
+  /* ---- ACCENT — a single Tufte red, used sparingly */
+  --accent: #b3402f; /* canonical accent (marks, borders, active) */
+  --accent-strong: #b3402f; /* solid fill (buttons) */
+  --accent-bright: #d9604c; /* dark-mode accent (lifted off charcoal) */
+  --accent-ink: #8e3122; /* accent as text on paper (AAA) */
+  --accent-wash: #f4e2db; /* tinted background, light */
+  --accent-wash-d: #3a2420; /* tinted background, dark */
 
   /* ---- FUNCTIONAL STATUS — muted, label-paired, never statutory red/blue/green */
   --grade-again: #b0524a; /* clay  — not signal red */
-  --grade-hard: #c08a3e; /* ochre */
-  --grade-good: #5e8c6a; /* sage  — not brunswick green */
-  --grade-easy: #4e7e96; /* slate-teal — not roundel blue */
-  --stat-good: #5e8c6a;
+  --grade-hard: #c0883c; /* ochre */
+  --grade-good: #3e7c5a; /* Sumanas green — not brunswick green */
+  --grade-easy: #2e6e9e; /* Sumanas data-blue — not roundel blue */
+  --stat-good: #3e7c5a;
   --stat-poor: #b0524a;
   --stat-neutral: var(--stone-60);
 
@@ -60,31 +67,32 @@
   --sign-plate-border: var(--stone-30);
 
   /* ---- SEMANTIC: INK / TEXT */
-  --text: var(--ink-100);
+  --text: var(--ink-90); /* body — soft ink, not pure black */
+  --text-strong: var(--ink-100); /* headings / strongest text */
   --text-secondary: var(--ink-80);
   --text-muted: var(--stone-70);
   --text-faint: var(--stone-60);
-  --text-on-accent: var(--ink-100);
-  --link: var(--amber-text);
+  --text-on-accent: #fffdf8; /* paper-white on the dark-red fill */
+  --link: var(--accent-ink);
 
   /* ---- SEMANTIC: BORDERS */
   --hairline: var(--stone-30);
   --border: var(--stone-40);
   --border-strong: var(--stone-50);
   --divider: var(--paper-20);
-  --focus-ring: var(--amber);
+  --focus-ring: #2e6e9e; /* data-blue — kept distinct from the red accent */
 
-  /* ---- ELEVATION — near-flat; borders do the work */
+  /* ---- ELEVATION — near-flat; hairlines do the work */
   --shadow-0: none;
-  --shadow-1: 0 1px 2px rgba(26, 26, 24, 0.05);
-  --shadow-2: 0 2px 8px rgba(26, 26, 24, 0.08);
-  --shadow-3: 0 8px 24px rgba(26, 26, 24, 0.12);
+  --shadow-1: 0 1px 2px rgba(40, 32, 18, 0.05);
+  --shadow-2: 0 2px 10px rgba(40, 32, 18, 0.07);
+  --shadow-3: 0 10px 30px rgba(40, 32, 18, 0.1);
 
-  /* ---- RADII — restrained (Braun) */
-  --r-xs: 2px;
+  /* ---- RADII — nearly square (Tufte/Sumanas): 3 / 6 / 10 */
+  --r-xs: 3px;
   --r-sm: 4px;
   --r-md: 6px;
-  --r-lg: 8px;
+  --r-lg: 10px;
   --r-pill: 999px;
 
   /* ---- SPACING — 8px base, 4px half-step */
@@ -105,42 +113,47 @@
   --tabbar-h: 60px;
   --touch-min: 44px;
 
-  /* ---- TYPE: families */
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue",
-    "Segoe UI", Roboto, Arial, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Roboto Mono", Menlo,
-    Consolas, monospace;
+  /* ---- TYPE: families (self-hosted via @fontsource, see main.ts) */
+  --font-display: "Newsreader Variable", Newsreader, Georgia, "Times New Roman",
+    serif; /* editorial display serif — the Tufte / Distill voice */
+  --font-sans: "Lexend Variable", Lexend, ui-sans-serif, system-ui,
+    -apple-system, "Segoe UI", Roboto, Arial, sans-serif; /* default UI + body */
+  --font-reading: "Atkinson Hyperlegible", "Lexend Variable", Lexend, system-ui,
+    sans-serif; /* long-form prose & data labels (max legibility) */
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", "JetBrains Mono",
+    Menlo, Consolas, monospace;
 
   /* ---- TYPE: scale (mobile defaults) */
   --fs-display: 32px;
-  --lh-display: 1.12;
-  --ls-display: -0.02em;
+  --lh-display: 1.14;
+  --ls-display: -0.018em;
   --fs-title: 22px;
   --lh-title: 1.2;
-  --ls-title: -0.01em;
+  --ls-title: -0.012em;
   --fs-heading: 18px;
   --lh-heading: 1.3;
-  --ls-heading: -0.005em;
+  --ls-heading: -0.004em;
   --fs-body: 16px;
-  --lh-body: 1.55;
+  --lh-body: 1.6; /* roomy line-height for ADHD/dyslexic reading */
   --fs-callout: 15px;
-  --lh-callout: 1.45;
+  --lh-callout: 1.5;
   --fs-caption: 13px;
-  --lh-caption: 1.4;
-  --ls-caption: 0.01em;
-  --fs-micro: 11px;
-  --lh-micro: 1.3;
-  --ls-micro: 0.06em;
+  --lh-caption: 1.45;
+  --ls-caption: 0.005em;
+  --fs-micro: 12px;
+  --lh-micro: 1.35;
+  --ls-micro: 0.02em; /* gentle tracking — no longer all-caps */
   --fs-stat: 40px;
   --lh-stat: 1;
-  --ls-stat: -0.02em;
+  --ls-stat: -0.018em;
 
   --fw-regular: 400;
   --fw-medium: 500;
   --fw-semibold: 600;
   --fw-bold: 700;
 
-  /* ---- MOTION (consumed by GSAP via getComputedStyle + by CSS) */
+  /* ---- MOTION (consumed by GSAP via getComputedStyle + by CSS)
+         Calm ease-out, modest distance, no bounce, no spin. */
   --dur-instant: 0.08s;
   --dur-fast: 0.14s;
   --dur-base: 0.22s;
@@ -148,14 +161,15 @@
   --dur-flip: 0.42s;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
-  --ease-spring: cubic-bezier(0.34, 1.2, 0.64, 1);
+  /* was a spring with overshoot — now a calm ease-out (Sumanas: no bounce). */
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Desktop type bump — a little more presence ≥768px */
 @media (min-width: 768px) {
   :root {
     --fs-display: 40px;
-    --ls-display: -0.025em;
+    --ls-display: -0.022em;
     --fs-title: 26px;
     --fs-heading: 20px;
     --fs-body: 17px;
@@ -164,36 +178,39 @@
 }
 
 /* ============================================================
-   DARK — dim warm charcoal (NOT true black). Calm for long study.
-   Signs sit on a LIGHT plate so statutory colours read correctly.
+   DARK — warm charcoal night paper (NOT true black). Calm for long
+   study. Signs sit on a LIGHT plate so statutory colours read true.
+   The single accent lifts to a brighter red off the dark ground.
    ============================================================ */
 [data-theme="dark"] {
-  --bg: #1a1a18;
-  --surface: #201f1d;
-  --surface-raised: #262521;
-  --surface-sunken: #161614;
-  --surface-hover: #262521;
-  --surface-active: #2d2c28;
+  --bg: #1c1a16;
+  --surface: #221f1b;
+  --surface-raised: #28241f;
+  --surface-sunken: #181612;
+  --surface-hover: #28241f;
+  --surface-active: #2f2b25;
   --sign-plate: #eceae3;
   --sign-plate-border: #cdcabf;
 
-  --text: #e9e6de;
-  --text-secondary: #bfbcb3;
-  --text-muted: #94918a;
-  --text-faint: #6f6d66;
-  --text-on-accent: #1a1a18;
-  --link: var(--amber-bright);
+  --text: #e9e5db;
+  --text-strong: #f3efe6;
+  --text-secondary: #c2bcae;
+  --text-muted: #968f81;
+  --text-faint: #6f6a5e;
+  --text-on-accent: #1c1a16; /* ink on the lifted (lighter) dark-mode red */
+  --link: var(--accent-ink);
 
-  --hairline: #322f2c;
-  --border: #3c3a36;
-  --border-strong: #4a4843;
-  --divider: #2a2825;
-  --focus-ring: var(--amber-bright);
+  --hairline: #34302a;
+  --border: #3e3a33;
+  --border-strong: #4c473f;
+  --divider: #2a2620;
+  --focus-ring: #5c97c4; /* data-blue, lifted for the dark ground */
 
-  --amber: var(--amber-bright);
-  --amber-strong: var(--amber-bright);
-  --amber-text: var(--amber-bright);
-  --amber-tint: var(--amber-tint-d);
+  /* accent lifts off charcoal; the amber-* aliases follow automatically */
+  --accent: var(--accent-bright);
+  --accent-strong: var(--accent-bright);
+  --accent-ink: #e5836f; /* link / accent text on dark */
+  --accent-wash: var(--accent-wash-d);
 
   --grade-again: #c76b62;
   --grade-hard: #d2a24f;

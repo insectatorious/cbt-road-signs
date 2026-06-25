@@ -172,7 +172,7 @@
     height: 4px;
     transform: translateY(-50%);
     border-radius: var(--r-pill);
-    background: var(--amber-strong);
+    background: var(--accent);
     transition: width var(--dur-base) var(--ease-spring);
   }
   .scope__tick {
@@ -189,8 +189,8 @@
       border-color var(--dur-base) var(--ease-standard);
   }
   .scope__tick.is-passed {
-    background: var(--amber-strong);
-    border-color: var(--amber-strong);
+    background: var(--accent);
+    border-color: var(--accent);
   }
   .scope__thumb {
     position: absolute;
@@ -200,7 +200,7 @@
     border-radius: var(--r-pill);
     transform: translate(-50%, -50%);
     background: var(--surface-raised);
-    border: 2px solid var(--amber-strong);
+    border: 2px solid var(--accent);
     box-shadow: var(--shadow-1);
     transition:
       left var(--dur-base) var(--ease-spring),
@@ -247,6 +247,6 @@
     font-weight: var(--fw-medium);
   }
   .scope__label.is-active .scope__count {
-    color: var(--amber-text);
+    color: var(--accent-ink);
   }
 </style>

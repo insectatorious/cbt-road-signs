@@ -302,7 +302,7 @@
   .result__score {
     font-size: var(--fs-stat);
     font-weight: var(--fw-semibold);
-    color: var(--amber-text);
+    color: var(--accent-ink);
   }
   .result__sub {
     color: var(--text-secondary);

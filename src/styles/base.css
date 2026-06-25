@@ -77,6 +77,14 @@ ol {
 :where(h1, h2, h3, h4) {
   font-weight: var(--fw-semibold);
   line-height: var(--lh-heading);
+  color: var(--text-strong);
+}
+/* The largest headings are set in the editorial display serif (Newsreader);
+   subheads (h3/h4) stay in the reading sans. */
+:where(h1, h2) {
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  letter-spacing: -0.012em;
 }
 
 /* ---- Focus: visible, amber, never removed for keyboard users ---- */
@@ -94,22 +102,24 @@ ol {
 }
 
 ::selection {
-  background: var(--amber-tint);
+  background: var(--accent-wash);
   color: var(--text);
 }
 
 /* ---- Typographic roles (utility classes) ---- */
 .t-display {
+  font-family: var(--font-display);
   font-size: var(--fs-display);
   line-height: var(--lh-display);
   letter-spacing: var(--ls-display);
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-medium);
 }
 .t-title {
+  font-family: var(--font-display);
   font-size: var(--fs-title);
   line-height: var(--lh-title);
   letter-spacing: var(--ls-title);
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-medium);
 }
 .t-heading {
   font-size: var(--fs-heading);
@@ -132,11 +142,13 @@ ol {
   letter-spacing: var(--ls-caption);
   color: var(--text-muted);
 }
+/* Eyebrow / label role. Sentence case — never ALL CAPS (caps flatten
+   word-shape and slow dyslexic reading); distinction comes from weight,
+   size and gentle tracking instead. */
 .t-micro {
   font-size: var(--fs-micro);
   line-height: var(--lh-micro);
   letter-spacing: var(--ls-micro);
-  text-transform: uppercase;
   font-weight: var(--fw-semibold);
   color: var(--text-muted);
 }
@@ -184,11 +196,11 @@ ol {
   transform: translateY(1px);
 }
 .btn--primary {
-  background: var(--amber-strong);
+  background: var(--accent-strong);
   color: var(--text-on-accent);
 }
 .btn--primary:hover {
-  background: var(--amber);
+  background: var(--accent-ink);
 }
 .btn--ghost {
   color: var(--text-secondary);

@@ -1,3 +1,13 @@
+/* Sumanas typefaces — self-hosted (offline-first PWA, no runtime font fetch).
+   Latin subsets only, weights the UI actually uses, to keep the precache lean. */
+import '@fontsource-variable/lexend/wght.css' // default UI + body sans
+import '@fontsource-variable/newsreader/wght.css' // editorial display serif
+import '@fontsource/atkinson-hyperlegible/latin-400.css' // long-form reading
+import '@fontsource/atkinson-hyperlegible/latin-700.css'
+import '@fontsource/atkinson-hyperlegible/latin-400-italic.css'
+import '@fontsource/ibm-plex-mono/latin-400.css' // tabular figures
+import '@fontsource/ibm-plex-mono/latin-500.css'
+import '@fontsource/ibm-plex-mono/latin-600.css'
 import './styles/base.css'
 import { mount } from 'svelte'
 import App from './App.svelte'

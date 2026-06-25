@@ -50,7 +50,7 @@
   })
   const EYEBROW = {
     start: 'Get started',
-    review: 'Do this now',
+    review: 'When you’re ready',
     learn: 'Next up',
     'caught-up': 'All caught up',
   } as const
@@ -157,7 +157,7 @@
         <div class="block__head">
           <h2 class="t-heading">Worth a closer look</h2>
           <button class="btn btn--ghost btn--sm" onclick={() => drill(ranks.worst)}>
-            <Icon name="target" size={16} /> Drill these {ranks.worst.length}
+            <Icon name="target" size={16} /> Practice these {ranks.worst.length}
           </button>
         </div>
         <ul class="rows">
@@ -334,14 +334,14 @@
     background: var(--surface);
   }
   .coach--review {
-    border-color: color-mix(in srgb, var(--amber) 50%, var(--border));
-    background: var(--amber-tint);
+    border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+    background: var(--accent-wash);
   }
   .coach__eyebrow {
     color: var(--text-muted);
   }
   .coach--review .coach__eyebrow {
-    color: var(--amber-text);
+    color: var(--accent-ink);
   }
   .coach__head {
     margin-top: 2px;
@@ -425,7 +425,7 @@
     background: var(--stone-50);
   }
   .segbar__seg--learning {
-    background: var(--amber);
+    background: var(--accent);
   }
   .segbar__seg--settling {
     background: var(--stat-good);
@@ -455,7 +455,7 @@
     background: var(--stone-50);
   }
   .legend__dot--learning {
-    background: var(--amber);
+    background: var(--accent);
   }
   .legend__dot--settling {
     background: var(--stat-good);

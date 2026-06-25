@@ -41,13 +41,13 @@
     flex-wrap: wrap;
     padding: var(--s-3) var(--s-4);
     margin-bottom: var(--s-4);
-    background: var(--amber-tint);
-    border: 1px solid color-mix(in srgb, var(--amber) 40%, var(--hairline));
+    background: var(--accent-wash);
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--hairline));
     border-radius: var(--r-md);
     color: var(--text);
   }
   .nudge :global(svg) {
-    color: var(--amber-text);
+    color: var(--accent-ink);
     flex: none;
   }
   .nudge__text {
@@ -72,11 +72,11 @@
     color: var(--text);
   }
   .nudge__btn--primary {
-    background: var(--amber-strong);
+    background: var(--accent);
     color: var(--text-on-accent);
   }
   .nudge__btn--primary:hover {
     color: var(--text-on-accent);
-    background: var(--amber);
+    background: var(--accent-ink);
   }
 </style>
