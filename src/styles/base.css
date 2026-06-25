@@ -80,14 +80,14 @@ ol {
   color: var(--text-strong);
 }
 /* The largest headings are set in the editorial display serif (Newsreader);
-   subheads (h3/h4) stay in the reading sans. */
+   subheads (h3/h4) stay in the UI sans (Lexend, via --font-sans). */
 :where(h1, h2) {
   font-family: var(--font-display);
   font-weight: var(--fw-medium);
   letter-spacing: -0.012em;
 }
 
-/* ---- Focus: visible, amber, never removed for keyboard users ---- */
+/* ---- Focus: visible, data-blue, never removed for keyboard users ---- */
 :focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--focus-ring);

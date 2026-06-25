@@ -208,7 +208,7 @@
   --divider: #2a2620;
   --focus-ring: #5c97c4; /* data-blue, lifted for the dark ground */
 
-  /* accent lifts off charcoal; the amber-* aliases follow automatically */
+  /* the single accent lifts to a brighter red off the dark charcoal ground */
   --accent: var(--accent-bright);
   --accent-strong: var(--accent-bright);
   --accent-ink: #e5836f; /* link / accent text on dark */
