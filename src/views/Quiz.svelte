@@ -37,7 +37,9 @@
     if (focus.length) {
       queue = focus.slice(0, SESSION)
     } else {
-      const q = buildStudyQueue(activeSigns(), store.reviews, store.settings.newPerDay, Date.now(), store.settings.shuffleCategories, store.settings.reviewCap)
+      // No reviewCap here: that cap is a Study-session comfort limit. Quiz has its
+      // own SESSION cap, and applying reviewCap could shrink the quiz below it.
+      const q = buildStudyQueue(activeSigns(), store.reviews, store.settings.newPerDay, Date.now(), store.settings.shuffleCategories)
       queue = q.ids.slice(0, SESSION)
     }
     index = 0

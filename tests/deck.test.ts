@@ -114,7 +114,7 @@ describe('buildStudyQueue — reviewCap on the due backlog', () => {
     return { ...newReviewState(id), introduced: true, dueAt }
   }
 
-  // 6 due cards, dueAt -6..-1 so d6 is the most overdue, d1 the least
+  // 6 due cards: d1 has dueAt -6 (smallest ⇒ most overdue) … d6 has -1 (least overdue)
   const deck6: SignDefinition[] = Array.from({ length: 6 }, (_, i) => sign(`d${i + 1}`, 'core'))
   const reviews6: Record<string, ReviewState> = Object.fromEntries(
     deck6.map((s, i) => [s.id, dueReview(s.id, -(6 - i))]),
