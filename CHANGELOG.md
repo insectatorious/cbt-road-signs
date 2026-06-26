@@ -3,6 +3,10 @@
 All notable changes to this project. **Generated** from `src/data/changelog.ts`
 (the in-app release notes) — edit that and run `npm run build-changelog`.
 
+## 1.9.1 — 27 June 2026
+
+- Made the sign-detail and release-notes pop-ups properly keyboard- and screen-reader-friendly. Tab now stays inside the open panel and loops around instead of slipping out to the page behind it, the background is held still and inert while a panel is open, and when you close it your place on the page is restored.
+
 ## 1.9.0 — 26 June 2026
 
 - Study sessions now have a daily cap, so coming back after a few days away no longer hands you a wall of 100+ cards at once. By default you’ll see up to 50 due cards a sitting (plus your new ones); the rest wait for your next session, shown as a “+N more today” note rather than vanishing. Tune the cap under Settings → “Max reviews per session”.
