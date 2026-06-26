@@ -11,7 +11,7 @@
   import { pct } from '../lib/util'
 
   let queue = $state<string[]>([])
-  let info = $state({ dueCount: 0, newCount: 0 })
+  let info = $state({ dueCount: 0, newCount: 0, dueDeferred: 0 })
   let index = $state(0)
   let flipped = $state(false)
   let grading = $state(false) // in-flight guard: blocks double-grade during the exit animation
@@ -27,9 +27,9 @@
   const currentSign = $derived(currentId ? SIGN_BY_ID.get(currentId) : undefined)
 
   function build() {
-    const q = buildStudyQueue(activeSigns(), store.reviews, store.settings.newPerDay, Date.now(), store.settings.shuffleCategories)
+    const q = buildStudyQueue(activeSigns(), store.reviews, store.settings.newPerDay, Date.now(), store.settings.shuffleCategories, store.settings.reviewCap)
     queue = q.ids
-    info = { dueCount: q.dueCount, newCount: q.newCount }
+    info = { dueCount: q.dueCount, newCount: q.newCount, dueDeferred: q.dueDeferred }
     index = 0
     flipped = false
     grading = false
@@ -139,6 +139,9 @@
       <div class="study__counts">
         <span class="count"><span class="count__n t-num">{info.dueCount}</span> due</span>
         <span class="count"><span class="count__n t-num">{info.newCount}</span> new</span>
+        {#if info.dueDeferred > 0}
+          <span class="count count--more" title="Capped to keep the session manageable — the rest is saved for later, not lost.">+<span class="t-num">{info.dueDeferred}</span> more today</span>
+        {/if}
       </div>
       <span class="study__pos t-num">{index + 1} / {queue.length}</span>
     </header>
@@ -213,6 +216,10 @@
     font-size: var(--fs-heading);
     color: var(--text);
     margin-right: 3px;
+  }
+  .count--more {
+    align-self: center;
+    color: var(--accent);
   }
   .study__pos {
     font-size: var(--fs-caption);

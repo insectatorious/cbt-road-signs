@@ -98,6 +98,10 @@ export const SCOPE_TIERS: Record<DeckScope, readonly Tier[]> = {
 
 export interface Settings {
   newPerDay: number
+  /** cap on the number of *due* reviews surfaced in one Study session (new cards
+   *  are budgeted separately by newPerDay) — keeps a post-absence backlog from
+   *  becoming a fatiguing wall in a single sitting */
+  reviewCap: number
   deckScope: DeckScope
   includeMarkings: boolean
   /** include the motorway-signs module (off by default — motorways are beyond CBT
@@ -117,6 +121,7 @@ export interface SessionRecord {
 
 export const DEFAULT_SETTINGS: Settings = {
   newPerDay: 12,
+  reviewCap: 50,
   deckScope: 'standard',
   includeMarkings: true,
   includeMotorway: false,

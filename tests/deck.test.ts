@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { activeDeck, buildStudyQueue } from '../src/lib/deck'
-import { DEFAULT_SETTINGS, type Settings, type SignDefinition } from '../src/lib/types'
+import { newReviewState } from '../src/lib/scheduler'
+import { DEFAULT_SETTINGS, type ReviewState, type Settings, type SignDefinition } from '../src/lib/types'
 
 function sign(id: string, tier: SignDefinition['tier'], extra: Partial<SignDefinition> = {}): SignDefinition {
   return {
@@ -104,5 +105,54 @@ describe('buildStudyQueue — shuffle across categories', () => {
     const q = buildStudyQueue(fresh, {}, 2, 0, true)
     expect(q.ids).toHaveLength(2)
     expect(q.newCount).toBe(2)
+  })
+})
+
+describe('buildStudyQueue — reviewCap on the due backlog', () => {
+  // an introduced, due review with an explicit dueAt so most-overdue ordering is deterministic
+  function dueReview(id: string, dueAt: number): ReviewState {
+    return { ...newReviewState(id), introduced: true, dueAt }
+  }
+
+  // 6 due cards, dueAt -6..-1 so d6 is the most overdue, d1 the least
+  const deck6: SignDefinition[] = Array.from({ length: 6 }, (_, i) => sign(`d${i + 1}`, 'core'))
+  const reviews6: Record<string, ReviewState> = Object.fromEntries(
+    deck6.map((s, i) => [s.id, dueReview(s.id, -(6 - i))]),
+  )
+
+  it('uncapped by default — every due card is surfaced', () => {
+    const q = buildStudyQueue(deck6, reviews6, 0, 0)
+    expect(q.dueCount).toBe(6)
+    expect(q.dueDeferred).toBe(0)
+    expect(q.ids).toHaveLength(6)
+  })
+
+  it('caps the due portion and reports the deferred remainder', () => {
+    const q = buildStudyQueue(deck6, reviews6, 0, 0, false, 4)
+    expect(q.dueCount).toBe(4)
+    expect(q.dueDeferred).toBe(2)
+    expect(q.ids).toHaveLength(4)
+  })
+
+  it('keeps the most-overdue cards when capping', () => {
+    // dueAt -6 (d1) is most overdue … -1 (d6) least; a cap of 2 keeps d1, d2
+    const q = buildStudyQueue(deck6, reviews6, 0, 0, false, 2)
+    expect(q.ids).toEqual(['d1', 'd2'])
+    expect(q.dueDeferred).toBe(4)
+  })
+
+  it('never exceeds reviewCap due + newPerDay new cards', () => {
+    const freshSigns: SignDefinition[] = [sign('n1', 'core'), sign('n2', 'core'), sign('n3', 'core')]
+    const q = buildStudyQueue([...deck6, ...freshSigns], reviews6, 2, 0, false, 3)
+    expect(q.dueCount).toBe(3)
+    expect(q.newCount).toBe(2)
+    expect(q.ids).toHaveLength(5)
+    expect(q.dueDeferred).toBe(3)
+  })
+
+  it('a cap at or above the backlog defers nothing', () => {
+    const q = buildStudyQueue(deck6, reviews6, 0, 0, false, 10)
+    expect(q.dueCount).toBe(6)
+    expect(q.dueDeferred).toBe(0)
   })
 })

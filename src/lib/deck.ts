@@ -58,18 +58,24 @@ function interleave(due: string[], fresh: string[]): string[] {
 
 export interface QueueInfo {
   ids: string[]
+  /** due reviews included in this session (after the cap) */
   dueCount: number
   newCount: number
+  /** due reviews held back by reviewCap — the "+N more due today" remainder */
+  dueDeferred: number
 }
 
 /** Build today's queue: due reviews (most overdue first) interleaved with up to
- *  newPerDay never-seen cards in importance order. */
+ *  newPerDay never-seen cards in importance order. At most `reviewCap` of the most
+ *  overdue reviews are surfaced; the rest are deferred to keep a post-absence
+ *  backlog from becoming a single-sitting wall (new cards budget is separate). */
 export function buildStudyQueue(
   deck: SignDefinition[],
   reviews: Record<string, ReviewState>,
   newPerDay: number,
   now: number,
   shuffleNew = false,
+  reviewCap = Infinity,
 ): QueueInfo {
   const dueStates: ReviewState[] = []
   const fresh: SignDefinition[] = []
@@ -82,12 +88,21 @@ export function buildStudyQueue(
     }
   }
   dueStates.sort((a, b) => a.dueAt - b.dueAt)
+  // cap the due portion to the most-overdue `reviewCap`; the remainder waits for
+  // a later session rather than swamping this one (new cards are budgeted apart).
+  const cap = Math.max(0, reviewCap)
+  const cappedDue = dueStates.slice(0, cap)
   // default: introduce new cards in importance (tier→category) order, which groups
   // them by category. shuffleNew mixes categories by taking a random selection.
   const orderedFresh = shuffleNew ? shuffled(fresh) : fresh.slice().sort(introOrder)
-  const dueIds = dueStates.map((r) => r.id)
+  const dueIds = cappedDue.map((r) => r.id)
   const newIds = orderedFresh.slice(0, Math.max(0, newPerDay)).map((s) => s.id)
-  return { ids: interleave(dueIds, newIds), dueCount: dueIds.length, newCount: newIds.length }
+  return {
+    ids: interleave(dueIds, newIds),
+    dueCount: dueIds.length,
+    newCount: newIds.length,
+    dueDeferred: dueStates.length - dueIds.length,
+  }
 }
 
 /** Count of due reviews only (for the nav badge / report). */

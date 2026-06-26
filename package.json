@@ -1,7 +1,7 @@
 {
   "name": "cbt-flashcards",
   "private": true,
-  "version": "1.8.2",
+  "version": "1.9.0",
   "type": "module",
   "description": "Spaced-repetition revision for UK motorcycle CBT road signs",
   "scripts": {
