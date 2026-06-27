@@ -11,9 +11,57 @@ import {
 import { newReviewState } from './scheduler'
 
 const KEY = 'cbt-signs:v1'
+/** Current persisted shape version. Bump this whenever the *shape* changes
+ *  (a field renamed/split/moved — not a value tweak the coercion pass handles)
+ *  and register a `MIGRATIONS[oldVersion]` transform that upgrades the previous
+ *  shape to the new one. The ordered ladder in `migrate()` then walks any older
+ *  backup up to here before the field-coercion pass normalises it. */
 const SCHEMA_VERSION = 1
 const SESSION_CAP = 120
 const BOOKMARK_CAP = 400
+
+type RawShape = Record<string, unknown>
+
+/** Ordered shape transforms: `MIGRATIONS[n]` upgrades a v`n` blob to v`n+1`.
+ *  Each must be pure and only handle the structural change — the coercion pass
+ *  at the end of `migrate()` validates and defaults every field afterwards, so a
+ *  transform never needs to sanitise types itself. Empty until the first bump;
+ *  for a v1→v2 change, register `1: (d) => ...` that returns the v2-shaped blob. */
+const MIGRATIONS: Record<number, (d: RawShape) => RawShape> = {}
+
+/** Thrown when a backup declares a schemaVersion newer than this build supports.
+ *  The importer surfaces this as a clear message rather than silently
+ *  down-coercing a future shape (which could drop fields it doesn't know yet). */
+export class FutureSchemaError extends Error {
+  constructor(readonly version: number) {
+    super(`Backup schema v${version} is newer than supported (v${SCHEMA_VERSION})`)
+    this.name = 'FutureSchemaError'
+  }
+}
+
+/** The incoming shape's version: a finite integer ≥ 1, else 1 (legacy backups
+ *  pre-date the field, and v1 is the only shape that ever shipped without it). */
+function schemaVersionOf(d: RawShape): number {
+  const v = d.schemaVersion
+  return typeof v === 'number' && Number.isFinite(v) && v >= 1 ? Math.floor(v) : 1
+}
+
+/** Walk the migration ladder, applying steps `from`‥`to-1` in version order.
+ *  A missing step (version gap) is skipped. Exposed for testing so a v1→v2
+ *  transform can be exercised before any real bump ships. */
+export function applyMigrations(
+  raw: RawShape,
+  from: number,
+  to: number,
+  ladder: Record<number, (d: RawShape) => RawShape> = MIGRATIONS,
+): RawShape {
+  let d = raw
+  for (let v = from; v < to; v++) {
+    const step = ladder[v]
+    if (step) d = step(d)
+  }
+  return d
+}
 
 export interface PersistShape {
   schemaVersion: number
@@ -142,11 +190,29 @@ function sanitizeSettings(raw: unknown): Settings {
   }
 }
 
-/** Coerce arbitrary parsed data into the current shape (+ run migrations). */
-export function migrate(data: unknown, now: number): PersistShape {
+/** Coerce arbitrary parsed data into the current shape.
+ *
+ *  Versioning: read the incoming `schemaVersion`, walk the `MIGRATIONS` ladder
+ *  up to `SCHEMA_VERSION`, then run the field-coercion pass below as the final
+ *  normaliser. A backup *newer* than this build either throws `FutureSchemaError`
+ *  (when `rejectFuture`, i.e. a user import — so we warn instead of dropping
+ *  fields we don't understand) or, on our own load path, falls through to a
+ *  best-effort coercion so a downgraded app never wipes existing data. */
+export function migrate(
+  data: unknown,
+  now: number,
+  { rejectFuture = false }: { rejectFuture?: boolean } = {},
+): PersistShape {
   const base = fresh(now)
   if (!data || typeof data !== 'object') return base
-  const d = data as Partial<PersistShape>
+  let raw = data as RawShape
+  const from = schemaVersionOf(raw)
+  if (from > SCHEMA_VERSION) {
+    if (rejectFuture) throw new FutureSchemaError(from)
+  } else {
+    raw = applyMigrations(raw, from, SCHEMA_VERSION)
+  }
+  const d = raw as Partial<PersistShape>
   return {
     schemaVersion: SCHEMA_VERSION,
     reviews: sanitizeReviews(d.reviews),
@@ -205,5 +271,7 @@ export function exportJSON(data: PersistShape): string {
 }
 
 export function importJSON(text: string, now: number): PersistShape {
-  return migrate(JSON.parse(text), now)
+  // A user-supplied file: reject a newer-than-supported shape loudly rather than
+  // silently down-coercing it (the load path coerces best-effort instead).
+  return migrate(JSON.parse(text), now, { rejectFuture: true })
 }

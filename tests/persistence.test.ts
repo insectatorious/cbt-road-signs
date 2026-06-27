@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { exportJSON, importJSON, migrate } from '../src/lib/persistence'
+import {
+  applyMigrations,
+  exportJSON,
+  FutureSchemaError,
+  importJSON,
+  migrate,
+} from '../src/lib/persistence'
 
 const NOW = 1_700_000_000_000
 
@@ -135,5 +141,63 @@ describe('migrate', () => {
     const shape = migrate({ bookmarks: ['a', 'b'] }, NOW)
     const restored = importJSON(exportJSON(shape), NOW)
     expect(restored.bookmarks).toEqual(['a', 'b'])
+  })
+})
+
+describe('schema migration ladder', () => {
+  it('runs an example v1 -> v2 transform before the coercion pass', () => {
+    // a hypothetical v2 that renamed `newPerDay` -> would be reshaped here
+    const ladder = {
+      1: (d: Record<string, unknown>) => ({
+        ...d,
+        schemaVersion: 2,
+        settings: { ...(d.settings as object), newPerDay: 7 },
+      }),
+    }
+    const out = applyMigrations({ schemaVersion: 1, settings: { newPerDay: 3 } }, 1, 2, ladder)
+    expect(out.schemaVersion).toBe(2)
+    expect((out.settings as { newPerDay: number }).newPerDay).toBe(7)
+  })
+
+  it('chains steps in version order v1 -> v2 -> v3', () => {
+    const trail: number[] = []
+    const ladder = {
+      1: (d: Record<string, unknown>) => {
+        trail.push(1)
+        return { ...d, a: 1 }
+      },
+      2: (d: Record<string, unknown>) => {
+        trail.push(2)
+        return { ...d, b: 2 }
+      },
+    }
+    const out = applyMigrations({}, 1, 3, ladder)
+    expect(trail).toEqual([1, 2]) // applied in order, not skipping
+    expect(out).toMatchObject({ a: 1, b: 2 })
+  })
+
+  it('skips a version gap that has no registered step', () => {
+    const out = applyMigrations({ x: 1 }, 1, 3, { 2: (d) => ({ ...d, y: 2 }) })
+    expect(out).toEqual({ x: 1, y: 2 })
+  })
+})
+
+describe('migrate() branches on schemaVersion', () => {
+  it('treats a missing / legacy schemaVersion as v1', () => {
+    const m = migrate({ settings: { newPerDay: 5 } }, NOW)
+    expect(m.schemaVersion).toBe(1)
+    expect(m.settings.newPerDay).toBe(5)
+  })
+
+  it('importJSON rejects a backup newer than this build supports', () => {
+    const future = JSON.stringify({ schemaVersion: 999, reviews: {} })
+    expect(() => importJSON(future, NOW)).toThrow(FutureSchemaError)
+  })
+
+  it('the load path coerces a future shape best-effort rather than throwing', () => {
+    // a downgraded app must never wipe real data just because the blob is newer
+    const m = migrate({ schemaVersion: 999, settings: { newPerDay: 9 } }, NOW)
+    expect(m.schemaVersion).toBe(1)
+    expect(m.settings.newPerDay).toBe(9)
   })
 })

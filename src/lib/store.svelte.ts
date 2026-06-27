@@ -273,26 +273,31 @@ export function dismissBackupNudge(): void {
   persist()
 }
 
+/** Why an import failed: a backup from a newer app version (a real shape we
+ *  refuse to down-coerce) vs. an unreadable/corrupt file. Lets the UI explain. */
+export type ImportResult = { ok: true } | { ok: false; reason: 'future' | 'invalid' }
+
 /** Restore the FULL state from a backup file (reviews, settings, sessions,
  *  pace baselines, and meta) — not just the reviews. */
-export function importData(text: string): boolean {
+export function importData(text: string): ImportResult {
+  let data: persistence.PersistShape
   try {
-    const data = persistence.importJSON(text, Date.now())
-    for (const id of Object.keys(data.reviews)) {
-      if (!SIGN_BY_ID.has(id)) delete data.reviews[id]
-    }
-    store.reviews = data.reviews
-    store.settings = data.settings
-    store.sessions = data.sessions
-    store.bookmarks = data.bookmarks.filter((id) => SIGN_BY_ID.has(id))
-    store.createdAt = data.meta.createdAt
-    store.pace = { study: data.meta.studyPaceMs, quiz: data.meta.quizPaceMs }
-    store.lastBackupAt = data.meta.lastBackupAt
-    store.backupNudgeDismissedAt = data.meta.backupNudgeDismissedAt
-    lastUndo = null // the snapshot belongs to the replaced dataset (mirrors resetProgress)
-    persist()
-    return true
-  } catch {
-    return false
+    data = persistence.importJSON(text, Date.now())
+  } catch (e) {
+    return { ok: false, reason: e instanceof persistence.FutureSchemaError ? 'future' : 'invalid' }
   }
+  for (const id of Object.keys(data.reviews)) {
+    if (!SIGN_BY_ID.has(id)) delete data.reviews[id]
+  }
+  store.reviews = data.reviews
+  store.settings = data.settings
+  store.sessions = data.sessions
+  store.bookmarks = data.bookmarks.filter((id) => SIGN_BY_ID.has(id))
+  store.createdAt = data.meta.createdAt
+  store.pace = { study: data.meta.studyPaceMs, quiz: data.meta.quizPaceMs }
+  store.lastBackupAt = data.meta.lastBackupAt
+  store.backupNudgeDismissedAt = data.meta.backupNudgeDismissedAt
+  lastUndo = null // the snapshot belongs to the replaced dataset (mirrors resetProgress)
+  persist()
+  return { ok: true }
 }
