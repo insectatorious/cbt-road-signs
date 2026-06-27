@@ -15,6 +15,8 @@ import { initTheme } from './lib/theme.svelte'
 import { initRouter } from './lib/router.svelte'
 import { requestPersistence } from './lib/storage'
 import { initAnalytics } from './lib/analytics'
+import { store } from './lib/store.svelte'
+import { syncReminder } from './lib/reminders'
 
 initTheme()
 initRouter()
@@ -22,6 +24,8 @@ initRouter()
 void requestPersistence()
 // Privacy-friendly, cookieless analytics — no-op unless VITE_GOATCOUNTER is set.
 initAnalytics()
+// Re-arm the opt-in daily reminder for its next occurrence (no-op when off/unsupported).
+void syncReminder(store.settings.remindersEnabled, store.settings.reminderTime)
 
 const app = mount(App, { target: document.getElementById('app')! })
 

@@ -121,6 +121,17 @@ function bool(v: unknown, fallback: boolean): boolean {
   return typeof v === 'boolean' ? v : fallback
 }
 
+/** Accept a "HH:MM" 24-hour clock string, else fall back. */
+function clockTime(v: unknown, fallback: string): string {
+  if (typeof v !== 'string') return fallback
+  const m = /^(\d{1,2}):(\d{2})$/.exec(v)
+  if (!m) return fallback
+  const h = Number(m[1])
+  const min = Number(m[2])
+  if (h > 23 || min > 59) return fallback
+  return `${String(h).padStart(2, '0')}:${m[2]}`
+}
+
 /** Resolve the deck-scope slider, migrating the old `includeEdge` boolean
  *  (true ⇒ comprehensive, false ⇒ standard) from pre-slider backups. */
 function coerceScope(r: Record<string, unknown>): DeckScope {
@@ -139,6 +150,9 @@ function sanitizeSettings(raw: unknown): Settings {
     includeMotorway: bool(r.includeMotorway, DEFAULT_SETTINGS.includeMotorway),
     showCategoryHint: bool(r.showCategoryHint, DEFAULT_SETTINGS.showCategoryHint),
     shuffleCategories: bool(r.shuffleCategories, DEFAULT_SETTINGS.shuffleCategories),
+    dailyGoal: Math.min(100, Math.max(1, Math.round(num(r.dailyGoal, DEFAULT_SETTINGS.dailyGoal)))),
+    remindersEnabled: bool(r.remindersEnabled, DEFAULT_SETTINGS.remindersEnabled),
+    reminderTime: clockTime(r.reminderTime, DEFAULT_SETTINGS.reminderTime),
   }
 }
 

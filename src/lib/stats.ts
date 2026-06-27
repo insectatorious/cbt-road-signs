@@ -165,6 +165,55 @@ function studyStreak(sessions: SessionRecord[], now: number): number {
   return streak
 }
 
+const fmtDay = (t: number) => {
+  const d = new Date(t)
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+export interface StreakStats {
+  /** consecutive active days up to today (today need not be done yet) */
+  current: number
+  /** longest run of consecutive active days ever */
+  best: number
+}
+
+/** Current + best study streak from the session log (an active day = any reviews).
+ *  Pure. `best` is the longest consecutive-calendar-day run across all history and
+ *  is always ≥ `current`. */
+export function streakStats(sessions: SessionRecord[], now: number): StreakStats {
+  const current = studyStreak(sessions, now)
+  const days = [...new Set(sessions.filter((s) => s.reviewed > 0).map((s) => s.date))].sort()
+  let best = 0
+  let run = 0
+  let prev: number | null = null
+  for (const ds of days) {
+    const [y, m, d] = ds.split('-').map(Number)
+    const t = startOfDay(new Date(y, (m || 1) - 1, d || 1).getTime())
+    // consecutive if exactly one calendar day after the previous active day
+    run = prev !== null && Math.round((t - prev) / DAY_MS) === 1 ? run + 1 : 1
+    best = Math.max(best, run)
+    prev = t
+  }
+  return { current, best: Math.max(best, current) }
+}
+
+export interface GoalProgress {
+  /** reviews completed today */
+  done: number
+  /** the daily target (≥ 1) */
+  target: number
+  met: boolean
+}
+
+/** Today's progress toward the daily review goal, from the session log. Pure. */
+export function goalToday(sessions: SessionRecord[], target: number, now: number): GoalProgress {
+  const today = fmtDay(startOfDay(now))
+  const s = sessions.find((x) => x.date === today)
+  const done = s && Number.isFinite(s.reviewed) ? Math.max(0, s.reviewed) : 0
+  const t = Math.max(1, Math.round(target))
+  return { done, target: t, met: done >= t }
+}
+
 export function buildReport(
   deck: SignDefinition[],
   reviews: Record<string, ReviewState>,

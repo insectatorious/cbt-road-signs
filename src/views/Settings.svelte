@@ -9,6 +9,10 @@
   import type { DeckScope } from '../lib/types'
   import { APP_VERSION, LAST_UPDATED } from '../data/changelog'
   import { requestPersistence, storageStatus, storageEstimate } from '../lib/storage'
+  import { remindersSupported, syncReminder } from '../lib/reminders'
+
+  const remindersOk = remindersSupported()
+  let reminderMsg = $state('')
 
   let showNotes = $state(false)
   const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -63,6 +67,30 @@
 
   function clampCap(v: number) {
     setSetting('reviewCap', Math.max(10, Math.min(200, v)))
+  }
+
+  function clampGoal(v: number) {
+    setSetting('dailyGoal', Math.max(1, Math.min(50, v)))
+  }
+
+  async function toggleReminders(on: boolean) {
+    if (on && remindersOk && Notification.permission !== 'granted') {
+      const perm = await Notification.requestPermission()
+      if (perm !== 'granted') {
+        reminderMsg = 'Notifications are blocked — allow them in your browser to get reminders.'
+        setSetting('remindersEnabled', false)
+        return
+      }
+    }
+    reminderMsg = ''
+    setSetting('remindersEnabled', on)
+    void syncReminder(on, store.settings.reminderTime)
+  }
+
+  function onReminderTime(e: Event) {
+    const v = (e.target as HTMLInputElement).value
+    setSetting('reminderTime', v)
+    if (store.settings.remindersEnabled) void syncReminder(true, v)
   }
 
   function doReset() {
@@ -124,6 +152,18 @@
 
     <div class="row">
       <div class="row__text">
+        <span class="row__title">Daily goal</span>
+        <span class="row__desc t-caption">Reviews to aim for each day — drives the streak goal in the Report.</span>
+      </div>
+      <div class="stepper">
+        <button onclick={() => clampGoal(store.settings.dailyGoal - 1)} aria-label="Fewer">−</button>
+        <span class="stepper__val t-num">{store.settings.dailyGoal}</span>
+        <button onclick={() => clampGoal(store.settings.dailyGoal + 1)} aria-label="More">+</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="row__text">
         <span class="row__title">Show category hint</span>
         <span class="row__desc t-caption">Reveal the sign family (e.g. “Warning”) on the card front.</span>
       </div>
@@ -166,6 +206,41 @@
       </div>
       <Switch label="Include motorway signs" checked={store.settings.includeMotorway} onchange={(v) => setSetting('includeMotorway', v)} />
     </div>
+  </div>
+
+  <div class="group">
+    <span class="group__label t-micro">Reminders</span>
+    <div class="row">
+      <div class="row__text">
+        <span class="row__title">Daily study reminder</span>
+        <span class="row__desc t-caption">
+          {#if remindersOk}A local notification at your chosen time — off by default, stays on this device, no account needed.{:else}Scheduled reminders aren’t supported in this browser.{/if}
+        </span>
+      </div>
+      {#if remindersOk}
+        <Switch
+          label="Daily study reminder"
+          checked={store.settings.remindersEnabled}
+          onchange={toggleReminders}
+        />
+      {/if}
+    </div>
+    {#if remindersOk && store.settings.remindersEnabled}
+      <div class="row">
+        <div class="row__text">
+          <span class="row__title">Reminder time</span>
+          <span class="row__desc t-caption">Re-arms each time you open the app.</span>
+        </div>
+        <input
+          class="time-input"
+          type="time"
+          value={store.settings.reminderTime}
+          onchange={onReminderTime}
+          aria-label="Reminder time"
+        />
+      </div>
+    {/if}
+    {#if reminderMsg}<p class="import-msg t-caption">{reminderMsg}</p>{/if}
   </div>
 
   <div class="group">
@@ -311,6 +386,19 @@
     min-width: 30px;
     text-align: center;
     font-weight: var(--fw-semibold);
+  }
+  .time-input {
+    flex: none;
+    min-height: 38px;
+    padding: 0 var(--s-2);
+    font-size: var(--fs-callout);
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+  }
+  .time-input:focus-visible {
+    border-color: var(--accent);
   }
 
   .data-actions {

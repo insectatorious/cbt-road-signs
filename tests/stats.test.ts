@@ -13,6 +13,8 @@ import {
   rankCards,
   recallReadiness,
   sentenceForPlan,
+  streakStats,
+  goalToday,
   struggleScore,
   windowedRetention,
 } from '../src/lib/stats'
@@ -414,5 +416,55 @@ describe('coachAction', () => {
     const budgetHit = coachAction({ ...base, dueNow: 0, newAvailable: 9, newRemainingToday: 0 })
     expect(budgetHit.mode).toBe('caught-up')
     expect(budgetHit.sub).toContain("today's new signs")
+  })
+})
+
+describe('streakStats', () => {
+  const mk = (date: string, reviewed = 5) => ({ date, reviewed, correct: reviewed, newSeen: 0 })
+
+  it('counts the current run up to today and the best run ever', () => {
+    const sessions = [
+      mk('2026-06-10'), mk('2026-06-11'), mk('2026-06-12'), // earlier 3-day run
+      mk('2026-06-18'), mk('2026-06-19'), mk('2026-06-20'), // current 3-day run ending today
+    ]
+    expect(streakStats(sessions, NOW)).toEqual({ current: 3, best: 3 })
+  })
+
+  it('keeps the current streak when today is not done yet (counts from yesterday)', () => {
+    const sessions = [mk('2026-06-18'), mk('2026-06-19')] // today (20th) not studied
+    expect(streakStats(sessions, NOW).current).toBe(2)
+  })
+
+  it('best exceeds current when an earlier run was longer', () => {
+    const sessions = [
+      mk('2026-06-01'), mk('2026-06-02'), mk('2026-06-03'), mk('2026-06-04'), // 4-day run
+      mk('2026-06-20'), // today, current run of 1
+    ]
+    const s = streakStats(sessions, NOW)
+    expect(s.current).toBe(1)
+    expect(s.best).toBe(4)
+  })
+
+  it('ignores days with no reviews and handles empty history', () => {
+    expect(streakStats([], NOW)).toEqual({ current: 0, best: 0 })
+    expect(streakStats([mk('2026-06-20', 0)], NOW)).toEqual({ current: 0, best: 0 })
+  })
+})
+
+describe('goalToday', () => {
+  const mk = (date: string, reviewed: number) => ({ date, reviewed, correct: 0, newSeen: 0 })
+
+  it("measures today's reviews against the target", () => {
+    const sessions = [mk('2026-06-19', 99), mk('2026-06-20', 7)]
+    expect(goalToday(sessions, 10, NOW)).toEqual({ done: 7, target: 10, met: false })
+    expect(goalToday(sessions, 5, NOW)).toEqual({ done: 7, target: 5, met: true })
+  })
+
+  it('is zero when today has no session yet', () => {
+    expect(goalToday([mk('2026-06-19', 50)], 10, NOW)).toEqual({ done: 0, target: 10, met: false })
+  })
+
+  it('floors the target at 1', () => {
+    expect(goalToday([], 0, NOW).target).toBe(1)
   })
 })

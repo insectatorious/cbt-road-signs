@@ -11,6 +11,14 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.13.0',
+    date: '2026-06-27',
+    changes: [
+      'Build a daily revision habit. The Report now shows your study streak (current run of days, plus your best ever) and a simple daily goal — reviews done today against a target you can set under Settings → “Daily goal”.',
+      'Optional daily reminder. If you want a nudge, you can turn on a local notification at a time of your choosing (Settings → Reminders). It’s off by default, stays entirely on your device with no account or tracking, and is one tap to turn off. (Scheduled reminders depend on browser support; where unavailable the option says so.)',
+    ],
+  },
+  {
     version: '1.12.1',
     date: '2026-06-27',
     changes: [
