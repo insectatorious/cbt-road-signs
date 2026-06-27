@@ -102,7 +102,7 @@
     "asset": "UK_traffic_sign_663.svg",
     "composite": false,
     "explanation": "You are entering a controlled parking zone where waiting restrictions apply throughout the zone during the hours shown, so only park in marked bays and read the times.",
-    "mnemonic": "",
+    "mnemonic": "The words 'CONTROLLED ZONE' — from here, park only in marked bays, and only within the hours shown.",
     "searchTerms": [
       "controlled parking zone",
       "cpz sign",
@@ -125,7 +125,7 @@
     "asset": "UK_traffic_sign_664.svg",
     "composite": false,
     "explanation": "You are leaving the controlled parking zone, so the zone-wide waiting restrictions no longer apply, though any signed restrictions on the next road still do.",
-    "mnemonic": "",
+    "mnemonic": "It says the zone ends — the zone-wide waiting restrictions stop here (but new road signs may still apply).",
     "searchTerms": [
       "end of parking zone",
       "zone ends sign",
@@ -148,7 +148,7 @@
     "asset": "UK_traffic_sign_804.4.svg",
     "composite": false,
     "explanation": "The parking place shown is reserved for solo motorcycles only, so use these bays for your bike and do not park here in a car.",
-    "mnemonic": "",
+    "mnemonic": "A lone motorbike on a blue 'P' plate — these bays are for solo motorcycles, not cars.",
     "searchTerms": [
       "motorcycle parking",
       "solo motorcycle bay",
@@ -194,7 +194,7 @@
     "asset": "UK_traffic_sign_881A.svg",
     "composite": false,
     "explanation": "You are entering a home zone designed for people as well as traffic, so drive slowly and give way to pedestrians and children who may be using the whole street.",
-    "mnemonic": "",
+    "mnemonic": "Homes, people and a cyclist sharing the street — you're the guest here, so crawl and give way.",
     "searchTerms": [
       "home zone sign",
       "living street sign",
@@ -217,7 +217,7 @@
     "asset": "UK_traffic_sign_962.svg",
     "composite": false,
     "explanation": "Warns that the road you are about to join has a bus lane crossing your path, so watch for buses before you pull out at the junction ahead.",
-    "mnemonic": "",
+    "mnemonic": "'BUSES' over the junction diagram — a bus lane crosses the road you're joining, so look before you pull out.",
     "searchTerms": [
       "bus lane junction",
       "bus lane ahead sign",

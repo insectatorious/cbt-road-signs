@@ -3135,6 +3135,7 @@ export const signs: SignDefinition[] = [
     "asset": "UK_traffic_sign_664.svg",
     "diagram": "664",
     "explanation": "You are leaving the controlled parking zone, so the zone-wide waiting restrictions no longer apply, though any signed restrictions on the next road still do.",
+    "mnemonic": "It says the zone ends — the zone-wide waiting restrictions stop here (but new road signs may still apply).",
     "confusedWith": [],
     "searchTerms": [
       "end of parking zone",
@@ -3156,6 +3157,7 @@ export const signs: SignDefinition[] = [
     "asset": "UK_traffic_sign_663.svg",
     "diagram": "663",
     "explanation": "You are entering a controlled parking zone where waiting restrictions apply throughout the zone during the hours shown, so only park in marked bays and read the times.",
+    "mnemonic": "The words 'CONTROLLED ZONE' — from here, park only in marked bays, and only within the hours shown.",
     "confusedWith": [],
     "searchTerms": [
       "controlled parking zone",
@@ -3224,6 +3226,7 @@ export const signs: SignDefinition[] = [
     "asset": "UK_traffic_sign_804.4.svg",
     "diagram": "804.4",
     "explanation": "The parking place shown is reserved for solo motorcycles only, so use these bays for your bike and do not park here in a car.",
+    "mnemonic": "A lone motorbike on a blue 'P' plate — these bays are for solo motorcycles, not cars.",
     "confusedWith": [
       "parking",
       "parking-restricted-to-permit-holders"
@@ -3273,6 +3276,7 @@ export const signs: SignDefinition[] = [
     "asset": "UK_traffic_sign_962.svg",
     "diagram": "962",
     "explanation": "Warns that the road you are about to join has a bus lane crossing your path, so watch for buses before you pull out at the junction ahead.",
+    "mnemonic": "'BUSES' over the junction diagram — a bus lane crosses the road you're joining, so look before you pull out.",
     "confusedWith": [],
     "searchTerms": [
       "bus lane junction",
@@ -3345,6 +3349,7 @@ export const signs: SignDefinition[] = [
     "asset": "UK_traffic_sign_881A.svg",
     "diagram": "881A",
     "explanation": "You are entering a home zone designed for people as well as traffic, so drive slowly and give way to pedestrians and children who may be using the whole street.",
+    "mnemonic": "Homes, people and a cyclist sharing the street — you're the guest here, so crawl and give way.",
     "confusedWith": [
       "pedestrian-zone"
     ],

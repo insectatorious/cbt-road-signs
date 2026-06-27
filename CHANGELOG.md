@@ -3,6 +3,10 @@
 All notable changes to this project. **Generated** from `src/data/changelog.ts`
 (the in-app release notes) — edit that and run `npm run build-changelog`.
 
+## 1.12.2 — 27 June 2026
+
+- Added memory aids to five information signs that were missing one — the controlled parking zone entry and end signs, solo-motorcycle parking, home zone entry, and “bus lane at junction ahead” — so every one of those now shows a short prompt on its detail card.
+
 ## 1.12.1 — 27 June 2026
 
 - Fixed the quiz’s “Name the sign / Spot the sign” toggle, which appeared to do nothing: tapping it before answering now switches the current question to that direction straight away (previously the change only took effect on the *next* question, with no on-screen hint, so it looked broken). To avoid giving the answer away, flipping brings in a fresh sign you haven’t seen rather than re-showing the one already on screen. If you flip after answering, a small “Starts on the next question” note now explains the wait.
