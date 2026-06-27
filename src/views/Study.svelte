@@ -108,26 +108,27 @@
 
   async function advance() {
     if (destroyed) return // a late exit-animation callback after the view was torn down
-    flashUndo() // offer to undo the grade we just applied (after the exit animation)
-    // Now that the toast is up and the grading guard has cleared, undo is actually
-    // live — announce the affordance to SR users. This also doubles as the
-    // between-card reset so an identical next result still re-announces.
-    announce = 'Press U to undo.'
     if (index + 1 >= queue.length) {
       done = true
       grading = false
       await tick()
       document.getElementById('view-heading')?.focus()
-      return
+    } else {
+      index += 1
+      flipped = false
+      shownAt = Date.now()
+      await tick()
+      if (stage) enterCard(stage)
+      // mirror reveal()'s focus move so keyboard/SR focus isn't dropped to <body>
+      document.querySelector<HTMLButtonElement>('.controls .btn')?.focus()
+      grading = false
     }
-    index += 1
-    flipped = false
-    shownAt = Date.now()
-    await tick()
-    if (stage) enterCard(stage)
-    // mirror reveal()'s focus move so keyboard/SR focus isn't dropped to <body>
-    document.querySelector<HTMLButtonElement>('.controls .btn')?.focus()
-    grading = false
+    // Surface undo only after the transition has fully settled and `grading` is
+    // back to false — otherwise the toast would show while undo()'s grading guard
+    // still no-ops it. The SR hint here also doubles as the between-card reset so
+    // an identical next result still re-announces.
+    flashUndo()
+    announce = 'Press U to undo.'
   }
 
   function onKey(e: KeyboardEvent) {

@@ -78,10 +78,11 @@
     lastQIndex = index
     flashUndo()
     await tick()
-    if (optionsEl) {
-      if (isRight) pop(optionsEl.children[i] as HTMLElement)
-      else shake(optionsEl.children[i] as HTMLElement)
-    }
+    // bail if the question was reset (e.g. undo) during the await, so we never
+    // animate the wrong/re-rendered option
+    if (!answered || selected !== i || !optionsEl) return
+    if (isRight) pop(optionsEl.children[i] as HTMLElement)
+    else shake(optionsEl.children[i] as HTMLElement)
   }
 
   function next() {
