@@ -199,7 +199,7 @@
   let compareEl = $state<HTMLElement>()
   // Float the comparison in once the wrong-answer shake (~0.36s) has settled.
   $effect(() => {
-    if (compareEl) fadeUp(compareEl, { y: 8, delay: 0.18 })
+    if (compareEl) fadeUp(compareEl, { y: 8, delay: 0.36 })
   })
 
   onMount(() => {
