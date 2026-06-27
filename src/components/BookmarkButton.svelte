@@ -71,11 +71,22 @@
   }
 
   .bm--card {
+    position: relative;
     width: 30px;
     height: 30px;
     border-radius: var(--r-pill);
     background: color-mix(in srgb, var(--surface) 70%, transparent);
     transition: opacity var(--dur-fast) var(--ease-standard);
+  }
+  /* Extend the tap target to >=44px (WCAG 2.5.5) without growing the glyph. */
+  .bm--card::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
   }
   .bm--card:hover {
     color: var(--accent);

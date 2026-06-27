@@ -192,6 +192,16 @@
     color: var(--text-muted);
     border-radius: var(--r-pill);
   }
+  /* Extend the tap target to >=44px (WCAG 2.5.5) without growing the glyph. */
+  .search__clear::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+  }
   .search__clear:hover {
     background: var(--surface-hover);
     color: var(--text);
