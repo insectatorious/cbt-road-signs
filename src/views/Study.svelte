@@ -6,7 +6,7 @@
   import Icon from '../components/Icon.svelte'
   import UndoToast from '../components/UndoToast.svelte'
   import { store, activeSigns, gradeRecall, undoLastGrade, SIGN_BY_ID } from '../lib/store.svelte'
-  import { buildStudyQueue } from '../lib/deck'
+  import { buildStudyQueue, backlogPlan } from '../lib/deck'
   import { enterCard, gradeExit } from '../lib/motion'
   import { navigate } from '../lib/router.svelte'
   import { gradeShadeLabel, pct } from '../lib/util'
@@ -35,6 +35,12 @@
 
   const currentId = $derived(queue[index])
   const currentSign = $derived(currentId ? SIGN_BY_ID.get(currentId) : undefined)
+
+  // catch-up mode: a large overdue pile is paced over several sessions (the per-
+  // session cap defers the remainder), so a return after a break stays manageable.
+  const plan = $derived(
+    backlogPlan(info.dueCount + info.dueDeferred, store.settings.newPerDay, store.settings.reviewCap),
+  )
 
   function build() {
     const q = buildStudyQueue(activeSigns(), store.reviews, store.settings.newPerDay, Date.now(), store.settings.shuffleCategories, store.settings.reviewCap)
@@ -215,6 +221,18 @@
       <span class="study__pos t-num">{index + 1} / {queue.length}</span>
     </header>
 
+    {#if plan.active}
+      <p class="catchup" role="status">
+        <Icon name="info" size={15} />
+        <span
+          ><strong>Catch-up mode.</strong>
+          {plan.dueTotal} reviews built up while you were away — we're serving about {plan.perDay} a
+          session so it stays manageable (about {plan.days} {plan.days === 1 ? 'session' : 'sessions'}
+          to clear). The spacing of everything else is untouched.</span
+        >
+      </p>
+    {/if}
+
     <div class="study__progress" aria-hidden="true">
       <div class="study__progress-fill" style="transform:scaleX({queue.length ? index / queue.length : 0})"></div>
     </div>
@@ -293,6 +311,27 @@
   .study__pos {
     font-size: var(--fs-caption);
     color: var(--text-muted);
+  }
+
+  .catchup {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-2);
+    margin-top: var(--s-3);
+    padding: var(--s-2) var(--s-3);
+    background: var(--accent-wash);
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--hairline));
+    border-radius: var(--r-sm);
+    font-size: var(--fs-caption);
+    color: var(--text-secondary);
+  }
+  .catchup :global(svg) {
+    color: var(--accent-ink);
+    flex: none;
+    margin-top: 1px;
+  }
+  .catchup strong {
+    color: var(--text);
   }
 
   .study__progress {

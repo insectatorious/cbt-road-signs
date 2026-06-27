@@ -105,6 +105,34 @@ export function buildStudyQueue(
   }
 }
 
+/** A post-absence review backlog and how it will drain. */
+export interface BacklogPlan {
+  /** the overdue pile is large enough to pace over several days */
+  active: boolean
+  /** total due/overdue reviews waiting */
+  dueTotal: number
+  /** reviews served per session — the comfort cap that bounds each sitting */
+  perDay: number
+  /** sessions to clear the backlog at `perDay` (≥ 1) */
+  days: number
+}
+
+/** Detect a returning-after-a-break backlog and describe how it drains. Pure.
+ *
+ *  A backlog is when due reviews dwarf a comfortable load:
+ *  `dueTotal > BACKLOG_FACTOR × (newPerDay + reviewCap)`. The per-session review
+ *  slice stays capped at `reviewCap` (buildStudyQueue already enforces this), so a
+ *  pile of N drains over `ceil(N / reviewCap)` sittings instead of one giant wall.
+ *  Nothing here rewrites a card's `dueAt`, so the spacing of non-overdue cards is
+ *  untouched — only the *presentation* of the overdue pile is paced. */
+export const BACKLOG_FACTOR = 1.5
+export function backlogPlan(dueTotal: number, newPerDay: number, reviewCap: number): BacklogPlan {
+  const perDay = Math.max(1, reviewCap)
+  const active = dueTotal > BACKLOG_FACTOR * (Math.max(0, newPerDay) + perDay)
+  const days = Math.max(1, Math.ceil(dueTotal / perDay))
+  return { active, dueTotal, perDay, days }
+}
+
 /** Count of due reviews only (for the nav badge / report). */
 export function dueCount(
   deck: SignDefinition[],

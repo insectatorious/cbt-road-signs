@@ -19,6 +19,7 @@
     RETENTION_MIN_EVENTS,
     type RankedCard,
   } from '../lib/stats'
+  import { backlogPlan } from '../lib/deck'
   import { navigate } from '../lib/router.svelte'
   import { pct, humanInterval, todayStr } from '../lib/util'
   import { CATEGORY_META } from '../lib/types'
@@ -31,6 +32,9 @@
   const ranks = rankCards(store.reviews, 3)
   const readiness = recallReadiness(deck, store.reviews)
   const days = daysSinceStart(store.createdAt, store.sessions, now)
+
+  // catch-up mode: a big overdue pile after a break is paced over several sessions
+  const backlog = backlogPlan(forecast.buckets[0] ?? 0, store.settings.newPerDay, store.settings.reviewCap)
   const hasData = report.totalReviews > 0
 
   // today's remaining new-card budget — so a "learn new" action never overshoots.
@@ -127,6 +131,19 @@
       <p class="coach__forward t-caption">{action.forward}</p>
     {/if}
   </div>
+
+  {#if backlog.active}
+    <p class="catchup" role="status">
+      <Icon name="info" size={16} />
+      <span
+        ><strong>Catch-up mode.</strong>
+        {backlog.dueTotal} reviews built up while you were away. Study serves about {backlog.perDay} a
+        session, so you'll clear them over roughly {backlog.days}
+        {backlog.days === 1 ? 'session' : 'sessions'} instead of one huge sitting — and the spacing of
+        your other signs is left as it was.</span
+      >
+    </p>
+  {/if}
 
   {#if hasData}
     <!-- THE ONE NUMBER: recall readiness over the core set -->
@@ -358,6 +375,26 @@
   .coach__forward {
     margin-top: var(--s-1);
     color: var(--text-muted);
+  }
+
+  .catchup {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-2);
+    padding: var(--s-3);
+    background: var(--accent-wash);
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--hairline));
+    border-radius: var(--r-md);
+    font-size: var(--fs-caption);
+    color: var(--text-secondary);
+  }
+  .catchup :global(svg) {
+    color: var(--accent-ink);
+    flex: none;
+    margin-top: 1px;
+  }
+  .catchup strong {
+    color: var(--text);
   }
 
   .muted {
