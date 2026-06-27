@@ -34,6 +34,27 @@ export function struggleScore(rs: ReviewState): number {
   return (1 - acc) * 0.6 + (1 - easeNorm) * 0.25 + (Math.min(rs.lapses, 5) / 5) * 0.15
 }
 
+export type CardStage = 'new' | 'learning' | 'settling' | 'mastered'
+
+/** The lifecycle stage of a single card — the per-card classifier behind
+ *  `classifyStages`' aggregate buckets, sharing its priority order (new →
+ *  mastered → settling at ≥ SETTLING_INTERVAL → learning) and the `isMastered`
+ *  test. Pure; used by the Reference's progress filter. */
+export function cardStage(rs: ReviewState | undefined): CardStage {
+  if (!rs || !rs.introduced) return 'new'
+  if (isMastered(rs)) return 'mastered'
+  if (rs.intervalDays >= SETTLING_INTERVAL) return 'settling'
+  return 'learning'
+}
+
+const STRUGGLE_THRESHOLD = 0.3
+/** "Still tripping you up" — orthogonal to `cardStage`: enough reviews to judge
+ *  and a high struggle score (same test as the Report's per-category struggling
+ *  count). Pure. */
+export function isStruggling(rs: ReviewState | undefined): boolean {
+  return !!rs && rs.timesSeen >= MIN_REVIEWS_FOR_RANK && struggleScore(rs) > STRUGGLE_THRESHOLD
+}
+
 function mode(arr: string[]): string | undefined {
   if (!arr.length) return undefined
   const counts = new Map<string, number>()
@@ -314,14 +335,15 @@ export function classifyStages(
   let introduced = 0
   for (const sign of deck) {
     const rs = reviews[sign.id]
-    if (!rs || !rs.introduced) {
+    const stage = cardStage(rs)
+    if (stage === 'new') {
       newToStart++
       continue
     }
     introduced++
-    gapSum += rs.intervalDays
-    if (isMastered(rs)) lockedIn++
-    else if (rs.intervalDays >= SETTLING_INTERVAL) settling++
+    gapSum += rs!.intervalDays
+    if (stage === 'mastered') lockedIn++
+    else if (stage === 'settling') settling++
     else learning++
   }
   return {

@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.13.0',
+    date: '2026-06-27',
+    changes: [
+      'The Reference can now be filtered and sorted for targeted revision. New “Tier” (core / standard / edge) and “Progress” (new / learning / settling / mastered / struggling) filters stack on top of the category, search and Saved filters, and a “Sort” control reorders the grid — default, worst-first, most-seen, due-soonest or mastered-first. So you can line up exactly “core signs I’m still struggling with, worst first” and drill those.',
+    ],
+  },
+  {
     version: '1.12.1',
     date: '2026-06-27',
     changes: [

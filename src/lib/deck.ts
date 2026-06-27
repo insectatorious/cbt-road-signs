@@ -8,6 +8,7 @@ import {
   type Tier,
 } from './types'
 import { isDue } from './scheduler'
+import { isMastered, struggleScore } from './stats'
 
 const TIER_RANK: Record<Tier, number> = { core: 0, standard: 1, edge: 2 }
 
@@ -102,6 +103,49 @@ export function buildStudyQueue(
     dueCount: dueIds.length,
     newCount: newIds.length,
     dueDeferred: dueStates.length - dueIds.length,
+  }
+}
+
+export type ReferenceSort = 'default' | 'worst' | 'seen' | 'due' | 'mastered'
+
+/** Reorder reference signs by a chosen key. Pure (returns a new array). 'default'
+ *  keeps the incoming order; the sort is stable so ties also keep it. Cards with no
+ *  review state (or not yet introduced, for due-soonest) sort to the end. Reuses
+ *  stats' `struggleScore`/`isMastered` — no duplicate mastery logic. */
+export function sortReference(
+  signs: SignDefinition[],
+  reviews: Record<string, ReviewState>,
+  mode: ReferenceSort,
+): SignDefinition[] {
+  const arr = signs.slice()
+  const rs = (s: SignDefinition) => reviews[s.id]
+  switch (mode) {
+    case 'worst': {
+      // un-seen cards aren't "struggling" — park them last (−1), not first
+      const k = (s: SignDefinition) => {
+        const r = rs(s)
+        return r && r.timesSeen ? struggleScore(r) : -1
+      }
+      return arr.sort((a, b) => k(b) - k(a))
+    }
+    case 'seen':
+      return arr.sort((a, b) => (rs(b)?.timesSeen ?? 0) - (rs(a)?.timesSeen ?? 0))
+    case 'due': {
+      // un-scheduled (new) cards have no due date — sort them last
+      const k = (s: SignDefinition) => {
+        const r = rs(s)
+        return r?.introduced ? r.dueAt : Infinity
+      }
+      return arr.sort((a, b) => k(a) - k(b))
+    }
+    case 'mastered':
+      return arr.sort(
+        (a, b) =>
+          Number(isMastered(rs(b))) - Number(isMastered(rs(a))) ||
+          (rs(b)?.intervalDays ?? 0) - (rs(a)?.intervalDays ?? 0),
+      )
+    default:
+      return arr
   }
 }
 

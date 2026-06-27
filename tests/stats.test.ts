@@ -5,7 +5,9 @@ import {
   buildForecast,
   buildReport,
   canRecallUnaided,
+  cardStage,
   classifyStages,
+  isStruggling,
   coachAction,
   daysSinceStart,
   intervalHistogram,
@@ -55,6 +57,36 @@ describe('isMastered', () => {
     expect(isMastered(rs('a', { intervalDays: 10, timesSeen: 6, correct: 6, lapses: 0 }))).toBe(false)
     expect(isMastered(rs('a', { intervalDays: 30, timesSeen: 10, correct: 5, lapses: 0 }))).toBe(false)
     expect(isMastered(undefined)).toBe(false)
+  })
+})
+
+describe('cardStage', () => {
+  it('classifies new / learning / settling / mastered (priority order)', () => {
+    expect(cardStage(undefined)).toBe('new')
+    expect(cardStage(rs('a', { introduced: false }))).toBe('new')
+    expect(cardStage(rs('a', { intervalDays: 3 }))).toBe('learning')
+    expect(cardStage(rs('a', { intervalDays: 10 }))).toBe('settling')
+    expect(cardStage(rs('a', { intervalDays: 30, timesSeen: 6, correct: 6, lapses: 0 }))).toBe(
+      'mastered',
+    )
+  })
+
+  it('a long-interval card that fails the mastery test is settling, not mastered', () => {
+    expect(cardStage(rs('a', { intervalDays: 30, timesSeen: 6, correct: 3, lapses: 0 }))).toBe(
+      'settling',
+    )
+  })
+})
+
+describe('isStruggling', () => {
+  it('flags a high-struggle card with enough reviews', () => {
+    expect(isStruggling(rs('a', { timesSeen: 5, correct: 1, ease: 1.4, lapses: 3 }))).toBe(true)
+  })
+
+  it('is false below the review floor, for a solid card, and for undefined', () => {
+    expect(isStruggling(rs('a', { timesSeen: 2, correct: 0, ease: 1.3 }))).toBe(false) // too few
+    expect(isStruggling(rs('a', { timesSeen: 6, correct: 6, ease: 2.6 }))).toBe(false) // solid
+    expect(isStruggling(undefined)).toBe(false)
   })
 })
 
