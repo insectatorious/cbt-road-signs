@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.13.0',
+    date: '2026-06-27',
+    changes: [
+      'Spot the signs that keep tripping you up. The Report’s “Worth a closer look” list now flags a sign you’ve forgotten over and over with a “Stuck” badge, and offers a one-tap “reteach from scratch” — that wipes its troubled history and reintroduces it as a fresh card (kept on a short leash so it comes back often) instead of letting it quietly eat your review time forever.',
+    ],
+  },
+  {
     version: '1.12.1',
     date: '2026-06-27',
     changes: [

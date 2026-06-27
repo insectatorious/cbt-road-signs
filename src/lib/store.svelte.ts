@@ -1,7 +1,7 @@
 /** The single reactive app store. Wires the SR engine to persisted state. */
 import { signs as ALL_SIGNS } from '../data/signs'
 import { activeDeck } from './deck'
-import { grade as applyGrade, newReviewState, type GradeOptions } from './scheduler'
+import { grade as applyGrade, newReviewState, relearn, type GradeOptions } from './scheduler'
 import { gradeFromRecall, shadeFromTime, updateBaseline } from './pace'
 import * as persistence from './persistence'
 import { todayStr } from './util'
@@ -229,6 +229,15 @@ export function undoLastGrade(): boolean {
   lastUndo = null
   persist()
   return true
+}
+
+/** "Reteach" a leech: wipe its scheduling record and reintroduce it as a fresh,
+ *  conservatively-eased card so it re-enters the study queue (see scheduler.relearn).
+ *  Clears the undo snapshot — it belongs to a now-replaced card state. */
+export function reteach(id: string): void {
+  store.reviews[id] = relearn(id)
+  lastUndo = null
+  persist()
 }
 
 export function setSetting<K extends keyof Settings>(key: K, value: Settings[K]): void {

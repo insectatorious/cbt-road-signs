@@ -5,11 +5,25 @@ import {
   grade,
   isDue,
   newReviewState,
+  relearn,
   startOfDay,
 } from '../src/lib/scheduler'
 import type { ReviewState } from '../src/lib/types'
 
 const NOW = new Date('2026-06-20T10:00:00').getTime()
+
+describe('relearn', () => {
+  it('resets a leech to a fresh, floor-eased, not-yet-introduced card', () => {
+    const r = relearn('x')
+    expect(r.id).toBe('x')
+    expect(r.ease).toBe(1.3) // pinned to the floor — known-hard, comes back often
+    expect(r.reps).toBe(0)
+    expect(r.lapses).toBe(0)
+    expect(r.introduced).toBe(false) // reintroduced → re-enters the queue as a new card
+    expect(r.timesSeen).toBe(0)
+    expect(isDue(r, NOW)).toBe(false) // not introduced ⇒ not "due", it's new
+  })
+})
 
 describe('newReviewState', () => {
   it('starts un-introduced with default ease', () => {

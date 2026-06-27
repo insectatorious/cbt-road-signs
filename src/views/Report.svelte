@@ -3,7 +3,7 @@
   import Forecast from '../components/Forecast.svelte'
   import SignPlate from '../components/SignPlate.svelte'
   import Icon from '../components/Icon.svelte'
-  import { store, activeSigns, setQuizFocus, SIGN_BY_ID } from '../lib/store.svelte'
+  import { store, activeSigns, setQuizFocus, reteach, SIGN_BY_ID } from '../lib/store.svelte'
   import {
     buildReport,
     rankCards,
@@ -28,7 +28,8 @@
   const report = buildReport(deck, store.reviews, store.sessions, now)
   const forecast = buildForecast(deck, store.reviews, now)
   const stages = classifyStages(deck, store.reviews)
-  const ranks = rankCards(store.reviews, 3)
+  // reactive so the worst list refreshes in place when a card is reteached
+  const ranks = $derived(rankCards(store.reviews, 3))
   const readiness = recallReadiness(deck, store.reviews)
   const days = daysSinceStart(store.createdAt, store.sessions, now)
   const hasData = report.totalReviews > 0
@@ -164,11 +165,19 @@
           {#each ranks.worst as c (c.id)}
             {@const sign = SIGN_BY_ID.get(c.id)}
             {#if sign}
-              <li class="row">
+              <li class="row" class:row--leech={c.leech}>
                 <span class="row__chip"><SignPlate {sign} pad={false} /></span>
                 <span class="row__main">
-                  <span class="row__cap">{sign.caption}</span>
-                  {#if c.topConfusion && SIGN_BY_ID.get(c.topConfusion)}
+                  <span class="row__cap">
+                    {sign.caption}
+                    {#if c.leech}<span class="badge badge--stuck">Stuck</span>{/if}
+                  </span>
+                  {#if c.leech}
+                    <span class="row__note">
+                      Keeps slipping ({c.lapses} lapses) —
+                      <button class="linkbtn" onclick={() => reteach(c.id)}>reteach from scratch</button>
+                    </span>
+                  {:else if c.topConfusion && SIGN_BY_ID.get(c.topConfusion)}
                     <span class="row__note"
                       >mixed up with {SIGN_BY_ID.get(c.topConfusion)!.caption}</span
                     >
@@ -581,12 +590,36 @@
     min-width: 0;
   }
   .row__cap {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
     font-size: var(--fs-callout);
     font-weight: var(--fw-medium);
   }
   .row__note {
     font-size: var(--fs-caption);
     color: var(--text-muted);
+  }
+  .badge--stuck {
+    flex: none;
+    font-size: var(--fs-micro);
+    letter-spacing: var(--ls-micro);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    color: var(--stat-poor);
+    padding: 1px 6px;
+    border: 1px solid color-mix(in srgb, var(--stat-poor) 45%, var(--hairline));
+    border-radius: var(--r-pill);
+  }
+  .linkbtn {
+    color: var(--accent-ink);
+    font: inherit;
+    font-weight: var(--fw-medium);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .linkbtn:hover {
+    color: var(--accent);
   }
   .row__stat {
     flex: none;

@@ -9,6 +9,7 @@ import {
   coachAction,
   daysSinceStart,
   intervalHistogram,
+  isLeech,
   isMastered,
   rankCards,
   recallReadiness,
@@ -58,6 +59,24 @@ describe('isMastered', () => {
   })
 })
 
+describe('isLeech', () => {
+  it('flags a chronically-failed card (>=3 lapses over >=8 reviews)', () => {
+    expect(isLeech(rs('a', { lapses: 3, timesSeen: 8 }))).toBe(true)
+    expect(isLeech(rs('a', { lapses: 5, timesSeen: 12 }))).toBe(true)
+  })
+
+  it('is not a leech below either threshold, nor for undefined', () => {
+    expect(isLeech(rs('a', { lapses: 2, timesSeen: 20 }))).toBe(false) // too few lapses
+    expect(isLeech(rs('a', { lapses: 4, timesSeen: 5 }))).toBe(false) // too few reviews
+    expect(isLeech(undefined)).toBe(false)
+  })
+
+  it('honours custom thresholds', () => {
+    expect(isLeech(rs('a', { lapses: 2, timesSeen: 4 }), 2, 4)).toBe(true)
+    expect(isLeech(rs('a', { lapses: 2, timesSeen: 4 }), 3, 4)).toBe(false)
+  })
+})
+
 describe('rankCards', () => {
   it('excludes cards below the review threshold and ranks worst first', () => {
     const reviews: Record<string, ReviewState> = {
@@ -69,6 +88,16 @@ describe('rankCards', () => {
     expect(worst[0].id).toBe('bad')
     expect(worst.find((c) => c.id === 'thin')).toBeUndefined()
     expect(best[0].id).toBe('good')
+  })
+
+  it('marks a chronically-failed worst card as a leech', () => {
+    const reviews: Record<string, ReviewState> = {
+      bad: rs('bad', { timesSeen: 10, correct: 2, ease: 1.4, lapses: 4 }),
+      mild: rs('mild', { timesSeen: 5, correct: 2, ease: 1.8, lapses: 1 }),
+    }
+    const { worst } = rankCards(reviews)
+    expect(worst.find((c) => c.id === 'bad')?.leech).toBe(true)
+    expect(worst.find((c) => c.id === 'mild')?.leech).toBe(false)
   })
 
   it('never lists the same card in both best and worst', () => {

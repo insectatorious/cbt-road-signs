@@ -31,6 +31,14 @@ export function newReviewState(id: string): ReviewState {
   }
 }
 
+/** Reset a chronically-failed ("leech") card back to relearning. Returns a fresh
+ *  state (reps 0, lapses 0, not introduced — so the study queue reintroduces it as
+ *  a new card) but with `ease` pinned to the floor, since it's known-hard and
+ *  should come back often rather than springing straight to long intervals. */
+export function relearn(id: string): ReviewState {
+  return { ...newReviewState(id), ease: 1.3 }
+}
+
 export function startOfDay(now: number): number {
   const d = new Date(now)
   d.setHours(0, 0, 0, 0)
