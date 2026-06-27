@@ -74,7 +74,12 @@
     const file = (e.target as HTMLInputElement).files?.[0]
     if (!file) return
     const text = await file.text()
-    importMsg = importData(text) ? 'Progress imported.' : 'That file could not be read.'
+    const res = importData(text)
+    importMsg = res.ok
+      ? 'Progress imported.'
+      : res.reason === 'future'
+        ? 'This backup is from a newer version of the app — update the app, then import again.'
+        : 'That file could not be read.'
     if (fileInput) fileInput.value = ''
   }
 </script>
