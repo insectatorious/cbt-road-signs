@@ -62,11 +62,14 @@ export function modal(node: HTMLElement): { destroy(): void } {
     }
   }
 
-  node.addEventListener('keydown', onKeydown)
+  // Listen at the document in capture so we still see Tab even if focus has
+  // already escaped `node` (programmatic/AT moves) — that's what makes the
+  // `current === -1` recovery in onKeydown effective rather than dead.
+  document.addEventListener('keydown', onKeydown, true)
 
   return {
     destroy() {
-      node.removeEventListener('keydown', onKeydown)
+      document.removeEventListener('keydown', onKeydown, true)
       appRoot?.removeAttribute('inert')
       body.style.overflow = prevOverflow
       previouslyFocused?.focus?.()
