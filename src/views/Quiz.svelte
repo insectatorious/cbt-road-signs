@@ -205,7 +205,7 @@
       <span class="quiz__pos t-num">{index + 1} / {queue.length}</span>
     </header>
 
-    <div class="quiz__mode" role="group" aria-label="Quiz direction">
+    <div class="quiz__mode" role="group" aria-label="Quiz direction (applies to the next question)">
       <button
         type="button"
         class="quiz__mode-btn"
