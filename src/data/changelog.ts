@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.13.0',
+    date: '2026-06-27',
+    changes: [
+      'New here? A short welcome screen now greets you on first launch — three quick points on how it works (learn a few signs a day, answer “Got it / Missed”, start with the core signs) and a one-tap “Start studying” button — so you’re not dropped onto an empty stats page wondering what to do. It only appears once and never again after you dismiss it.',
+    ],
+  },
+  {
     version: '1.12.1',
     date: '2026-06-27',
     changes: [

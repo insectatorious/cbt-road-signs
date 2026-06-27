@@ -116,6 +116,12 @@ describe('migrate', () => {
     expect(migrate({ settings: { shuffleCategories: 'yes' } }, NOW).settings.shuffleCategories).toBe(false)
   })
 
+  it('defaults onboarded off (so the first-run intro shows) and coerces it to a boolean', () => {
+    expect(migrate({}, NOW).settings.onboarded).toBe(false)
+    expect(migrate({ settings: { onboarded: true } }, NOW).settings.onboarded).toBe(true)
+    expect(migrate({ settings: { onboarded: 'yes' } }, NOW).settings.onboarded).toBe(false)
+  })
+
   it('defaults bookmarks to an empty array when absent', () => {
     expect(migrate({}, NOW).bookmarks).toEqual([])
     expect(migrate({ bookmarks: 'not-an-array' }, NOW).bookmarks).toEqual([])

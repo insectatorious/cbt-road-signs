@@ -3,6 +3,10 @@
 All notable changes to this project. **Generated** from `src/data/changelog.ts`
 (the in-app release notes) — edit that and run `npm run build-changelog`.
 
+## 1.13.0 — 27 June 2026
+
+- New here? A short welcome screen now greets you on first launch — three quick points on how it works (learn a few signs a day, answer “Got it / Missed”, start with the core signs) and a one-tap “Start studying” button — so you’re not dropped onto an empty stats page wondering what to do. It only appears once and never again after you dismiss it.
+
 ## 1.12.1 — 27 June 2026
 
 - Fixed the quiz’s “Name the sign / Spot the sign” toggle, which appeared to do nothing: tapping it before answering now switches the current question to that direction straight away (previously the change only took effect on the *next* question, with no on-screen hint, so it looked broken). To avoid giving the answer away, flipping brings in a fresh sign you haven’t seen rather than re-showing the one already on screen. If you flip after answering, a small “Starts on the next question” note now explains the wait.

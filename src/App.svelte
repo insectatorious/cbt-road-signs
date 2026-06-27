@@ -1,7 +1,9 @@
 <script lang="ts">
   import { router } from './lib/router.svelte'
+  import { store } from './lib/store.svelte'
   import NavBar from './components/NavBar.svelte'
   import BackupNudge from './components/BackupNudge.svelte'
+  import Onboarding from './components/Onboarding.svelte'
   import Study from './views/Study.svelte'
   import Quiz from './views/Quiz.svelte'
   import Browse from './views/Browse.svelte'
@@ -24,6 +26,10 @@
   </main>
   <NavBar />
 </div>
+
+{#if !store.settings.onboarded}
+  <Onboarding />
+{/if}
 
 <style>
   .app__main {
