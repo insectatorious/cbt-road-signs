@@ -24,7 +24,8 @@
   let started = Date.now()
   let optionsEl = $state<HTMLElement>()
   let announce = $state('') // sr-only live-region text: correctness + answer/shade
-  let reverse = $state(false) // false = name the sign (show art); true = spot the sign (show meaning)
+  let reverse = $state(false) // selected direction for upcoming questions (the toggle)
+  let qReverse = $state(false) // direction the *current* question is locked to (set when it's built)
 
   let showUndo = $state(false) // the "Graded — Undo" toast window
   let undoTimer: ReturnType<typeof setTimeout> | undefined
@@ -36,6 +37,7 @@
   function setQuestion() {
     const sign = currentId ? SIGN_BY_ID.get(currentId) : undefined
     question = sign ? buildQuestion(sign, activeSigns(), SIGN_BY_ID) : undefined
+    qReverse = reverse // lock this question's direction; toggling later won't flip it
     selected = null
     answered = false
     announce = '' // reset so the next result re-announces even if it repeats the wording
@@ -125,12 +127,24 @@
     optionsEl?.querySelector<HTMLButtonElement>('.option')?.focus()
   }
 
-  // Flip the quiz direction. The question itself is direction-agnostic, so we just
-  // re-present the current (unanswered) one and restart its recall clock.
+  // Choose the quiz direction. It applies to the *next* question, never the one on
+  // screen: re-presenting the current question in the opposite direction would turn
+  // the sign (or caption) you just saw into one of the four options — i.e. reveal the
+  // answer. The current question stays locked to qReverse until it's answered/advanced.
   function setReverse(r: boolean) {
-    if (answered || reverse === r) return
+    if (reverse === r) return
     reverse = r
-    started = Date.now()
+  }
+
+  // The accessible name for an option. Forward mode leaves it to the visible caption;
+  // reverse mode (image options) needs the caption spoken — and, once answered, the
+  // correct/wrong result too, since the check/✗ glyph alone isn't conveyed to AT.
+  function optLabel(opt: { caption: string }, i: number): string | undefined {
+    if (!qReverse) return undefined
+    if (!answered || !question) return opt.caption
+    if (i === question.answerIndex) return `${opt.caption}, correct answer`
+    if (i === selected) return `${opt.caption}, your answer, incorrect`
+    return opt.caption
   }
 
   function onKey(e: KeyboardEvent) {
@@ -187,7 +201,7 @@
   {:else if question}
     <header class="quiz__head">
       <h1 class="sr-only" id="view-heading" tabindex="-1">Quiz</h1>
-      <span class="t-caption">{reverse ? 'Which sign means this?' : 'Which sign is this?'}</span>
+      <span class="t-caption">{qReverse ? 'Which sign means this?' : 'Which sign is this?'}</span>
       <span class="quiz__pos t-num">{index + 1} / {queue.length}</span>
     </header>
 
@@ -197,7 +211,6 @@
         class="quiz__mode-btn"
         class:is-active={!reverse}
         aria-pressed={!reverse}
-        disabled={answered}
         onclick={() => setReverse(false)}
       >Name the sign</button>
       <button
@@ -205,12 +218,11 @@
         class="quiz__mode-btn"
         class:is-active={reverse}
         aria-pressed={reverse}
-        disabled={answered}
         onclick={() => setReverse(true)}
       >Spot the sign</button>
     </div>
 
-    {#if reverse}
+    {#if qReverse}
       <div class="quiz__prompt">
         <span class="quiz__prompt-cap t-title">{question.sign.caption}</span>
       </div>
@@ -220,20 +232,20 @@
       </div>
     {/if}
 
-    <div class="options" class:options--grid={reverse} bind:this={optionsEl}>
+    <div class="options" class:options--grid={qReverse} bind:this={optionsEl}>
       {#each question.options as opt, i (opt.id)}
         <button
           class="option"
-          class:option--img={reverse}
+          class:option--img={qReverse}
           class:is-correct={answered && i === question.answerIndex}
           class:is-wrong={answered && i === selected && i !== question.answerIndex}
           class:is-dim={answered && i !== question.answerIndex && i !== selected}
           disabled={answered}
-          aria-label={reverse ? opt.caption : undefined}
+          aria-label={optLabel(opt, i)}
           onclick={() => choose(i)}
         >
           <span class="option__key" aria-hidden="true">{i + 1}</span>
-          {#if reverse}
+          {#if qReverse}
             <div class="option__plate"><SignPlate sign={opt} tag={false} /></div>
           {:else}
             <span class="option__text">{opt.caption}</span>
@@ -258,7 +270,7 @@
           <Icon name="arrow-right" size={18} />
         </button>
       {:else}
-        <p class="t-caption quiz__hint">{reverse ? 'Tap the sign, or press 1–4' : 'Tap an answer, or press 1–4'}</p>
+        <p class="t-caption quiz__hint">{qReverse ? 'Tap the sign, or press 1–4' : 'Tap an answer, or press 1–4'}</p>
       {/if}
     </div>
   {:else}
@@ -408,6 +420,11 @@
     top: var(--s-2);
     right: var(--s-2);
     z-index: 1;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--r-pill);
+    /* opaque chip so the check/✗ stays legible sitting over the sign artwork */
+    background: var(--surface);
   }
   .option__plate {
     width: 100%;

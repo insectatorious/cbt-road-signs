@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { buildQuestion } from '../src/lib/quiz'
+import { signs } from '../src/data/signs'
 import type { SignDefinition } from '../src/lib/types'
 
 function sign(id: string, confusedWith: string[] = []): SignDefinition {
@@ -50,5 +51,21 @@ describe('buildQuestion', () => {
     expect(new Set(q.options.map((o) => o.id)).size).toBe(4)
     expect(q.options[q.answerIndex].id).toBe('no-entry') // the answer is still a real sign to render
     expect(q.options.some((o) => o.id === 'no-motor-vehicles')).toBe(true) // look-alike-first holds either direction
+  })
+})
+
+describe('reverse-mode artwork is distinguishable', () => {
+  // buildQuestion guarantees four distinct *signs* by caption, but "spot the sign"
+  // renders them as images — so two enabled signs sharing the same bundled SVG would
+  // put visually identical cells in one grid. This guards the real content (today
+  // every sign has unique artwork) against a future edit reintroducing a duplicate.
+  it('no two enabled signs share the same bundled SVG asset', () => {
+    const seen = new Map<string, string>()
+    for (const s of signs) {
+      if (!s.enabled || s.composite || !s.asset) continue
+      const owner = seen.get(s.asset)
+      expect(owner, `${s.id} reuses ${s.asset} already used by ${owner}`).toBeUndefined()
+      seen.set(s.asset, s.id)
+    }
   })
 })
