@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.12.2',
+    date: '2026-06-27',
+    changes: [
+      'Added memory aids to five information signs that were missing one — the controlled parking zone entry and end signs, solo-motorcycle parking, home zone entry, and “bus lane at junction ahead” — so every one of those now shows a short prompt on its detail card.',
+    ],
+  },
+  {
     version: '1.12.1',
     date: '2026-06-27',
     changes: [
