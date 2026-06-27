@@ -6,7 +6,7 @@
   import { store, activeSigns, gradeQuiz, undoLastGrade, takeQuizFocus, SIGN_BY_ID } from '../lib/store.svelte'
   import { buildStudyQueue } from '../lib/deck'
   import { buildQuestion, type QuizQuestion } from '../lib/quiz'
-  import { pop, shake } from '../lib/motion'
+  import { pop, shake, fadeUp } from '../lib/motion'
   import { navigate } from '../lib/router.svelte'
   import { gradeShadeLabel, pct } from '../lib/util'
 
@@ -173,6 +173,22 @@
       : ''
   })
 
+  // On a wrong answer in "name the sign" mode the options were captions, so the
+  // correct sign's artwork was never shown — pair the sign the learner *named*
+  // with the right one. In "spot the sign" mode the option grid already shows the
+  // signs marked right/wrong, so a separate comparison would just duplicate it.
+  const wrongComparison = $derived.by(() => {
+    if (qReverse || !answered || selected == null || !question) return null
+    if (selected === question.answerIndex) return null
+    return { chosen: question.options[selected], correct: question.sign }
+  })
+
+  let compareEl = $state<HTMLElement>()
+  // Float the comparison in once the wrong-answer shake (~0.36s) has settled.
+  $effect(() => {
+    if (compareEl) fadeUp(compareEl, { y: 8, delay: 0.18 })
+  })
+
   onMount(() => {
     build()
     window.addEventListener('keydown', onKey)
@@ -265,6 +281,28 @@
           {selected === question.answerIndex ? 'Correct.' : 'Not quite.'}
           {#if confusionNote}<span class="feedback__note">{confusionNote}</span>{/if}
         </p>
+        {#if wrongComparison}
+          <div class="compare" bind:this={compareEl}>
+            <figure class="compare__item">
+              <span class="compare__tag compare__tag--wrong">
+                <Icon name="x" size={13} /> Your pick
+              </span>
+              <span class="compare__art" aria-hidden="true">
+                <SignPlate sign={wrongComparison.chosen} pad={false} tag={false} />
+              </span>
+              <figcaption class="compare__name">{wrongComparison.chosen.caption}</figcaption>
+            </figure>
+            <figure class="compare__item">
+              <span class="compare__tag compare__tag--right">
+                <Icon name="check" size={13} /> Correct answer
+              </span>
+              <span class="compare__art" aria-hidden="true">
+                <SignPlate sign={wrongComparison.correct} pad={false} tag={false} />
+              </span>
+              <figcaption class="compare__name">{wrongComparison.correct.caption}</figcaption>
+            </figure>
+          </div>
+        {/if}
         <button class="btn btn--primary" onclick={next}>
           {index + 1 >= queue.length ? 'Finish' : 'Next'}
           <Icon name="arrow-right" size={18} />
@@ -479,6 +517,54 @@
     font-weight: var(--fw-regular);
     color: var(--text-muted);
   }
+
+  /* Wrong-answer two-up: the sign the learner named vs the correct one. Only shown
+     in "name the sign" mode (in "spot the sign" the option grid already is the
+     comparison). Reuses the look-alike compare idiom from the flashcard. */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-3);
+    width: 100%;
+  }
+  .compare__item {
+    margin: 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s-2);
+    padding: var(--s-3) var(--s-2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    background: var(--surface);
+  }
+  .compare__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--fs-micro);
+    letter-spacing: var(--ls-micro);
+    font-weight: var(--fw-semibold);
+  }
+  .compare__tag--wrong {
+    color: var(--grade-again);
+  }
+  .compare__tag--right {
+    color: var(--grade-good);
+  }
+  .compare__art {
+    display: block;
+    width: 100%;
+    max-width: 84px;
+  }
+  .compare__name {
+    font-size: var(--fs-micro);
+    line-height: 1.25;
+    text-align: center;
+    color: var(--text-secondary);
+  }
+
   .quiz__foot .btn {
     align-self: stretch;
   }

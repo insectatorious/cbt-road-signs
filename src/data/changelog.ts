@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.12.0',
+    date: '2026-06-27',
+    changes: [
+      'Get a wrong quiz answer in “Name the sign” mode and you’ll now see the two signs side by side — the one you picked and the correct one — so you can spot exactly how they differ, instead of just reading the right answer’s name. (“Spot the sign” already shows the signs, so it’s unchanged.)',
+    ],
+  },
+  {
     version: '1.11.0',
     date: '2026-06-27',
     changes: [

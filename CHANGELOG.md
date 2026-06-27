@@ -3,6 +3,10 @@
 All notable changes to this project. **Generated** from `src/data/changelog.ts`
 (the in-app release notes) — edit that and run `npm run build-changelog`.
 
+## 1.12.0 — 27 June 2026
+
+- Get a wrong quiz answer in “Name the sign” mode and you’ll now see the two signs side by side — the one you picked and the correct one — so you can spot exactly how they differ, instead of just reading the right answer’s name. (“Spot the sign” already shows the signs, so it’s unchanged.)
+
 ## 1.11.0 — 27 June 2026
 
 - New “Spot the sign” quiz direction. The quiz now has a toggle: “Name the sign” (the classic — see a sign, pick its meaning) or “Spot the sign” (read a meaning, pick the matching sign from four images). Recognising a sign from its meaning is the skill you actually use on the road, and it was never practised before. Both directions reuse the same look-alike-aware question building and feed your schedule identically.

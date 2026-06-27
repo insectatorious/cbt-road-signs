@@ -119,8 +119,12 @@ export function drawBars(nodes: Element[], stagger = 0.05): void {
   )
 }
 
-/** Stagger items up into place (cards, rows, options). */
-export function fadeUp(nodes: Element[] | Element, opts: { stagger?: number; y?: number } = {}): void {
+/** Stagger items up into place (cards, rows, options). `delay` lets a panel wait
+ *  for a preceding beat (e.g. the wrong-answer shake) to settle first. */
+export function fadeUp(
+  nodes: Element[] | Element,
+  opts: { stagger?: number; y?: number; delay?: number } = {},
+): void {
   const arr = Array.isArray(nodes) ? nodes : [nodes]
   if (!arr.length) return
   if (prefersReduced()) {
@@ -130,6 +134,14 @@ export function fadeUp(nodes: Element[] | Element, opts: { stagger?: number; y?:
   gsap.fromTo(
     arr,
     { autoAlpha: 0, y: opts.y ?? 10 },
-    { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out', stagger: opts.stagger ?? 0.06, clearProps: 'transform' },
+    {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.4,
+      ease: 'power2.out',
+      delay: opts.delay ?? 0,
+      stagger: opts.stagger ?? 0.06,
+      clearProps: 'transform',
+    },
   )
 }
