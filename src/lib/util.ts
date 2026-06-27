@@ -1,5 +1,13 @@
 /** Small shared helpers. */
 
+import type { Grade } from './types'
+
+/** The inferred recall shade as a word, for screen-reader announcements.
+ *  0 Again · 1 Hard · 2 Good · 3 Easy. */
+export function gradeShadeLabel(g: Grade): string {
+  return (['Again', 'Hard', 'Good', 'Easy'] as const)[g]
+}
+
 export function todayStr(t: number = Date.now()): string {
   const d = new Date(t)
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(

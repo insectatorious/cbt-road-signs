@@ -8,13 +8,14 @@
   import { buildStudyQueue } from '../lib/deck'
   import { enterCard, gradeExit } from '../lib/motion'
   import { navigate } from '../lib/router.svelte'
-  import { pct } from '../lib/util'
+  import { gradeShadeLabel, pct } from '../lib/util'
 
   let queue = $state<string[]>([])
   let info = $state({ dueCount: 0, newCount: 0, dueDeferred: 0 })
   let index = $state(0)
   let flipped = $state(false)
   let grading = $state(false) // in-flight guard: blocks double-grade during the exit animation
+  let announce = $state('') // sr-only live-region text: correctness + inferred shade
   let done = $state(false)
   let reviewed = $state(0)
   let correct = $state(0)
@@ -36,6 +37,7 @@
     done = false
     reviewed = 0
     correct = 0
+    announce = ''
     shownAt = Date.now()
   }
 
@@ -50,7 +52,9 @@
   function answer(gotIt: boolean) {
     if (grading || !currentId) return
     grading = true
-    gradeRecall(currentId, gotIt, thinkMs)
+    const g = gradeRecall(currentId, gotIt, thinkMs)
+    // announce correctness + the inferred shade to assistive tech (WCAG 4.1.3)
+    announce = gotIt ? `Correct — marked ${gradeShadeLabel(g)}.` : 'Marked as missed.'
     reviewed += 1
     if (gotIt) correct += 1
     if (stage) gradeExit(stage, gotIt ? 1 : -1, advance)
@@ -67,6 +71,7 @@
     }
     index += 1
     flipped = false
+    announce = '' // reset so the next grade re-announces even if it repeats the wording
     shownAt = Date.now()
     await tick()
     if (stage) enterCard(stage)
@@ -106,6 +111,7 @@
 </script>
 
 <section class="study">
+  <p class="sr-only" aria-live="polite" role="status">{announce}</p>
   {#if done}
     <div class="done">
       <span class="done__check"><Icon name="check" size={26} /></span>

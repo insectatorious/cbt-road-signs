@@ -3,6 +3,10 @@
 All notable changes to this project. **Generated** from `src/data/changelog.ts`
 (the in-app release notes) — edit that and run `npm run build-changelog`.
 
+## 1.9.2 — 27 June 2026
+
+- Study and Quiz now speak their result aloud to screen readers: after each card you hear whether you got it and the pace it was marked at (e.g. “Correct — marked Good”), and a wrong quiz answer reads out the right one. Previously there was no spoken confirmation at all.
+
 ## 1.9.1 — 27 June 2026
 
 - Made the sign-detail and release-notes pop-ups properly keyboard- and screen-reader-friendly. Tab now stays inside the open panel and loops around instead of slipping out to the page behind it, the background is held still and inert while a panel is open, and when you close it your place on the page is restored.
