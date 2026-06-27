@@ -27,6 +27,20 @@ export function isMastered(rs: ReviewState | undefined): boolean {
   return rs.intervalDays >= MASTERY_INTERVAL && rs.correct / rs.timesSeen >= 0.9 && rs.lapses <= 1
 }
 
+/** A "leech" is chronically failed — it has lapsed repeatedly across enough
+ *  reviews to have earned it. Defaults: ≥3 lapses over ≥8 reviews. This is
+ *  distinct from an ordinary low-accuracy newcomer, which simply hasn't had the
+ *  reps to lapse this often yet. Pure. */
+export const LEECH_MIN_LAPSES = 3
+export const LEECH_MIN_SEEN = 8
+export function isLeech(
+  rs: ReviewState | undefined,
+  minLapses = LEECH_MIN_LAPSES,
+  minSeen = LEECH_MIN_SEEN,
+): boolean {
+  return !!rs && rs.lapses >= minLapses && rs.timesSeen >= minSeen
+}
+
 /** 0 = solid, 1 = struggling. Blends accuracy, ease and lapses. */
 export function struggleScore(rs: ReviewState): number {
   const acc = rs.timesSeen ? rs.correct / rs.timesSeen : 0
@@ -58,6 +72,8 @@ export interface RankedCard {
   timesSeen: number
   intervalDays: number
   struggle: number
+  /** chronically-failed (see isLeech) — badged "Stuck" and offered a reteach */
+  leech: boolean
   topConfusion?: string
 }
 
@@ -70,6 +86,7 @@ function toRanked(rs: ReviewState): RankedCard {
     timesSeen: rs.timesSeen,
     intervalDays: rs.intervalDays,
     struggle: struggleScore(rs),
+    leech: isLeech(rs),
     topConfusion: mode(rs.confusionLog),
   }
 }
