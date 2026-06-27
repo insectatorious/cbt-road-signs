@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.10.0',
+    date: '2026-06-27',
+    changes: [
+      'Misgraded a card? A brief “Graded — Undo” button now appears after each answer in Study and Quiz (press U, or tap it). Undo puts the card back exactly as it was — its schedule, your session tally, and the pace it learns your speed from — so a stray tap no longer quietly skews your revision.',
+    ],
+  },
+  {
     version: '1.9.2',
     date: '2026-06-27',
     changes: [

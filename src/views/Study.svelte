@@ -4,11 +4,14 @@
   import RecallBar from '../components/RecallBar.svelte'
   import BookmarkButton from '../components/BookmarkButton.svelte'
   import Icon from '../components/Icon.svelte'
-  import { store, activeSigns, gradeRecall, SIGN_BY_ID } from '../lib/store.svelte'
+  import UndoToast from '../components/UndoToast.svelte'
+  import { store, activeSigns, gradeRecall, undoLastGrade, SIGN_BY_ID } from '../lib/store.svelte'
   import { buildStudyQueue } from '../lib/deck'
   import { enterCard, gradeExit } from '../lib/motion'
   import { navigate } from '../lib/router.svelte'
   import { gradeShadeLabel, pct } from '../lib/util'
+
+  const UNDO_MS = 5000
 
   let queue = $state<string[]>([])
   let info = $state({ dueCount: 0, newCount: 0, dueDeferred: 0 })
@@ -20,6 +23,12 @@
   let reviewed = $state(0)
   let correct = $state(0)
   let stage = $state<HTMLElement>()
+
+  let showUndo = $state(false) // the "Graded — Undo" toast window
+  let undoTimer: ReturnType<typeof setTimeout> | undefined
+  let lastIndex: number | null = null // queue index of the card just graded
+  let lastGotIt = false // whether that grade was a hit (to revert the local correct tally)
+  let destroyed = false // set on unmount so a pending exit-animation advance() can't fire on a dead view
 
   let shownAt = Date.now() // when the current front became visible (recall-latency clock)
   let thinkMs = 0 // time from shown → flip, captured at reveal
@@ -38,7 +47,39 @@
     reviewed = 0
     correct = 0
     announce = ''
+    hideUndo()
     shownAt = Date.now()
+  }
+
+  function flashUndo() {
+    showUndo = true
+    clearTimeout(undoTimer)
+    undoTimer = setTimeout(() => (showUndo = false), UNDO_MS)
+  }
+
+  function hideUndo() {
+    clearTimeout(undoTimer)
+    showUndo = false
+  }
+
+  async function undo() {
+    // A grade-exit animation is still in flight: its pending advance() would step
+    // the queue forward and skip this card. Ignore undo until it settles (honours
+    // the same in-flight guard answer() uses).
+    if (grading) return
+    hideUndo()
+    if (lastIndex === null || !undoLastGrade()) return
+    done = false
+    index = lastIndex
+    lastIndex = null
+    flipped = false
+    grading = false
+    reviewed = Math.max(0, reviewed - 1)
+    if (lastGotIt) correct = Math.max(0, correct - 1)
+    announce = 'Grade undone — try this card again.'
+    shownAt = Date.now()
+    await tick()
+    document.querySelector<HTMLButtonElement>('.controls .btn')?.focus()
   }
 
   async function reveal() {
@@ -53,8 +94,12 @@
     if (grading || !currentId) return
     grading = true
     const g = gradeRecall(currentId, gotIt, thinkMs)
-    // announce correctness + the inferred shade to assistive tech (WCAG 4.1.3)
+    // announce correctness + the inferred shade to assistive tech (WCAG 4.1.3).
+    // The "press U to undo" hint is announced later, in advance(), once undo is
+    // actually live — during the exit animation the grading guard still blocks it.
     announce = gotIt ? `Correct — marked ${gradeShadeLabel(g)}.` : 'Marked as missed.'
+    lastIndex = index
+    lastGotIt = gotIt
     reviewed += 1
     if (gotIt) correct += 1
     if (stage) gradeExit(stage, gotIt ? 1 : -1, advance)
@@ -62,25 +107,38 @@
   }
 
   async function advance() {
+    if (destroyed) return // a late exit-animation callback after the view was torn down
     if (index + 1 >= queue.length) {
       done = true
       grading = false
       await tick()
       document.getElementById('view-heading')?.focus()
-      return
+    } else {
+      index += 1
+      flipped = false
+      shownAt = Date.now()
+      await tick()
+      if (stage) enterCard(stage)
+      // mirror reveal()'s focus move so keyboard/SR focus isn't dropped to <body>
+      document.querySelector<HTMLButtonElement>('.controls .btn')?.focus()
+      grading = false
     }
-    index += 1
-    flipped = false
-    announce = '' // reset so the next grade re-announces even if it repeats the wording
-    shownAt = Date.now()
-    await tick()
-    if (stage) enterCard(stage)
-    // mirror reveal()'s focus move so keyboard/SR focus isn't dropped to <body>
-    document.querySelector<HTMLButtonElement>('.controls .btn')?.focus()
-    grading = false
+    // Surface undo only after the transition has fully settled and `grading` is
+    // back to false — otherwise the toast would show while undo()'s grading guard
+    // still no-ops it. The SR hint here also doubles as the between-card reset so
+    // an identical next result still re-announces.
+    flashUndo()
+    announce = 'Press U to undo.'
   }
 
   function onKey(e: KeyboardEvent) {
+    // Undo works from anywhere in the window while the toast is up (incl. the
+    // session-complete screen, so the final grade is recoverable too).
+    if (showUndo && (e.key === 'u' || e.key === 'U')) {
+      e.preventDefault()
+      undo()
+      return
+    }
     if (done || !currentSign) return
     // Let the in-card "Details" disclosure and the save toggle handle their own
     // Enter/Space — without this, the global grade handler would also fire.
@@ -106,12 +164,17 @@
   onMount(() => {
     build()
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    return () => {
+      destroyed = true
+      window.removeEventListener('keydown', onKey)
+      clearTimeout(undoTimer)
+    }
   })
 </script>
 
 <section class="study">
   <p class="sr-only" aria-live="polite" role="status">{announce}</p>
+  {#if showUndo}<UndoToast onUndo={undo} />{/if}
   {#if done}
     <div class="done">
       <span class="done__check"><Icon name="check" size={26} /></span>
