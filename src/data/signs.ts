@@ -923,7 +923,7 @@ export const signs: SignDefinition[] = [
     "colour": "blue circle, white arrow pointing left",
     "asset": "UK_traffic_sign_610.svg",
     "diagram": "610",
-    "explanation": "You must pass to the left of the sign, for example at a central island or obstruction. Keep to the left-hand side.",
+    "explanation": "Pass to the left of the obstruction it marks — a central island, bollard or narrowing — then carry straight on. It tells you which side to go, not to turn off: contrast 'Turn left at junction' (606), where you actually turn into a side road.",
     "mnemonic": "Horizontal arrow = pass that side now (left), not a turn ahead.",
     "confusedWith": [
       "no-left-turn",
@@ -936,7 +936,9 @@ export const signs: SignDefinition[] = [
       "pass left of island",
       "blue arrow left",
       "bollard keep left",
-      "left of obstruction"
+      "left of obstruction",
+      "keep left not turn left",
+      "pass left of island not turn"
     ],
     "source": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_610.svg"
   },
@@ -1231,7 +1233,7 @@ export const signs: SignDefinition[] = [
     "colour": "blue circle, white arrow pointing left",
     "asset": "UK_traffic_sign_606.svg",
     "diagram": "606",
-    "explanation": "At the junction you must turn left; the horizontal arrow shows the turn is here, not further ahead. Turn left now.",
+    "explanation": "Turn left into the side road here at the junction — the turn is now, not further ahead. A real change of direction, unlike 'Keep left' (610), which only means pass to the left of a central island or obstruction.",
     "mnemonic": "Flat arrow = turn here; angled arrow (609) = ahead.",
     "confusedWith": [
       "no-left-turn",
@@ -1244,7 +1246,9 @@ export const signs: SignDefinition[] = [
       "mandatory left turn",
       "blue left arrow junction",
       "left only",
-      "must turn left"
+      "must turn left",
+      "turn left not keep left",
+      "turn left at junction not island"
     ],
     "source": "https://commons.wikimedia.org/wiki/File:UK_traffic_sign_606.svg"
   },
