@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { activeDeck, buildStudyQueue } from '../src/lib/deck'
+import { activeDeck, buildStudyQueue, sortReference } from '../src/lib/deck'
 import { newReviewState } from '../src/lib/scheduler'
 import { DEFAULT_SETTINGS, type ReviewState, type Settings, type SignDefinition } from '../src/lib/types'
 
@@ -154,5 +154,46 @@ describe('buildStudyQueue — reviewCap on the due backlog', () => {
     const q = buildStudyQueue(deck6, reviews6, 0, 0, false, 10)
     expect(q.dueCount).toBe(6)
     expect(q.dueDeferred).toBe(0)
+  })
+})
+
+describe('sortReference', () => {
+  const signs = [sign('a', 'core'), sign('b', 'core'), sign('c', 'core')]
+  const intro = (o: Partial<ReviewState>): ReviewState => ({
+    ...newReviewState('x'),
+    introduced: true,
+    ...o,
+  })
+
+  it("'default' preserves the incoming order and returns a new array", () => {
+    const out = sortReference(signs, {}, 'default')
+    expect(out.map((s) => s.id)).toEqual(['a', 'b', 'c'])
+    expect(out).not.toBe(signs)
+  })
+
+  it("'seen' orders by timesSeen desc, unreviewed last", () => {
+    const reviews: Record<string, ReviewState> = { a: intro({ timesSeen: 2 }), b: intro({ timesSeen: 9 }) }
+    expect(sortReference(signs, reviews, 'seen').map((s) => s.id)).toEqual(['b', 'a', 'c'])
+  })
+
+  it("'worst' orders by struggle desc, parking unseen cards last", () => {
+    const reviews: Record<string, ReviewState> = {
+      a: intro({ timesSeen: 5, correct: 5, ease: 2.6 }), // solid
+      b: intro({ timesSeen: 5, correct: 1, ease: 1.4, lapses: 4 }), // struggling
+    }
+    expect(sortReference(signs, reviews, 'worst').map((s) => s.id)).toEqual(['b', 'a', 'c'])
+  })
+
+  it("'due' orders by soonest dueAt, new cards last", () => {
+    const reviews: Record<string, ReviewState> = { a: intro({ dueAt: 200 }), b: intro({ dueAt: 100 }) }
+    expect(sortReference(signs, reviews, 'due').map((s) => s.id)).toEqual(['b', 'a', 'c'])
+  })
+
+  it("'mastered' puts mastered cards first", () => {
+    const reviews: Record<string, ReviewState> = {
+      a: intro({ timesSeen: 2, correct: 1, intervalDays: 2 }),
+      b: intro({ timesSeen: 6, correct: 6, intervalDays: 30, lapses: 0 }), // mastered
+    }
+    expect(sortReference(signs, reviews, 'mastered').map((s) => s.id)).toEqual(['b', 'a', 'c'])
   })
 })

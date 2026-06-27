@@ -5,7 +5,9 @@
   import BookmarkButton from '../components/BookmarkButton.svelte'
   import { SIGNS, store } from '../lib/store.svelte'
   import { searchSigns } from '../lib/search'
-  import { CATEGORY_META, type SignCategory, type SignDefinition } from '../lib/types'
+  import { sortReference, type ReferenceSort } from '../lib/deck'
+  import { cardStage, isStruggling } from '../lib/stats'
+  import { CATEGORY_META, type SignCategory, type SignDefinition, type Tier } from '../lib/types'
 
   // The reference shows the COMPLETE set regardless of the study scope slider, but
   // still respects the motorway opt-in (which is off by default).
@@ -21,6 +23,9 @@
 
   let query = $state('')
   let cat = $state<SignCategory | 'all' | 'bookmarked'>('all')
+  let tier = $state<'all' | Tier>('all')
+  let mastery = $state<'all' | 'new' | 'learning' | 'settling' | 'mastered' | 'struggling'>('all')
+  let sort = $state<ReferenceSort>('default')
   let selectedId = $state<string | null>(null)
 
   // saved signs that are in scope to show here (a saved motorway sign is hidden
@@ -30,6 +35,8 @@
   const savedCount = $derived(savedInScope.length)
   const savedHidden = $derived(savedTotal - savedCount)
 
+  // tier + progress filters stack with category/search/bookmarks; sort reorders
+  // the result live. Mastery/struggle come from stats.ts (no duplicate logic).
   const filtered = $derived.by(() => {
     const base =
       cat === 'all'
@@ -37,8 +44,18 @@
         : cat === 'bookmarked'
           ? savedInScope
           : reference.filter((s) => s.category === cat)
-    return searchSigns(base, query)
+    let list = searchSigns(base, query)
+    if (tier !== 'all') list = list.filter((s) => s.tier === tier)
+    if (mastery !== 'all') {
+      list = list.filter((s) => {
+        const rs = store.reviews[s.id]
+        return mastery === 'struggling' ? isStruggling(rs) : cardStage(rs) === mastery
+      })
+    }
+    return sortReference(list, store.reviews, sort)
   })
+
+  const filtersActive = $derived(tier !== 'all' || mastery !== 'all')
 
   const selected = $derived(
     selectedId ? (reference.find((s) => s.id === selectedId) as SignDefinition) : null,
@@ -91,6 +108,39 @@
     {/each}
   </div>
 
+  <div class="controls">
+    <label class="control">
+      <span class="control__label t-caption">Tier</span>
+      <select class="control__select" bind:value={tier} aria-label="Filter by tier">
+        <option value="all">All tiers</option>
+        <option value="core">Core</option>
+        <option value="standard">Standard</option>
+        <option value="edge">Edge</option>
+      </select>
+    </label>
+    <label class="control">
+      <span class="control__label t-caption">Progress</span>
+      <select class="control__select" bind:value={mastery} aria-label="Filter by progress">
+        <option value="all">Any progress</option>
+        <option value="new">New</option>
+        <option value="learning">Learning</option>
+        <option value="settling">Settling</option>
+        <option value="mastered">Mastered</option>
+        <option value="struggling">Struggling</option>
+      </select>
+    </label>
+    <label class="control">
+      <span class="control__label t-caption">Sort</span>
+      <select class="control__select" bind:value={sort} aria-label="Sort signs">
+        <option value="default">Default order</option>
+        <option value="worst">Worst first</option>
+        <option value="seen">Most seen</option>
+        <option value="due">Due soonest</option>
+        <option value="mastered">Mastered first</option>
+      </select>
+    </label>
+  </div>
+
   {#if filtered.length}
     <ul class="grid">
       {#each filtered as sign (sign.id)}
@@ -131,7 +181,10 @@
       </p>
     </div>
   {:else}
-    <p class="empty t-body">No signs match “{query}”. Try another word.</p>
+    <p class="empty t-body">
+      {#if query && filtersActive}No signs match “{query}” with these filters.{:else if query}No
+        signs match “{query}”.{:else}No signs match these filters.{/if} Try widening it.
+    </p>
   {/if}
 </section>
 
@@ -244,6 +297,32 @@
   .filter--saved.is-active .filter__badge {
     background: color-mix(in srgb, var(--ink-100) 18%, transparent);
     color: var(--text-on-accent);
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+  .control {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .control__label {
+    color: var(--text-muted);
+  }
+  .control__select {
+    min-height: 38px;
+    padding: 0 var(--s-2);
+    font-size: var(--fs-caption);
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+  }
+  .control__select:focus-visible {
+    border-color: var(--accent);
   }
 
   .grid {
