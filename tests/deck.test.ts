@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { activeDeck, buildStudyQueue } from '../src/lib/deck'
+import { activeDeck, backlogPlan, BACKLOG_FACTOR, buildStudyQueue } from '../src/lib/deck'
 import { newReviewState } from '../src/lib/scheduler'
 import { DEFAULT_SETTINGS, type ReviewState, type Settings, type SignDefinition } from '../src/lib/types'
 
@@ -154,5 +154,31 @@ describe('buildStudyQueue — reviewCap on the due backlog', () => {
     const q = buildStudyQueue(deck6, reviews6, 0, 0, false, 10)
     expect(q.dueCount).toBe(6)
     expect(q.dueDeferred).toBe(0)
+  })
+})
+
+describe('backlogPlan', () => {
+  it('is inactive for an ordinary load and active once the pile dwarfs a day', () => {
+    // threshold = BACKLOG_FACTOR * (newPerDay + reviewCap) = 1.5 * (12 + 50) = 93
+    const newPerDay = 12
+    const reviewCap = 50
+    const threshold = BACKLOG_FACTOR * (newPerDay + reviewCap)
+    expect(backlogPlan(Math.floor(threshold), newPerDay, reviewCap).active).toBe(false)
+    expect(backlogPlan(Math.ceil(threshold) + 1, newPerDay, reviewCap).active).toBe(true)
+    expect(backlogPlan(20, newPerDay, reviewCap).active).toBe(false)
+  })
+
+  it('drains the pile over ceil(dueTotal / reviewCap) sessions (≥ 1)', () => {
+    expect(backlogPlan(200, 12, 50).days).toBe(4) // ceil(200/50)
+    expect(backlogPlan(201, 12, 50).days).toBe(5)
+    expect(backlogPlan(0, 12, 50).days).toBe(1) // never below 1
+    expect(backlogPlan(120, 12, 50).perDay).toBe(50) // perDay tracks the review cap
+  })
+
+  it('floors perDay at 1 so a zero/negative cap never divides by zero', () => {
+    const plan = backlogPlan(30, 0, 0)
+    expect(plan.perDay).toBe(1)
+    expect(Number.isFinite(plan.days)).toBe(true)
+    expect(plan.days).toBe(30)
   })
 })

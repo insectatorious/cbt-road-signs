@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.13.0',
+    date: '2026-06-27',
+    changes: [
+      'Came back to a mountain of reviews after a break? Study now shows a “Catch-up mode” note when a big backlog has piled up, explaining that it’s served a manageable amount per session and roughly how many sessions it’ll take to clear — instead of one overwhelming wall. (Each session was already capped; this just makes the plan clear, and the spacing of your other signs is left untouched.)',
+    ],
+  },
+  {
     version: '1.12.1',
     date: '2026-06-27',
     changes: [
