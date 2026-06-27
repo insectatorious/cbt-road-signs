@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.9.1',
+    date: '2026-06-27',
+    changes: [
+      'Made the sign-detail and release-notes pop-ups properly keyboard- and screen-reader-friendly. Tab now stays inside the open panel and loops around instead of slipping out to the page behind it, the background is held still and inert while a panel is open, and when you close it your place on the page is restored.',
+    ],
+  },
+  {
     version: '1.9.0',
     date: '2026-06-26',
     changes: [

@@ -1,5 +1,6 @@
 <script lang="ts">
   import Icon from './Icon.svelte'
+  import { modal } from '../lib/a11y'
   import { CHANGELOG } from '../data/changelog'
 
   let { onClose }: { onClose: () => void } = $props()
@@ -22,6 +23,7 @@
 
 <svelte:window onkeydown={onKey} />
 
+<div class="modal-root" use:modal>
 <div
   class="overlay"
   role="button"
@@ -51,8 +53,12 @@
     {/each}
   </ol>
 </div>
+</div>
 
 <style>
+  .modal-root {
+    display: contents;
+  }
   .overlay {
     position: fixed;
     inset: 0;

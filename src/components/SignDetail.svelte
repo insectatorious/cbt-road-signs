@@ -5,6 +5,7 @@
   import { reviewFor, lookalikesFor } from '../lib/store.svelte'
   import { accuracyOf, isMastered } from '../lib/stats'
   import { humanInterval, pct } from '../lib/util'
+  import { modal } from '../lib/a11y'
   import { CATEGORY_META, type SignDefinition } from '../lib/types'
 
   let {
@@ -28,6 +29,7 @@
 
 <svelte:window onkeydown={onKey} />
 
+<div class="modal-root" use:modal>
 <div
   class="overlay"
   role="button"
@@ -112,8 +114,12 @@
     </div>
   </div>
 </div>
+</div>
 
 <style>
+  .modal-root {
+    display: contents;
+  }
   .overlay {
     position: fixed;
     inset: 0;
