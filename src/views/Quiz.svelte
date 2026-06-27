@@ -28,6 +28,7 @@
   let showUndo = $state(false) // the "Graded — Undo" toast window
   let undoTimer: ReturnType<typeof setTimeout> | undefined
   let lastCorrect = false // whether the graded answer was right (to revert the local tally)
+  let lastQIndex = 0 // queue index of the just-graded question (so undo can jump back after advancing)
 
   const currentId = $derived(queue[index])
 
@@ -74,6 +75,7 @@
         ? `Correct — marked ${gradeShadeLabel(g)}.`
         : `Not quite — the answer is ${question.sign.caption}.`) + ' Press U to undo.'
     lastCorrect = isRight
+    lastQIndex = index
     flashUndo()
     await tick()
     if (optionsEl) {
@@ -83,11 +85,13 @@
   }
 
   function next() {
+    // Keep the undo toast alive across advancing (its own 5s timer, or the next
+    // grade, dismisses it) so the post-grade undo window matches Study's — undo()
+    // jumps back to lastQIndex rather than relying on still being on the question.
     if (index + 1 >= queue.length) {
-      done = true // keep the toast alive so the final answer stays recoverable (like Study)
+      done = true
       return
     }
-    hideUndo()
     index += 1
     setQuestion()
   }
@@ -106,15 +110,14 @@
   async function undo() {
     hideUndo()
     if (!undoLastGrade()) return
-    // re-open the same question so it can be answered again (also recovers it from
-    // the session-complete screen, matching Study)
+    // jump back to the graded question (it may have been advanced past) and re-open
+    // it for another answer — also recovers it from the session-complete screen.
+    index = lastQIndex
     done = false
-    answered = false
-    selected = null
+    setQuestion() // resets selected/answered/announce/started for a fresh attempt
     asked = Math.max(0, asked - 1)
     if (lastCorrect) correct = Math.max(0, correct - 1)
     announce = 'Grade undone — choose again.'
-    started = Date.now()
     // restore focus to the options so keyboard/SR users keep their place (Study does the same)
     await tick()
     optionsEl?.querySelector<HTMLButtonElement>('.option')?.focus()
