@@ -79,6 +79,12 @@ describe('migrate', () => {
     expect(migrate({ settings: { newPerDay: 9999 } }, NOW).settings.newPerDay).toBeLessThanOrEqual(100)
   })
 
+  it('clamps an out-of-range imported reviewCap and defaults a missing one', () => {
+    expect(migrate({ settings: { reviewCap: 0 } }, NOW).settings.reviewCap).toBeGreaterThanOrEqual(5)
+    expect(migrate({ settings: { reviewCap: 9999 } }, NOW).settings.reviewCap).toBeLessThanOrEqual(500)
+    expect(migrate({ settings: {} }, NOW).settings.reviewCap).toBe(50)
+  })
+
   it('defaults deckScope to standard and ignores junk values', () => {
     expect(migrate({}, NOW).settings.deckScope).toBe('standard')
     expect(migrate({ settings: { deckScope: 'everything' } }, NOW).settings.deckScope).toBe('standard')

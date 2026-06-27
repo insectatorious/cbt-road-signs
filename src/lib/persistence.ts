@@ -133,6 +133,7 @@ function sanitizeSettings(raw: unknown): Settings {
   const r = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>
   return {
     newPerDay: Math.min(100, Math.max(1, Math.round(num(r.newPerDay, DEFAULT_SETTINGS.newPerDay)))),
+    reviewCap: Math.min(500, Math.max(5, Math.round(num(r.reviewCap, DEFAULT_SETTINGS.reviewCap)))),
     deckScope: coerceScope(r),
     includeMarkings: bool(r.includeMarkings, DEFAULT_SETTINGS.includeMarkings),
     includeMotorway: bool(r.includeMotorway, DEFAULT_SETTINGS.includeMotorway),

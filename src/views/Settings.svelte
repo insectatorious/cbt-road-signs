@@ -61,6 +61,10 @@
     setSetting('newPerDay', Math.max(3, Math.min(40, v)))
   }
 
+  function clampCap(v: number) {
+    setSetting('reviewCap', Math.max(10, Math.min(200, v)))
+  }
+
   function doReset() {
     resetProgress()
     confirming = false
@@ -103,6 +107,18 @@
         <button onclick={() => clampNew(store.settings.newPerDay - 1)} aria-label="Fewer">−</button>
         <span class="stepper__val t-num">{store.settings.newPerDay}</span>
         <button onclick={() => clampNew(store.settings.newPerDay + 1)} aria-label="More">+</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="row__text">
+        <span class="row__title">Max reviews per session</span>
+        <span class="row__desc t-caption">Cap on due cards shown in one Study sitting, so a backlog after time away doesn’t pile up at once. Any extra waits for your next session.</span>
+      </div>
+      <div class="stepper">
+        <button onclick={() => clampCap(store.settings.reviewCap - 10)} aria-label="Fewer">−</button>
+        <span class="stepper__val t-num">{store.settings.reviewCap}</span>
+        <button onclick={() => clampCap(store.settings.reviewCap + 10)} aria-label="More">+</button>
       </div>
     </div>
 

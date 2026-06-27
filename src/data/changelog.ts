@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.9.0',
+    date: '2026-06-26',
+    changes: [
+      'Study sessions now have a daily cap, so coming back after a few days away no longer hands you a wall of 100+ cards at once. By default you’ll see up to 50 due cards a sitting (plus your new ones); the rest wait for your next session, shown as a “+N more today” note rather than vanishing. Tune the cap under Settings → “Max reviews per session”.',
+    ],
+  },
+  {
     version: '1.8.2',
     date: '2026-06-25',
     changes: [
