@@ -3,6 +3,11 @@
 All notable changes to this project. **Generated** from `src/data/changelog.ts`
 (the in-app release notes) — edit that and run `npm run build-changelog`.
 
+## 1.13.0 — 27 June 2026
+
+- Build a daily revision habit. The Report now shows your study streak (current run of days, plus your best ever) and a simple daily goal — reviews done today against a target you can set under Settings → “Daily goal”.
+- Optional daily reminder. If you want a nudge, you can turn on a local notification at a time of your choosing (Settings → Reminders). It’s off by default, stays entirely on your device with no account or tracking, and is one tap to turn off. (Scheduled reminders depend on browser support; where unavailable the option says so.)
+
 ## 1.12.1 — 27 June 2026
 
 - Fixed the quiz’s “Name the sign / Spot the sign” toggle, which appeared to do nothing: tapping it before answering now switches the current question to that direction straight away (previously the change only took effect on the *next* question, with no on-screen hint, so it looked broken). To avoid giving the answer away, flipping brings in a fresh sign you haven’t seen rather than re-showing the one already on screen. If you flip after answering, a small “Starts on the next question” note now explains the wait.

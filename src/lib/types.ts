@@ -110,6 +110,12 @@ export interface Settings {
   showCategoryHint: boolean
   /** mix new cards across categories instead of introducing them in category order */
   shuffleCategories: boolean
+  /** daily review target for the streak goal ("reviews done today / this") */
+  dailyGoal: number
+  /** opt-in local daily reminder notification (off by default; no backend) */
+  remindersEnabled: boolean
+  /** local time for the reminder, "HH:MM" (24h) */
+  reminderTime: string
 }
 
 export interface SessionRecord {
@@ -127,6 +133,9 @@ export const DEFAULT_SETTINGS: Settings = {
   includeMotorway: false,
   showCategoryHint: true,
   shuffleCategories: false,
+  dailyGoal: 10,
+  remindersEnabled: false,
+  reminderTime: '18:00',
 }
 
 export const CATEGORY_META: Record<

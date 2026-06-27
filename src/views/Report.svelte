@@ -15,6 +15,8 @@
     accuracyVerdict,
     coachAction,
     windowedRetention,
+    streakStats,
+    goalToday,
     RETENTION_WINDOW_DAYS,
     RETENTION_MIN_EVENTS,
     type RankedCard,
@@ -32,6 +34,11 @@
   const readiness = recallReadiness(deck, store.reviews)
   const days = daysSinceStart(store.createdAt, store.sessions, now)
   const hasData = report.totalReviews > 0
+
+  // habit mechanics: study streak + today's goal, both from the session log
+  const streak = streakStats(store.sessions, now)
+  const goal = goalToday(store.sessions, store.settings.dailyGoal, now)
+  const goalPct = Math.min(1, goal.done / goal.target)
 
   // today's remaining new-card budget — so a "learn new" action never overshoots.
   // Guard newSeen (a malformed backup could leave it non-numeric → NaN budget).
@@ -111,6 +118,34 @@
       {/if}
     </p>
   </header>
+
+  {#if hasData}
+    <div class="streak">
+      <div class="streak__days">
+        <span class="streak__n t-num">{streak.current}</span>
+        <span class="streak__label t-caption">
+          {#if streak.current === 0}
+            no streak — study today to start one
+          {:else}
+            day{streak.current === 1 ? '' : 's'} in a row{#if streak.best > streak.current}
+              · best {streak.best}{/if}
+          {/if}
+        </span>
+      </div>
+      <div class="streak__goal">
+        <div class="streak__goalhead">
+          <span class="t-caption">Today’s goal</span>
+          <span class="t-num">{Math.min(goal.done, goal.target)} / {goal.target}{#if goal.met} ✓{/if}</span>
+        </div>
+        <div class="bar">
+          <div
+            class="bar__fill {goal.met ? 'bar__fill--good' : ''}"
+            style="transform:scaleX({shown ? goalPct : 0})"
+          ></div>
+        </div>
+      </div>
+    </div>
+  {/if}
 
   <!-- THE ONE THING TO DO NOW -->
   <div class="coach coach--{action.mode}">
@@ -358,6 +393,44 @@
   .coach__forward {
     margin-top: var(--s-1);
     color: var(--text-muted);
+  }
+
+  .streak {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-3) var(--s-5);
+    padding: var(--s-3) var(--s-4);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-md);
+    background: var(--surface);
+  }
+  .streak__days {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-2);
+    flex: none;
+  }
+  .streak__n {
+    font-size: var(--fs-display);
+    font-weight: var(--fw-semibold);
+    color: var(--accent-ink);
+  }
+  .streak__label {
+    color: var(--text-muted);
+    max-width: 18ch;
+  }
+  .streak__goal {
+    flex: 1;
+    min-width: 12ch;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-1);
+  }
+  .streak__goalhead {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-secondary);
   }
 
   .muted {

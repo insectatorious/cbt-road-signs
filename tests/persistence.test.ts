@@ -116,6 +116,22 @@ describe('migrate', () => {
     expect(migrate({ settings: { shuffleCategories: 'yes' } }, NOW).settings.shuffleCategories).toBe(false)
   })
 
+  it('defaults and clamps the daily goal, and defaults the opt-in reminder off', () => {
+    const d = migrate({}, NOW).settings
+    expect(d.dailyGoal).toBe(10)
+    expect(d.remindersEnabled).toBe(false)
+    expect(d.reminderTime).toBe('18:00')
+    expect(migrate({ settings: { dailyGoal: 0 } }, NOW).settings.dailyGoal).toBe(1)
+    expect(migrate({ settings: { dailyGoal: 9999 } }, NOW).settings.dailyGoal).toBe(100)
+  })
+
+  it('accepts a valid reminder time and rejects a malformed one', () => {
+    expect(migrate({ settings: { reminderTime: '07:30' } }, NOW).settings.reminderTime).toBe('07:30')
+    expect(migrate({ settings: { reminderTime: '9:05' } }, NOW).settings.reminderTime).toBe('09:05')
+    expect(migrate({ settings: { reminderTime: '25:00' } }, NOW).settings.reminderTime).toBe('18:00')
+    expect(migrate({ settings: { reminderTime: 'noon' } }, NOW).settings.reminderTime).toBe('18:00')
+  })
+
   it('defaults bookmarks to an empty array when absent', () => {
     expect(migrate({}, NOW).bookmarks).toEqual([])
     expect(migrate({ bookmarks: 'not-an-array' }, NOW).bookmarks).toEqual([])
