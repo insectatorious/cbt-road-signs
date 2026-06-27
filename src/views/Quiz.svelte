@@ -141,10 +141,16 @@
   function setReverse(r: boolean) {
     if (reverse === r) return
     reverse = r
-    if (!answered) {
-      // swap a not-yet-shown sign into the slot (so the flip can't reveal the on-screen
-      // answer), then re-present it in the new direction
-      queue = repickCurrentSlot(queue, index, seen, activeSigns())
+    if (answered) return // the graded question stays put; the hint shows it applies next
+    // Re-present the current question immediately *only* if we can swap in a sign the
+    // learner hasn't seen — repickCurrentSlot returns the same queue instance when no
+    // reveal-free replacement exists (deck exhausted). Rebuilding in that case would flip
+    // qReverse on the on-screen sign, turning its art/caption into an option (a reveal),
+    // so instead leave the question locked and let the toggle apply on the next question
+    // (the reverse !== qReverse hint explains the wait).
+    const next = repickCurrentSlot(queue, index, seen, activeSigns())
+    if (next !== queue) {
+      queue = next
       setQuestion() // re-locks qReverse = reverse and rebuilds for the swapped-in sign
     }
   }
