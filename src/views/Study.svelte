@@ -94,10 +94,10 @@
     if (grading || !currentId) return
     grading = true
     const g = gradeRecall(currentId, gotIt, thinkMs)
-    // announce correctness + the inferred shade to assistive tech (WCAG 4.1.3),
-    // and that undo is available (the toast itself isn't a live region).
-    announce =
-      (gotIt ? `Correct — marked ${gradeShadeLabel(g)}.` : 'Marked as missed.') + ' Press U to undo.'
+    // announce correctness + the inferred shade to assistive tech (WCAG 4.1.3).
+    // The "press U to undo" hint is announced later, in advance(), once undo is
+    // actually live — during the exit animation the grading guard still blocks it.
+    announce = gotIt ? `Correct — marked ${gradeShadeLabel(g)}.` : 'Marked as missed.'
     lastIndex = index
     lastGotIt = gotIt
     reviewed += 1
@@ -109,6 +109,10 @@
   async function advance() {
     if (destroyed) return // a late exit-animation callback after the view was torn down
     flashUndo() // offer to undo the grade we just applied (after the exit animation)
+    // Now that the toast is up and the grading guard has cleared, undo is actually
+    // live — announce the affordance to SR users. This also doubles as the
+    // between-card reset so an identical next result still re-announces.
+    announce = 'Press U to undo.'
     if (index + 1 >= queue.length) {
       done = true
       grading = false
@@ -118,7 +122,6 @@
     }
     index += 1
     flipped = false
-    announce = '' // reset so the next grade re-announces even if it repeats the wording
     shownAt = Date.now()
     await tick()
     if (stage) enterCard(stage)
