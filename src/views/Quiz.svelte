@@ -5,8 +5,8 @@
   import UndoToast from '../components/UndoToast.svelte'
   import { store, activeSigns, gradeQuiz, undoLastGrade, takeQuizFocus, SIGN_BY_ID } from '../lib/store.svelte'
   import { buildStudyQueue } from '../lib/deck'
-  import { buildQuestion, type QuizQuestion } from '../lib/quiz'
-  import { pop, shake } from '../lib/motion'
+  import { buildQuestion, repickCurrentSlot, type QuizQuestion } from '../lib/quiz'
+  import { pop, shake, fadeUp, SHAKE_DURATION_S } from '../lib/motion'
   import { navigate } from '../lib/router.svelte'
   import { gradeShadeLabel, pct } from '../lib/util'
 
@@ -24,8 +24,13 @@
   let started = Date.now()
   let optionsEl = $state<HTMLElement>()
   let announce = $state('') // sr-only live-region text: correctness + answer/shade
-  let reverse = $state(false) // selected direction for upcoming questions (the toggle)
+  let reverse = $state(false) // direction selected by the toggle
   let qReverse = $state(false) // direction the *current* question is locked to (set when it's built)
+  const seen = new Set<string>() // sign ids already shown this session — never re-show on a flip (would reveal)
+  // Candidate signs a mid-question flip may swap in. The full deck for a normal session,
+  // but only the drill set for a "Drill these" focus session — otherwise a flip near the
+  // end of a focus queue would inject a sign that isn't part of the drill.
+  let pool = $state<ReturnType<typeof activeSigns>>([])
 
   let showUndo = $state(false) // the "Graded — Undo" toast window
   let undoTimer: ReturnType<typeof setTimeout> | undefined
@@ -37,7 +42,8 @@
   function setQuestion() {
     const sign = currentId ? SIGN_BY_ID.get(currentId) : undefined
     question = sign ? buildQuestion(sign, activeSigns(), SIGN_BY_ID) : undefined
-    qReverse = reverse // lock this question's direction; toggling later won't flip it
+    if (currentId) seen.add(currentId)
+    qReverse = reverse // lock this question's direction to the toggle's current value
     selected = null
     answered = false
     announce = '' // reset so the next result re-announces even if it repeats the wording
@@ -48,16 +54,22 @@
     const focus = takeQuizFocus()
     if (focus.length) {
       queue = focus.slice(0, SESSION)
+      // Restrict flip-replacements to the drilled signs. With nothing outside the queue
+      // to pull, a flip with no unseen card ahead simply defers to the next question
+      // rather than injecting a sign that isn't part of the drill.
+      pool = queue.map((id) => SIGN_BY_ID.get(id)).filter((s) => s !== undefined)
     } else {
       // No reviewCap here: that cap is a Study-session comfort limit. Quiz has its
       // own SESSION cap, and applying reviewCap could shrink the quiz below it.
       const q = buildStudyQueue(activeSigns(), store.reviews, store.settings.newPerDay, Date.now(), store.settings.shuffleCategories)
       queue = q.ids.slice(0, SESSION)
+      pool = activeSigns()
     }
     index = 0
     asked = 0
     correct = 0
     done = false
+    seen.clear()
     hideUndo()
     setQuestion()
   }
@@ -127,13 +139,40 @@
     optionsEl?.querySelector<HTMLButtonElement>('.option')?.focus()
   }
 
-  // Choose the quiz direction. It applies to the *next* question, never the one on
-  // screen: re-presenting the current question in the opposite direction would turn
-  // the sign (or caption) you just saw into one of the four options — i.e. reveal the
-  // answer. The current question stays locked to qReverse until it's answered/advanced.
+  // Choose the quiz direction.
+  // - On an *unanswered* question we apply it now, so the toggle is visibly instant —
+  //   but first swap in a sign the learner hasn't seen (repickCurrentSlot): flipping the
+  //   same sign would turn the art/caption already on screen into one of the four
+  //   options, i.e. reveal the answer.
+  // - On an *answered* question the result is already on screen, so we can't change it
+  //   without rewriting a graded question; the new direction takes effect on the next
+  //   question instead (the "starts next question" hint makes that explicit).
+  // Either way the change is spoken via the `announce` live region — a sighted user sees
+  // it, but the swap/deferral is otherwise silent to assistive tech.
   function setReverse(r: boolean) {
     if (reverse === r) return
     reverse = r
+    if (!answered) {
+      // Re-present the current question immediately *only* if we can swap in a sign the
+      // learner hasn't seen — repickCurrentSlot returns the same queue instance when no
+      // reveal-free replacement exists (deck/drill exhausted). Rebuilding in that case
+      // would flip qReverse on the on-screen sign, turning its art/caption into an option
+      // (a reveal), so instead leave the question locked and defer to the next question.
+      const next = repickCurrentSlot(queue, index, seen, pool)
+      if (next !== queue) {
+        queue = next
+        setQuestion() // re-locks qReverse = reverse and rebuilds for the swapped-in sign
+        // (setQuestion cleared announce; re-announce the fresh question without naming the
+        // sign — in "name the sign" the caption is the answer, so we never speak it)
+        announce = reverse ? 'New question — spot the sign.' : 'New question — name the sign.'
+        return
+      }
+    }
+    // Deferred: an answered (graded) question, or no reveal-free swap available. The new
+    // direction applies on the next question — speak it (the visible hint mirrors this).
+    announce = reverse
+      ? 'Spot the sign — starts on the next question.'
+      : 'Name the sign — starts on the next question.'
   }
 
   // The accessible name for an option. Forward mode leaves it to the visible caption;
@@ -173,6 +212,23 @@
       : ''
   })
 
+  // On a wrong answer in "name the sign" mode the options were captions, so the
+  // correct sign's artwork was never shown — pair the sign the learner *named*
+  // with the right one. In "spot the sign" mode the option grid already shows the
+  // signs marked right/wrong, so a separate comparison would just duplicate it.
+  const wrongComparison = $derived.by(() => {
+    if (qReverse || !answered || selected == null || !question) return null
+    if (selected === question.answerIndex) return null
+    return { chosen: question.options[selected], correct: question.sign }
+  })
+
+  let compareEl = $state<HTMLElement>()
+  // Float the comparison in once the wrong-answer shake has settled (shared duration so
+  // the two stay in sync if the shake timing ever changes).
+  $effect(() => {
+    if (compareEl) fadeUp(compareEl, { y: 8, delay: SHAKE_DURATION_S })
+  })
+
   onMount(() => {
     build()
     window.addEventListener('keydown', onKey)
@@ -205,7 +261,7 @@
       <span class="quiz__pos t-num">{index + 1} / {queue.length}</span>
     </header>
 
-    <div class="quiz__mode" role="group" aria-label="Quiz direction (applies to the next question)">
+    <div class="quiz__mode" role="group" aria-label="Quiz direction">
       <button
         type="button"
         class="quiz__mode-btn"
@@ -221,6 +277,16 @@
         onclick={() => setReverse(true)}
       >Spot the sign</button>
     </div>
+    {#if reverse !== qReverse}
+      <!-- Visual-only hint, shown whenever the current question can't adopt the new
+           direction yet: after answering (the graded question keeps its direction), or
+           mid-question when the deck/drill is exhausted (no reveal-free swap exists). The
+           toggle then kicks in on the next question. The screen-reader equivalent is the
+           message setReverse writes to the persistent `announce` region — a live region
+           created together with its text (as this {#if} block does) is not reliably
+           announced, so it must not be the only channel. -->
+      <p class="quiz__mode-hint t-caption">Starts on the next question</p>
+    {/if}
 
     {#if qReverse}
       <div class="quiz__prompt">
@@ -265,6 +331,28 @@
           {selected === question.answerIndex ? 'Correct.' : 'Not quite.'}
           {#if confusionNote}<span class="feedback__note">{confusionNote}</span>{/if}
         </p>
+        {#if wrongComparison}
+          <div class="compare" bind:this={compareEl}>
+            <figure class="compare__item">
+              <span class="compare__tag compare__tag--wrong">
+                <Icon name="x" size={13} /> Your pick
+              </span>
+              <span class="compare__art" aria-hidden="true">
+                <SignPlate sign={wrongComparison.chosen} pad={false} tag={false} />
+              </span>
+              <figcaption class="compare__name">{wrongComparison.chosen.caption}</figcaption>
+            </figure>
+            <figure class="compare__item">
+              <span class="compare__tag compare__tag--right">
+                <Icon name="check" size={13} /> Correct answer
+              </span>
+              <span class="compare__art" aria-hidden="true">
+                <SignPlate sign={wrongComparison.correct} pad={false} tag={false} />
+              </span>
+              <figcaption class="compare__name">{wrongComparison.correct.caption}</figcaption>
+            </figure>
+          </div>
+        {/if}
         <button class="btn btn--primary" onclick={next}>
           {index + 1 >= queue.length ? 'Finish' : 'Next'}
           <Icon name="arrow-right" size={18} />
@@ -334,6 +422,11 @@
   }
   .quiz__mode-btn:disabled {
     cursor: default;
+  }
+  .quiz__mode-hint {
+    align-self: center;
+    margin-top: calc(-1 * var(--s-2));
+    color: var(--text-faint);
   }
 
   .quiz__prompt {
@@ -479,6 +572,54 @@
     font-weight: var(--fw-regular);
     color: var(--text-muted);
   }
+
+  /* Wrong-answer two-up: the sign the learner named vs the correct one. Only shown
+     in "name the sign" mode (in "spot the sign" the option grid already is the
+     comparison). Reuses the look-alike compare idiom from the flashcard. */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-3);
+    width: 100%;
+  }
+  .compare__item {
+    margin: 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s-2);
+    padding: var(--s-3) var(--s-2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    background: var(--surface);
+  }
+  .compare__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--fs-micro);
+    letter-spacing: var(--ls-micro);
+    font-weight: var(--fw-semibold);
+  }
+  .compare__tag--wrong {
+    color: var(--grade-again);
+  }
+  .compare__tag--right {
+    color: var(--grade-good);
+  }
+  .compare__art {
+    display: block;
+    width: 100%;
+    max-width: 84px;
+  }
+  .compare__name {
+    font-size: var(--fs-micro);
+    line-height: 1.25;
+    text-align: center;
+    color: var(--text-secondary);
+  }
+
   .quiz__foot .btn {
     align-self: stretch;
   }

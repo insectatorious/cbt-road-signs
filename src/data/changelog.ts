@@ -11,6 +11,20 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.12.1',
+    date: '2026-06-27',
+    changes: [
+      'Fixed the quiz’s “Name the sign / Spot the sign” toggle, which appeared to do nothing: tapping it before answering now switches the current question to that direction straight away (previously the change only took effect on the *next* question, with no on-screen hint, so it looked broken). To avoid giving the answer away, flipping brings in a fresh sign you haven’t seen rather than re-showing the one already on screen. If you flip after answering, a small “Starts on the next question” note now explains the wait.',
+    ],
+  },
+  {
+    version: '1.12.0',
+    date: '2026-06-27',
+    changes: [
+      'Get a wrong quiz answer in “Name the sign” mode and you’ll now see the two signs side by side — the one you picked and the correct one — so you can spot exactly how they differ, instead of just reading the right answer’s name. (“Spot the sign” already shows the signs, so it’s unchanged.)',
+    ],
+  },
+  {
     version: '1.11.0',
     date: '2026-06-27',
     changes: [

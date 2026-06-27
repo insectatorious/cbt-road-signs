@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildQuestion } from '../src/lib/quiz'
+import { buildQuestion, repickCurrentSlot } from '../src/lib/quiz'
 import { signs } from '../src/data/signs'
 import type { SignDefinition } from '../src/lib/types'
 
@@ -51,6 +51,65 @@ describe('buildQuestion', () => {
     expect(new Set(q.options.map((o) => o.id)).size).toBe(4)
     expect(q.options[q.answerIndex].id).toBe('no-entry') // the answer is still a real sign to render
     expect(q.options.some((o) => o.id === 'no-motor-vehicles')).toBe(true) // look-alike-first holds either direction
+  })
+})
+
+// Flipping the direction toggle mid-question must re-present the slot with a sign the
+// learner hasn't seen — otherwise the art/caption already on screen becomes one of the
+// four options (the answer is revealed). This is the logic behind the user-visible fix:
+// before, the toggle deferred to the *next* question and so looked completely inert.
+describe('repickCurrentSlot (direction-flip on an unanswered question)', () => {
+  const q = ['a', 'b', 'c', 'd']
+
+  it('swaps an unseen sign ahead into the current slot, keeping the skipped one in rotation', () => {
+    const seen = new Set(['a']) // only the current (slot 0) sign has been shown
+    const next = repickCurrentSlot(q, 0, seen, deck)
+    expect(next[0]).not.toBe('a') // the on-screen sign is gone — no reveal
+    expect(seen.has(next[0])).toBe(false) // its replacement is genuinely unseen
+    expect(next.slice().sort()).toEqual(q.slice().sort()) // same multiset — 'a' stays queued
+    expect(next).not.toBe(q) // pure: a new array, input untouched
+    expect(q[0]).toBe('a')
+  })
+
+  it('never re-shows an already-seen sign across repeated flips', () => {
+    // flip, flip, flip — each time the new current must be one the learner hasn't seen
+    let queue = q
+    const seen = new Set([queue[0]])
+    for (let i = 0; i < 3; i++) {
+      queue = repickCurrentSlot(queue, 0, seen, deck)
+      expect(seen.has(queue[0])).toBe(false)
+      seen.add(queue[0]) // setQuestion() records each freshly-presented sign
+    }
+  })
+
+  it('falls back to a fresh deck sign when nothing unseen remains ahead in the queue', () => {
+    const queue = ['a', 'b']
+    const seen = new Set(['a', 'b']) // both queued signs already shown
+    const next = repickCurrentSlot(queue, 0, seen, deck)
+    expect(next[0]).not.toBe('a')
+    expect(seen.has(next[0])).toBe(false)
+    expect(deck.some((s) => s.id === next[0])).toBe(true) // pulled from the deck
+    // setReverse decides whether a flip took effect by reference identity (`next !== queue`),
+    // so the fresh-deck branch — like the swap branch — MUST return a new array. A
+    // mutate-in-place refactor would silently re-break the inert-toggle bug 1.12.1 fixed.
+    expect(next).not.toBe(queue)
+    expect(queue).toEqual(['a', 'b']) // input untouched (pure)
+  })
+
+  it('never returns a sign outside the supplied pool (the "Drill these" focus contract)', () => {
+    // In a focus session the pool is restricted to the drilled signs, so when the queue
+    // holds the whole pool there is nothing reveal-free to pull — it must defer (return the
+    // same instance) rather than inject a sign that isn't part of the drill.
+    const focusPool = deck.slice(0, 2) // the only signs allowed in this drill
+    const queue = focusPool.map((s) => s.id)
+    const seen = new Set(queue)
+    expect(repickCurrentSlot(queue, 0, seen, focusPool)).toBe(queue)
+  })
+
+  it('leaves the queue unchanged when the deck is exhausted (no reveal-free choice exists)', () => {
+    const queue = deck.map((s) => s.id)
+    const seen = new Set(queue) // every sign has been seen
+    expect(repickCurrentSlot(queue, 0, seen, deck)).toBe(queue)
   })
 })
 
