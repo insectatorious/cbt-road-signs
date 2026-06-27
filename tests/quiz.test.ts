@@ -41,4 +41,14 @@ describe('buildQuestion', () => {
     const q = buildQuestion(byId.get('no-entry')!, deck, byId)
     expect(q.options.some((o) => o.id === 'no-motor-vehicles')).toBe(true)
   })
+
+  // The reverse "spot the sign" mode reuses the exact same build, but renders the
+  // options as sign IMAGES — so they must be four *distinct signs* (not just
+  // distinct captions) or two cells would show identical artwork.
+  it('yields four distinct signs for the reverse "spot the sign" mode', () => {
+    const q = buildQuestion(byId.get('no-entry')!, deck, byId)
+    expect(new Set(q.options.map((o) => o.id)).size).toBe(4)
+    expect(q.options[q.answerIndex].id).toBe('no-entry') // the answer is still a real sign to render
+    expect(q.options.some((o) => o.id === 'no-motor-vehicles')).toBe(true) // look-alike-first holds either direction
+  })
 })

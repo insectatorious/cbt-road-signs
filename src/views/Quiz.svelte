@@ -24,6 +24,7 @@
   let started = Date.now()
   let optionsEl = $state<HTMLElement>()
   let announce = $state('') // sr-only live-region text: correctness + answer/shade
+  let reverse = $state(false) // false = name the sign (show art); true = spot the sign (show meaning)
 
   let showUndo = $state(false) // the "Graded — Undo" toast window
   let undoTimer: ReturnType<typeof setTimeout> | undefined
@@ -124,6 +125,14 @@
     optionsEl?.querySelector<HTMLButtonElement>('.option')?.focus()
   }
 
+  // Flip the quiz direction. The question itself is direction-agnostic, so we just
+  // re-present the current (unanswered) one and restart its recall clock.
+  function setReverse(r: boolean) {
+    if (answered || reverse === r) return
+    reverse = r
+    started = Date.now()
+  }
+
   function onKey(e: KeyboardEvent) {
     if (showUndo && (e.key === 'u' || e.key === 'U')) {
       e.preventDefault()
@@ -178,26 +187,57 @@
   {:else if question}
     <header class="quiz__head">
       <h1 class="sr-only" id="view-heading" tabindex="-1">Quiz</h1>
-      <span class="t-caption">Which sign is this?</span>
+      <span class="t-caption">{reverse ? 'Which sign means this?' : 'Which sign is this?'}</span>
       <span class="quiz__pos t-num">{index + 1} / {queue.length}</span>
     </header>
 
-    <div class="quiz__sign">
-      <SignPlate sign={question.sign} />
+    <div class="quiz__mode" role="group" aria-label="Quiz direction">
+      <button
+        type="button"
+        class="quiz__mode-btn"
+        class:is-active={!reverse}
+        aria-pressed={!reverse}
+        disabled={answered}
+        onclick={() => setReverse(false)}
+      >Name the sign</button>
+      <button
+        type="button"
+        class="quiz__mode-btn"
+        class:is-active={reverse}
+        aria-pressed={reverse}
+        disabled={answered}
+        onclick={() => setReverse(true)}
+      >Spot the sign</button>
     </div>
 
-    <div class="options" bind:this={optionsEl}>
+    {#if reverse}
+      <div class="quiz__prompt">
+        <span class="quiz__prompt-cap t-title">{question.sign.caption}</span>
+      </div>
+    {:else}
+      <div class="quiz__sign">
+        <SignPlate sign={question.sign} />
+      </div>
+    {/if}
+
+    <div class="options" class:options--grid={reverse} bind:this={optionsEl}>
       {#each question.options as opt, i (opt.id)}
         <button
           class="option"
+          class:option--img={reverse}
           class:is-correct={answered && i === question.answerIndex}
           class:is-wrong={answered && i === selected && i !== question.answerIndex}
           class:is-dim={answered && i !== question.answerIndex && i !== selected}
           disabled={answered}
+          aria-label={reverse ? opt.caption : undefined}
           onclick={() => choose(i)}
         >
           <span class="option__key" aria-hidden="true">{i + 1}</span>
-          <span class="option__text">{opt.caption}</span>
+          {#if reverse}
+            <div class="option__plate"><SignPlate sign={opt} tag={false} /></div>
+          {:else}
+            <span class="option__text">{opt.caption}</span>
+          {/if}
           {#if answered && i === question.answerIndex}
             <span class="option__mark"><Icon name="check" size={18} /></span>
           {:else if answered && i === selected}
@@ -218,7 +258,7 @@
           <Icon name="arrow-right" size={18} />
         </button>
       {:else}
-        <p class="t-caption quiz__hint">Tap an answer, or press 1–4</p>
+        <p class="t-caption quiz__hint">{reverse ? 'Tap the sign, or press 1–4' : 'Tap an answer, or press 1–4'}</p>
       {/if}
     </div>
   {:else}
@@ -259,9 +299,50 @@
     margin: 0 auto;
   }
 
+  .quiz__mode {
+    display: inline-flex;
+    align-self: center;
+    gap: 2px;
+    padding: 3px;
+    background: var(--surface-sunken);
+    border-radius: var(--r-pill);
+  }
+  .quiz__mode-btn {
+    min-height: 36px;
+    padding: 0 var(--s-4);
+    border-radius: var(--r-pill);
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-medium);
+    color: var(--text-muted);
+  }
+  .quiz__mode-btn.is-active {
+    background: var(--surface-raised);
+    color: var(--text);
+    box-shadow: var(--shadow-1);
+  }
+  .quiz__mode-btn:disabled {
+    cursor: default;
+  }
+
+  .quiz__prompt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 120px;
+    padding: var(--s-4) var(--s-3);
+  }
+  .quiz__prompt-cap {
+    font-size: var(--fs-title);
+  }
+
   .options {
     display: grid;
     gap: var(--s-2);
+  }
+  .options--grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-3);
   }
   .option {
     display: flex;
@@ -304,6 +385,34 @@
     flex: none;
     display: grid;
     place-items: center;
+  }
+
+  /* "Spot the sign": each option is a sign image in a 2×2 grid. */
+  .option--img {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--s-2);
+    padding: var(--s-3);
+    min-height: 0;
+    position: relative;
+  }
+  .option--img .option__key {
+    position: absolute;
+    top: var(--s-2);
+    left: var(--s-2);
+    z-index: 1;
+    background: var(--surface);
+  }
+  .option--img .option__mark {
+    position: absolute;
+    top: var(--s-2);
+    right: var(--s-2);
+    z-index: 1;
+  }
+  .option__plate {
+    width: 100%;
+    max-width: 140px;
+    margin: 0 auto;
   }
   .option.is-correct {
     border-color: var(--grade-good);

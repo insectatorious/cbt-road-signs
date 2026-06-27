@@ -3,6 +3,10 @@
 All notable changes to this project. **Generated** from `src/data/changelog.ts`
 (the in-app release notes) — edit that and run `npm run build-changelog`.
 
+## 1.11.0 — 27 June 2026
+
+- New “Spot the sign” quiz direction. The quiz now has a toggle: “Name the sign” (the classic — see a sign, pick its meaning) or “Spot the sign” (read a meaning, pick the matching sign from four images). Recognising a sign from its meaning is the skill you actually use on the road, and it was never practised before. Both directions reuse the same look-alike-aware question building and feed your schedule identically.
+
 ## 1.10.0 — 27 June 2026
 
 - Misgraded a card? A brief “Graded — Undo” button now appears after each answer in Study and Quiz (press U, or tap it). Undo puts the card back exactly as it was — its schedule, your session tally, and the pace it learns your speed from — so a stray tap no longer quietly skews your revision.

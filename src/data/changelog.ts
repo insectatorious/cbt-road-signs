@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.11.0',
+    date: '2026-06-27',
+    changes: [
+      'New “Spot the sign” quiz direction. The quiz now has a toggle: “Name the sign” (the classic — see a sign, pick its meaning) or “Spot the sign” (read a meaning, pick the matching sign from four images). Recognising a sign from its meaning is the skill you actually use on the road, and it was never practised before. Both directions reuse the same look-alike-aware question building and feed your schedule identically.',
+    ],
+  },
+  {
     version: '1.10.0',
     date: '2026-06-27',
     changes: [
