@@ -6,7 +6,7 @@
   import { store, activeSigns, gradeQuiz, undoLastGrade, takeQuizFocus, SIGN_BY_ID } from '../lib/store.svelte'
   import { buildStudyQueue } from '../lib/deck'
   import { buildQuestion, repickCurrentSlot, type QuizQuestion } from '../lib/quiz'
-  import { pop, shake, fadeUp } from '../lib/motion'
+  import { pop, shake, fadeUp, SHAKE_DURATION_S } from '../lib/motion'
   import { navigate } from '../lib/router.svelte'
   import { gradeShadeLabel, pct } from '../lib/util'
 
@@ -223,9 +223,10 @@
   })
 
   let compareEl = $state<HTMLElement>()
-  // Float the comparison in once the wrong-answer shake (~0.36s) has settled.
+  // Float the comparison in once the wrong-answer shake has settled (shared duration so
+  // the two stay in sync if the shake timing ever changes).
   $effect(() => {
-    if (compareEl) fadeUp(compareEl, { y: 8, delay: 0.36 })
+    if (compareEl) fadeUp(compareEl, { y: 8, delay: SHAKE_DURATION_S })
   })
 
   onMount(() => {

@@ -70,11 +70,16 @@ export function enterCard(card: HTMLElement): void {
   )
 }
 
+/** Duration (seconds) of the wrong-answer shake. Exported so callers that sequence
+ *  after it (e.g. the Quiz wrong-answer compare panel's fadeUp delay) stay in sync
+ *  instead of duplicating the literal. */
+export const SHAKE_DURATION_S = 0.36
+
 /** Wrong-answer shake. A quick, damped horizontal nudge that signals "not
  *  quite" and settles — functional feedback, not a spring (Sumanas: no bounce). */
 export function shake(node: HTMLElement): void {
   if (prefersReduced()) return
-  gsap.to(node, { duration: 0.36, ease: 'power2.out', keyframes: { x: [0, -6, 4, -2, 0] } })
+  gsap.to(node, { duration: SHAKE_DURATION_S, ease: 'power2.out', keyframes: { x: [0, -6, 4, -2, 0] } })
 }
 
 /** Right-answer confirm pop. A calm settle into place — no overshoot. */
