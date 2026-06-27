@@ -71,4 +71,27 @@ describe('undoLastGrade — single-step undo of the most recent grade', () => {
     expect(undoLastGrade()).toBe(false)
     expect(reviewFor(ID)).toBeUndefined()
   })
+
+  it('undoing a correct quiz answer reverts the quiz pace baseline it updated', () => {
+    gradeRecall(ID, true, 1500) // introduce the card (updates the *study* pace only)
+    const quizPaceBefore = store.pace.quiz
+
+    gradeQuiz(ID, true, 2500) // correct → updates the quiz pace baseline
+    expect(store.pace.quiz).not.toBe(quizPaceBefore)
+
+    expect(undoLastGrade()).toBe(true)
+    expect(store.pace.quiz).toBe(quizPaceBefore)
+  })
+
+  it('only pops the record this grade created, leaving an earlier day intact', () => {
+    // a leftover record from a previous day (recordSession keys by today's date)
+    store.sessions.push({ date: '2000-01-01', reviewed: 5, correct: 3, newSeen: 2 })
+
+    gradeRecall(ID, true, 1500) // creates today's record (date differs from the last one)
+    expect(store.sessions).toHaveLength(2)
+
+    expect(undoLastGrade()).toBe(true)
+    expect(store.sessions).toHaveLength(1) // today's record popped…
+    expect(store.sessions[0]).toEqual({ date: '2000-01-01', reviewed: 5, correct: 3, newSeen: 2 }) // …earlier day untouched
+  })
 })

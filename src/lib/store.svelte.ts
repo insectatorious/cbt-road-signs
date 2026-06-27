@@ -164,11 +164,6 @@ function applyGradeAndRecord(
 }
 
 // ---- actions ----
-export function gradeSign(id: string, g: Grade, opts: GradeOptions = {}): void {
-  applyGradeAndRecord(id, g, opts)
-  persist()
-}
-
 /** Grade a quiz answer: wrong → Again; correct → shade from speed vs the
  *  user's quiz pace. Updates the adaptive baseline on correct answers. */
 export function gradeQuiz(
@@ -289,6 +284,7 @@ export function importData(text: string): boolean {
     store.pace = { study: data.meta.studyPaceMs, quiz: data.meta.quizPaceMs }
     store.lastBackupAt = data.meta.lastBackupAt
     store.backupNudgeDismissedAt = data.meta.backupNudgeDismissedAt
+    lastUndo = null // the snapshot belongs to the replaced dataset (mirrors resetProgress)
     persist()
     return true
   } catch {

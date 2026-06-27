@@ -28,6 +28,7 @@
   let undoTimer: ReturnType<typeof setTimeout> | undefined
   let lastIndex: number | null = null // queue index of the card just graded
   let lastGotIt = false // whether that grade was a hit (to revert the local correct tally)
+  let destroyed = false // set on unmount so a pending exit-animation advance() can't fire on a dead view
 
   let shownAt = Date.now() // when the current front became visible (recall-latency clock)
   let thinkMs = 0 // time from shown → flip, captured at reveal
@@ -62,6 +63,10 @@
   }
 
   async function undo() {
+    // A grade-exit animation is still in flight: its pending advance() would step
+    // the queue forward and skip this card. Ignore undo until it settles (honours
+    // the same in-flight guard answer() uses).
+    if (grading) return
     hideUndo()
     if (lastIndex === null || !undoLastGrade()) return
     done = false
@@ -89,8 +94,10 @@
     if (grading || !currentId) return
     grading = true
     const g = gradeRecall(currentId, gotIt, thinkMs)
-    // announce correctness + the inferred shade to assistive tech (WCAG 4.1.3)
-    announce = gotIt ? `Correct — marked ${gradeShadeLabel(g)}.` : 'Marked as missed.'
+    // announce correctness + the inferred shade to assistive tech (WCAG 4.1.3),
+    // and that undo is available (the toast itself isn't a live region).
+    announce =
+      (gotIt ? `Correct — marked ${gradeShadeLabel(g)}.` : 'Marked as missed.') + ' Press U to undo.'
     lastIndex = index
     lastGotIt = gotIt
     reviewed += 1
@@ -100,6 +107,7 @@
   }
 
   async function advance() {
+    if (destroyed) return // a late exit-animation callback after the view was torn down
     flashUndo() // offer to undo the grade we just applied (after the exit animation)
     if (index + 1 >= queue.length) {
       done = true
@@ -153,6 +161,7 @@
     build()
     window.addEventListener('keydown', onKey)
     return () => {
+      destroyed = true
       window.removeEventListener('keydown', onKey)
       clearTimeout(undoTimer)
     }

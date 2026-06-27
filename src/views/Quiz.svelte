@@ -69,9 +69,10 @@
     const chosenWrongId = isRight ? undefined : question.options[i].id
     const g = gradeQuiz(question.sign.id, isRight, responseMs, chosenWrongId)
     // announce correct/incorrect + the right answer (or inferred shade) to AT (WCAG 4.1.3)
-    announce = isRight
-      ? `Correct — marked ${gradeShadeLabel(g)}.`
-      : `Not quite — the answer is ${question.sign.caption}.`
+    announce =
+      (isRight
+        ? `Correct — marked ${gradeShadeLabel(g)}.`
+        : `Not quite — the answer is ${question.sign.caption}.`) + ' Press U to undo.'
     lastCorrect = isRight
     flashUndo()
     await tick()
@@ -82,11 +83,11 @@
   }
 
   function next() {
-    hideUndo()
     if (index + 1 >= queue.length) {
-      done = true
+      done = true // keep the toast alive so the final answer stays recoverable (like Study)
       return
     }
+    hideUndo()
     index += 1
     setQuestion()
   }
@@ -102,16 +103,21 @@
     showUndo = false
   }
 
-  function undo() {
+  async function undo() {
     hideUndo()
     if (!undoLastGrade()) return
-    // re-open the same question so it can be answered again
+    // re-open the same question so it can be answered again (also recovers it from
+    // the session-complete screen, matching Study)
+    done = false
     answered = false
     selected = null
     asked = Math.max(0, asked - 1)
     if (lastCorrect) correct = Math.max(0, correct - 1)
     announce = 'Grade undone — choose again.'
     started = Date.now()
+    // restore focus to the options so keyboard/SR users keep their place (Study does the same)
+    await tick()
+    optionsEl?.querySelector<HTMLButtonElement>('.option')?.focus()
   }
 
   function onKey(e: KeyboardEvent) {
