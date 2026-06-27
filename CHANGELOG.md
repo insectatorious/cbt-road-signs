@@ -3,6 +3,10 @@
 All notable changes to this project. **Generated** from `src/data/changelog.ts`
 (the in-app release notes) — edit that and run `npm run build-changelog`.
 
+## 1.10.0 — 27 June 2026
+
+- Misgraded a card? A brief “Graded — Undo” button now appears after each answer in Study and Quiz (press U, or tap it). Undo puts the card back exactly as it was — its schedule, your session tally, and the pace it learns your speed from — so a stray tap no longer quietly skews your revision.
+
 ## 1.9.2 — 27 June 2026
 
 - Study and Quiz now speak their result aloud to screen readers: after each card you hear whether you got it and the pace it was marked at (e.g. “Correct — marked Good”), and a wrong quiz answer reads out the right one. Previously there was no spoken confirmation at all.

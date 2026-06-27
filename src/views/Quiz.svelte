@@ -2,7 +2,8 @@
   import { onMount, tick } from 'svelte'
   import SignPlate from '../components/SignPlate.svelte'
   import Icon from '../components/Icon.svelte'
-  import { store, activeSigns, gradeQuiz, takeQuizFocus, SIGN_BY_ID } from '../lib/store.svelte'
+  import UndoToast from '../components/UndoToast.svelte'
+  import { store, activeSigns, gradeQuiz, undoLastGrade, takeQuizFocus, SIGN_BY_ID } from '../lib/store.svelte'
   import { buildStudyQueue } from '../lib/deck'
   import { buildQuestion, type QuizQuestion } from '../lib/quiz'
   import { pop, shake } from '../lib/motion'
@@ -10,6 +11,7 @@
   import { gradeShadeLabel, pct } from '../lib/util'
 
   const SESSION = 15
+  const UNDO_MS = 5000
 
   let queue = $state<string[]>([])
   let index = $state(0)
@@ -22,6 +24,10 @@
   let started = Date.now()
   let optionsEl = $state<HTMLElement>()
   let announce = $state('') // sr-only live-region text: correctness + answer/shade
+
+  let showUndo = $state(false) // the "Graded — Undo" toast window
+  let undoTimer: ReturnType<typeof setTimeout> | undefined
+  let lastCorrect = false // whether the graded answer was right (to revert the local tally)
 
   const currentId = $derived(queue[index])
 
@@ -48,6 +54,7 @@
     asked = 0
     correct = 0
     done = false
+    hideUndo()
     setQuestion()
   }
 
@@ -65,6 +72,8 @@
     announce = isRight
       ? `Correct — marked ${gradeShadeLabel(g)}.`
       : `Not quite — the answer is ${question.sign.caption}.`
+    lastCorrect = isRight
+    flashUndo()
     await tick()
     if (optionsEl) {
       if (isRight) pop(optionsEl.children[i] as HTMLElement)
@@ -73,6 +82,7 @@
   }
 
   function next() {
+    hideUndo()
     if (index + 1 >= queue.length) {
       done = true
       return
@@ -81,7 +91,35 @@
     setQuestion()
   }
 
+  function flashUndo() {
+    showUndo = true
+    clearTimeout(undoTimer)
+    undoTimer = setTimeout(() => (showUndo = false), UNDO_MS)
+  }
+
+  function hideUndo() {
+    clearTimeout(undoTimer)
+    showUndo = false
+  }
+
+  function undo() {
+    hideUndo()
+    if (!undoLastGrade()) return
+    // re-open the same question so it can be answered again
+    answered = false
+    selected = null
+    asked = Math.max(0, asked - 1)
+    if (lastCorrect) correct = Math.max(0, correct - 1)
+    announce = 'Grade undone — choose again.'
+    started = Date.now()
+  }
+
   function onKey(e: KeyboardEvent) {
+    if (showUndo && (e.key === 'u' || e.key === 'U')) {
+      e.preventDefault()
+      undo()
+      return
+    }
     if (done) return
     if (!answered && question && /^[1-4]$/.test(e.key)) {
       const i = Number(e.key) - 1
@@ -105,12 +143,16 @@
   onMount(() => {
     build()
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      clearTimeout(undoTimer)
+    }
   })
 </script>
 
 <section class="quiz">
   <p class="sr-only" aria-live="polite" role="status">{announce}</p>
+  {#if showUndo}<UndoToast onUndo={undo} />{/if}
   {#if done}
     <div class="result">
       <span class="result__score t-num">{pct(asked ? correct / asked : null)}</span>
