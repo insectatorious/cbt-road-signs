@@ -184,11 +184,29 @@ export function load(now: number): PersistShape {
   }
 }
 
-export function save(data: PersistShape): void {
+/** Persist the state. Returns whether the write succeeded — a `false` means
+ *  storage is blocked (quota exceeded or private mode) and the app is now
+ *  running in-memory only, which the caller surfaces to the user. */
+export function save(data: PersistShape): boolean {
   try {
     localStorage.setItem(KEY, JSON.stringify(data))
+    return true
   } catch {
-    /* quota exceeded or private mode — keep running in-memory */
+    return false // quota exceeded or private mode — keep running in-memory
+  }
+}
+
+/** Probe whether localStorage can actually be written, without touching the
+ *  real data. Catches storage that's entirely unavailable (Safari private mode,
+ *  disabled cookies/storage) up front, before the first real save. */
+export function probeStorage(): boolean {
+  const probeKey = `${KEY}:probe`
+  try {
+    localStorage.setItem(probeKey, '1')
+    localStorage.removeItem(probeKey)
+    return true
+  } catch {
+    return false
   }
 }
 

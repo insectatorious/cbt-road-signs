@@ -1,7 +1,71 @@
-import { describe, expect, it } from 'vitest'
-import { exportJSON, importJSON, migrate } from '../src/lib/persistence'
+import { afterEach, describe, expect, it } from 'vitest'
+import { exportJSON, importJSON, migrate, probeStorage, save } from '../src/lib/persistence'
 
 const NOW = 1_700_000_000_000
+
+const shape = () => migrate({}, NOW)
+
+/** Swap in a fake localStorage for the duration of a test, restoring after. */
+function withStorage(impl: Partial<Storage>): () => void {
+  const original = Object.getOwnPropertyDescriptor(globalThis, 'localStorage')
+  Object.defineProperty(globalThis, 'localStorage', { value: impl, configurable: true })
+  return () => {
+    if (original) Object.defineProperty(globalThis, 'localStorage', original)
+    else delete (globalThis as Record<string, unknown>).localStorage
+  }
+}
+
+describe('save / probeStorage report blocked storage', () => {
+  let restore = () => {}
+  afterEach(() => restore())
+
+  it('save() returns true when the write succeeds', () => {
+    const writes: Record<string, string> = {}
+    restore = withStorage({
+      setItem: (k: string, v: string) => {
+        writes[k] = v
+      },
+      removeItem: (k: string) => {
+        delete writes[k]
+      },
+    })
+    expect(save(shape())).toBe(true)
+  })
+
+  it('save() returns false when the write throws (quota / private mode)', () => {
+    restore = withStorage({
+      setItem: () => {
+        throw new DOMException('QuotaExceededError')
+      },
+      removeItem: () => {},
+    })
+    expect(save(shape())).toBe(false)
+  })
+
+  it('probeStorage() is true when a write+remove round-trips and leaves no trace', () => {
+    const store: Record<string, string> = {}
+    restore = withStorage({
+      setItem: (k: string, v: string) => {
+        store[k] = v
+      },
+      removeItem: (k: string) => {
+        delete store[k]
+      },
+    })
+    expect(probeStorage()).toBe(true)
+    expect(Object.keys(store)).toHaveLength(0) // probe cleaned up after itself
+  })
+
+  it('probeStorage() is false when storage is unavailable', () => {
+    restore = withStorage({
+      setItem: () => {
+        throw new Error('storage disabled')
+      },
+      removeItem: () => {},
+    })
+    expect(probeStorage()).toBe(false)
+  })
+})
 
 describe('migrate', () => {
   it('keeps valid adaptive-pace baselines', () => {

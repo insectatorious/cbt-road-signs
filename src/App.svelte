@@ -2,6 +2,7 @@
   import { router } from './lib/router.svelte'
   import NavBar from './components/NavBar.svelte'
   import BackupNudge from './components/BackupNudge.svelte'
+  import StorageWarning from './components/StorageWarning.svelte'
   import Study from './views/Study.svelte'
   import Quiz from './views/Quiz.svelte'
   import Browse from './views/Browse.svelte'
@@ -16,6 +17,7 @@
 <div class="app">
   <main class="app__main" id="main" tabindex="-1">
     <div class="app__inner">
+      <StorageWarning />
       <BackupNudge />
       {#key router.route}
         <Current />
