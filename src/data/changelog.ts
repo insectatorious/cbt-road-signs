@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.13.0',
+    date: '2026-06-27',
+    changes: [
+      'You’ll now be warned if this device can’t save your progress. When the browser blocks storage — usually private/incognito mode, or storage being full — a banner explains that your progress is only held in memory and will be lost when you close the tab, and offers a one-tap Export so you can keep it. Previously the app failed to save silently, so you could revise for an hour believing it was safe when it wasn’t. The app keeps working in-memory either way.',
+    ],
+  },
+  {
     version: '1.12.1',
     date: '2026-06-27',
     changes: [

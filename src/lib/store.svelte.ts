@@ -64,6 +64,26 @@ export function toggleBookmark(id: string): void {
   persist()
 }
 
+/** Persistence health, surfaced as a dismissible warning banner. In-memory only:
+ *  when storage is blocked we can't persist a dismissal anyway, and each fresh
+ *  session should re-probe rather than stay quietly silenced. `blocked` is seeded
+ *  from an up-front write probe so we warn even before the first real save. */
+export const storageHealth = $state({
+  blocked: !persistence.probeStorage(),
+  dismissed: false,
+})
+
+/** Fold a save attempt's result into the health flag. A recovered save clears a
+ *  prior dismissal so a *later* failure re-warns rather than staying silenced. */
+function recordSave(ok: boolean): void {
+  storageHealth.blocked = !ok
+  if (ok) storageHealth.dismissed = false
+}
+
+export function dismissStorageWarning(): void {
+  storageHealth.dismissed = true
+}
+
 /** A one-shot set of ids for a focused "drill these" quiz (from the Report). */
 export const quizFocus = $state<{ ids: string[] }>({ ids: [] })
 export function setQuizFocus(ids: string[]): void {
@@ -98,12 +118,12 @@ function snapshot(): persistence.PersistShape {
 
 function persist(): void {
   clearTimeout(saveTimer)
-  saveTimer = setTimeout(() => persistence.save(snapshot()), 300)
+  saveTimer = setTimeout(() => recordSave(persistence.save(snapshot())), 300)
 }
 
 function flush(): void {
   clearTimeout(saveTimer)
-  persistence.save(snapshot())
+  recordSave(persistence.save(snapshot()))
 }
 
 if (typeof window !== 'undefined') {
