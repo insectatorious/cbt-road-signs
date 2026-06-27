@@ -132,7 +132,7 @@
 
   // Choose the quiz direction.
   // - On an *unanswered* question we apply it now, so the toggle is visibly instant —
-  //   but first swap in a sign the learner hasn't seen (repickCurrent): flipping the
+  //   but first swap in a sign the learner hasn't seen (repickCurrentSlot): flipping the
   //   same sign would turn the art/caption already on screen into one of the four
   //   options, i.e. reveal the answer.
   // - On an *answered* question the result is already on screen, so we can't change it
@@ -257,8 +257,10 @@
       >Spot the sign</button>
     </div>
     {#if reverse !== qReverse}
-      <!-- Only reachable after answering: the graded question keeps its direction; the
-           toggle's new direction kicks in on the next question. -->
+      <!-- Shown whenever the current question can't adopt the new direction yet: after
+           answering (the graded question keeps its direction), or mid-question when the
+           deck is exhausted (no reveal-free swap exists). The toggle then kicks in on
+           the next question. -->
       <p class="quiz__mode-hint t-caption" aria-live="polite">Starts on the next question</p>
     {/if}
 
