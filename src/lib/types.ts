@@ -110,6 +110,8 @@ export interface Settings {
   showCategoryHint: boolean
   /** mix new cards across categories instead of introducing them in category order */
   shuffleCategories: boolean
+  /** the first-run intro has been shown/dismissed (so it never reappears) */
+  onboarded: boolean
 }
 
 export interface SessionRecord {
@@ -127,6 +129,7 @@ export const DEFAULT_SETTINGS: Settings = {
   includeMotorway: false,
   showCategoryHint: true,
   shuffleCategories: false,
+  onboarded: false,
 }
 
 export const CATEGORY_META: Record<

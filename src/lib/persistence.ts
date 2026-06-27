@@ -139,6 +139,7 @@ function sanitizeSettings(raw: unknown): Settings {
     includeMotorway: bool(r.includeMotorway, DEFAULT_SETTINGS.includeMotorway),
     showCategoryHint: bool(r.showCategoryHint, DEFAULT_SETTINGS.showCategoryHint),
     shuffleCategories: bool(r.shuffleCategories, DEFAULT_SETTINGS.shuffleCategories),
+    onboarded: bool(r.onboarded, DEFAULT_SETTINGS.onboarded),
   }
 }
 
