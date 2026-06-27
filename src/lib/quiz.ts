@@ -58,3 +58,34 @@ export function buildQuestion(
   const options = shuffle([sign, ...distractors.slice(0, 3)])
   return { sign, options, answerIndex: options.indexOf(sign) }
 }
+
+/** Pick a replacement sign for the *current* quiz slot when the learner flips the
+ *  direction toggle mid-question. Flipping the same sign would turn the art (or caption)
+ *  already on screen into one of the four options — i.e. reveal the answer — so we move a
+ *  sign the learner hasn't seen into the slot before re-presenting it in the new direction.
+ *
+ *  Prefers an unseen sign still ahead in the queue (swapped in, so the skipped one stays
+ *  in rotation); failing that, pulls a fresh sign from the deck; failing that (the deck is
+ *  exhausted — everything's been seen) returns the queue unchanged, since no reveal-free
+ *  choice exists and at that size it's moot. Pure — never mutates its inputs. */
+export function repickCurrentSlot(
+  queue: string[],
+  index: number,
+  seen: Set<string>,
+  deck: SignDefinition[],
+): string[] {
+  const ahead = queue.findIndex((id, j) => j > index && !seen.has(id))
+  if (ahead !== -1) {
+    const next = queue.slice()
+    ;[next[index], next[ahead]] = [next[ahead], next[index]]
+    return next
+  }
+  const queued = new Set(queue)
+  const fresh = deck.find((s) => !seen.has(s.id) && !queued.has(s.id))
+  if (fresh) {
+    const next = queue.slice()
+    next[index] = fresh.id
+    return next
+  }
+  return queue
+}

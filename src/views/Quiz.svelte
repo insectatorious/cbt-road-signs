@@ -5,7 +5,7 @@
   import UndoToast from '../components/UndoToast.svelte'
   import { store, activeSigns, gradeQuiz, undoLastGrade, takeQuizFocus, SIGN_BY_ID } from '../lib/store.svelte'
   import { buildStudyQueue } from '../lib/deck'
-  import { buildQuestion, type QuizQuestion } from '../lib/quiz'
+  import { buildQuestion, repickCurrentSlot, type QuizQuestion } from '../lib/quiz'
   import { pop, shake, fadeUp } from '../lib/motion'
   import { navigate } from '../lib/router.svelte'
   import { gradeShadeLabel, pct } from '../lib/util'
@@ -24,8 +24,9 @@
   let started = Date.now()
   let optionsEl = $state<HTMLElement>()
   let announce = $state('') // sr-only live-region text: correctness + answer/shade
-  let reverse = $state(false) // selected direction for upcoming questions (the toggle)
+  let reverse = $state(false) // direction selected by the toggle
   let qReverse = $state(false) // direction the *current* question is locked to (set when it's built)
+  const seen = new Set<string>() // sign ids already shown this session — never re-show on a flip (would reveal)
 
   let showUndo = $state(false) // the "Graded — Undo" toast window
   let undoTimer: ReturnType<typeof setTimeout> | undefined
@@ -37,7 +38,8 @@
   function setQuestion() {
     const sign = currentId ? SIGN_BY_ID.get(currentId) : undefined
     question = sign ? buildQuestion(sign, activeSigns(), SIGN_BY_ID) : undefined
-    qReverse = reverse // lock this question's direction; toggling later won't flip it
+    if (currentId) seen.add(currentId)
+    qReverse = reverse // lock this question's direction to the toggle's current value
     selected = null
     answered = false
     announce = '' // reset so the next result re-announces even if it repeats the wording
@@ -58,6 +60,7 @@
     asked = 0
     correct = 0
     done = false
+    seen.clear()
     hideUndo()
     setQuestion()
   }
@@ -127,13 +130,23 @@
     optionsEl?.querySelector<HTMLButtonElement>('.option')?.focus()
   }
 
-  // Choose the quiz direction. It applies to the *next* question, never the one on
-  // screen: re-presenting the current question in the opposite direction would turn
-  // the sign (or caption) you just saw into one of the four options — i.e. reveal the
-  // answer. The current question stays locked to qReverse until it's answered/advanced.
+  // Choose the quiz direction.
+  // - On an *unanswered* question we apply it now, so the toggle is visibly instant —
+  //   but first swap in a sign the learner hasn't seen (repickCurrent): flipping the
+  //   same sign would turn the art/caption already on screen into one of the four
+  //   options, i.e. reveal the answer.
+  // - On an *answered* question the result is already on screen, so we can't change it
+  //   without rewriting a graded question; the new direction takes effect on the next
+  //   question instead (the "starts next question" hint makes that explicit).
   function setReverse(r: boolean) {
     if (reverse === r) return
     reverse = r
+    if (!answered) {
+      // swap a not-yet-shown sign into the slot (so the flip can't reveal the on-screen
+      // answer), then re-present it in the new direction
+      queue = repickCurrentSlot(queue, index, seen, activeSigns())
+      setQuestion() // re-locks qReverse = reverse and rebuilds for the swapped-in sign
+    }
   }
 
   // The accessible name for an option. Forward mode leaves it to the visible caption;
@@ -221,7 +234,7 @@
       <span class="quiz__pos t-num">{index + 1} / {queue.length}</span>
     </header>
 
-    <div class="quiz__mode" role="group" aria-label="Quiz direction (applies to the next question)">
+    <div class="quiz__mode" role="group" aria-label="Quiz direction">
       <button
         type="button"
         class="quiz__mode-btn"
@@ -237,6 +250,11 @@
         onclick={() => setReverse(true)}
       >Spot the sign</button>
     </div>
+    {#if reverse !== qReverse}
+      <!-- Only reachable after answering: the graded question keeps its direction; the
+           toggle's new direction kicks in on the next question. -->
+      <p class="quiz__mode-hint t-caption" aria-live="polite">Starts on the next question</p>
+    {/if}
 
     {#if qReverse}
       <div class="quiz__prompt">
@@ -372,6 +390,11 @@
   }
   .quiz__mode-btn:disabled {
     cursor: default;
+  }
+  .quiz__mode-hint {
+    align-self: center;
+    margin-top: calc(-1 * var(--s-2));
+    color: var(--text-faint);
   }
 
   .quiz__prompt {
