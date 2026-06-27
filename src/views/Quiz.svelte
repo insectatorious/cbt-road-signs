@@ -27,6 +27,10 @@
   let reverse = $state(false) // direction selected by the toggle
   let qReverse = $state(false) // direction the *current* question is locked to (set when it's built)
   const seen = new Set<string>() // sign ids already shown this session — never re-show on a flip (would reveal)
+  // Candidate signs a mid-question flip may swap in. The full deck for a normal session,
+  // but only the drill set for a "Drill these" focus session — otherwise a flip near the
+  // end of a focus queue would inject a sign that isn't part of the drill.
+  let pool = $state<ReturnType<typeof activeSigns>>([])
 
   let showUndo = $state(false) // the "Graded — Undo" toast window
   let undoTimer: ReturnType<typeof setTimeout> | undefined
@@ -50,11 +54,16 @@
     const focus = takeQuizFocus()
     if (focus.length) {
       queue = focus.slice(0, SESSION)
+      // Restrict flip-replacements to the drilled signs. With nothing outside the queue
+      // to pull, a flip with no unseen card ahead simply defers to the next question
+      // rather than injecting a sign that isn't part of the drill.
+      pool = queue.map((id) => SIGN_BY_ID.get(id)).filter((s) => s !== undefined)
     } else {
       // No reviewCap here: that cap is a Study-session comfort limit. Quiz has its
       // own SESSION cap, and applying reviewCap could shrink the quiz below it.
       const q = buildStudyQueue(activeSigns(), store.reviews, store.settings.newPerDay, Date.now(), store.settings.shuffleCategories)
       queue = q.ids.slice(0, SESSION)
+      pool = activeSigns()
     }
     index = 0
     asked = 0
@@ -138,21 +147,32 @@
   // - On an *answered* question the result is already on screen, so we can't change it
   //   without rewriting a graded question; the new direction takes effect on the next
   //   question instead (the "starts next question" hint makes that explicit).
+  // Either way the change is spoken via the `announce` live region — a sighted user sees
+  // it, but the swap/deferral is otherwise silent to assistive tech.
   function setReverse(r: boolean) {
     if (reverse === r) return
     reverse = r
-    if (answered) return // the graded question stays put; the hint shows it applies next
-    // Re-present the current question immediately *only* if we can swap in a sign the
-    // learner hasn't seen — repickCurrentSlot returns the same queue instance when no
-    // reveal-free replacement exists (deck exhausted). Rebuilding in that case would flip
-    // qReverse on the on-screen sign, turning its art/caption into an option (a reveal),
-    // so instead leave the question locked and let the toggle apply on the next question
-    // (the reverse !== qReverse hint explains the wait).
-    const next = repickCurrentSlot(queue, index, seen, activeSigns())
-    if (next !== queue) {
-      queue = next
-      setQuestion() // re-locks qReverse = reverse and rebuilds for the swapped-in sign
+    if (!answered) {
+      // Re-present the current question immediately *only* if we can swap in a sign the
+      // learner hasn't seen — repickCurrentSlot returns the same queue instance when no
+      // reveal-free replacement exists (deck/drill exhausted). Rebuilding in that case
+      // would flip qReverse on the on-screen sign, turning its art/caption into an option
+      // (a reveal), so instead leave the question locked and defer to the next question.
+      const next = repickCurrentSlot(queue, index, seen, pool)
+      if (next !== queue) {
+        queue = next
+        setQuestion() // re-locks qReverse = reverse and rebuilds for the swapped-in sign
+        // (setQuestion cleared announce; re-announce the fresh question without naming the
+        // sign — in "name the sign" the caption is the answer, so we never speak it)
+        announce = reverse ? 'New question — spot the sign.' : 'New question — name the sign.'
+        return
+      }
     }
+    // Deferred: an answered (graded) question, or no reveal-free swap available. The new
+    // direction applies on the next question — speak it (the visible hint mirrors this).
+    announce = reverse
+      ? 'Spot the sign — starts on the next question.'
+      : 'Name the sign — starts on the next question.'
   }
 
   // The accessible name for an option. Forward mode leaves it to the visible caption;
@@ -257,11 +277,14 @@
       >Spot the sign</button>
     </div>
     {#if reverse !== qReverse}
-      <!-- Shown whenever the current question can't adopt the new direction yet: after
-           answering (the graded question keeps its direction), or mid-question when the
-           deck is exhausted (no reveal-free swap exists). The toggle then kicks in on
-           the next question. -->
-      <p class="quiz__mode-hint t-caption" aria-live="polite">Starts on the next question</p>
+      <!-- Visual-only hint, shown whenever the current question can't adopt the new
+           direction yet: after answering (the graded question keeps its direction), or
+           mid-question when the deck/drill is exhausted (no reveal-free swap exists). The
+           toggle then kicks in on the next question. The screen-reader equivalent is the
+           message setReverse writes to the persistent `announce` region — a live region
+           created together with its text (as this {#if} block does) is not reliably
+           announced, so it must not be the only channel. -->
+      <p class="quiz__mode-hint t-caption">Starts on the next question</p>
     {/if}
 
     {#if qReverse}

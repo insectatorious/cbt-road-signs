@@ -89,6 +89,21 @@ describe('repickCurrentSlot (direction-flip on an unanswered question)', () => {
     expect(next[0]).not.toBe('a')
     expect(seen.has(next[0])).toBe(false)
     expect(deck.some((s) => s.id === next[0])).toBe(true) // pulled from the deck
+    // setReverse decides whether a flip took effect by reference identity (`next !== queue`),
+    // so the fresh-deck branch — like the swap branch — MUST return a new array. A
+    // mutate-in-place refactor would silently re-break the inert-toggle bug 1.12.1 fixed.
+    expect(next).not.toBe(queue)
+    expect(queue).toEqual(['a', 'b']) // input untouched (pure)
+  })
+
+  it('never returns a sign outside the supplied pool (the "Drill these" focus contract)', () => {
+    // In a focus session the pool is restricted to the drilled signs, so when the queue
+    // holds the whole pool there is nothing reveal-free to pull — it must defer (return the
+    // same instance) rather than inject a sign that isn't part of the drill.
+    const focusPool = deck.slice(0, 2) // the only signs allowed in this drill
+    const queue = focusPool.map((s) => s.id)
+    const seen = new Set(queue)
+    expect(repickCurrentSlot(queue, 0, seen, focusPool)).toBe(queue)
   })
 
   it('leaves the queue unchanged when the deck is exhausted (no reveal-free choice exists)', () => {
