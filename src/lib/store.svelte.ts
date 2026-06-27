@@ -165,7 +165,12 @@ function applyGradeAndRecord(
 
 // ---- actions ----
 /** Grade a quiz answer: wrong → Again; correct → shade from speed vs the
- *  user's quiz pace. Updates the adaptive baseline on correct answers. */
+ *  user's quiz pace. Updates the adaptive baseline on correct answers.
+ *
+ *  Both quiz directions ("name the sign" / "spot the sign") deliberately share one
+ *  quiz pace baseline. The shade is only a soft ease nudge inside a neutral band, and
+ *  the EMA re-adapts within a few answers when a session leans one way — not worth a
+ *  separate persisted baseline per direction. */
 export function gradeQuiz(
   id: string,
   correct: boolean,

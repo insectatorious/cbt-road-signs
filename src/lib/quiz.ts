@@ -18,7 +18,11 @@ function shuffle<T>(arr: T[]): T[] {
 
 /** Build a 4-option question. Distractors come from look-alike signs first
  *  (confusedWith), then the same category, then anywhere — so every question
- *  drills genuine confusions. Options never repeat a caption. */
+ *  drills genuine confusions. Options never repeat a caption.
+ *
+ *  Direction-agnostic: the same question drives both quiz modes — "name the sign"
+ *  shows the sign and offers caption options; "spot the sign" shows the caption
+ *  and offers sign-image options. Only the view's presentation differs. */
 export function buildQuestion(
   sign: SignDefinition,
   deck: SignDefinition[],
