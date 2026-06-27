@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.12.2',
+    date: '2026-06-27',
+    changes: [
+      'Sharpened the explanations for the two blue left-arrow signs that look almost identical: “Keep left” now spells out that it means pass to the left of an island or obstruction (not turn), while “Turn left at junction” makes clear you actually turn into a side road — each pointing at the other so they’re easier to tell apart.',
+    ],
+  },
+  {
     version: '1.12.1',
     date: '2026-06-27',
     changes: [
