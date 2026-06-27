@@ -104,6 +104,16 @@
     border-radius: var(--r-pill);
     color: var(--text-muted);
   }
+  /* Extend the tap target to >=44px (WCAG 2.5.5) without growing the glyph. */
+  .sheet__close::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+  }
   .sheet__close:hover {
     background: var(--surface-hover);
     color: var(--text);

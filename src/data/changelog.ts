@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.12.2',
+    date: '2026-06-27',
+    changes: [
+      'Small taps, fewer misses: the settings +/− steppers, the modal close buttons, the search “clear” button, and the save-sign star now all have a full 44×44px touch area (the size accessibility guidance recommends), so they’re easier to hit on a phone or with limited dexterity. The icons look exactly the same — only the tappable area around them grew.',
+    ],
+  },
+  {
     version: '1.12.1',
     date: '2026-06-27',
     changes: [
