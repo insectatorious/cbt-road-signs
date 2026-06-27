@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.9.2',
+    date: '2026-06-27',
+    changes: [
+      'Study and Quiz now speak their result aloud to screen readers: after each card you hear whether you got it and the pace it was marked at (e.g. “Correct — marked Good”), and a wrong quiz answer reads out the right one. Previously there was no spoken confirmation at all.',
+    ],
+  },
+  {
     version: '1.9.1',
     date: '2026-06-27',
     changes: [

@@ -7,7 +7,7 @@
   import { buildQuestion, type QuizQuestion } from '../lib/quiz'
   import { pop, shake } from '../lib/motion'
   import { navigate } from '../lib/router.svelte'
-  import { pct } from '../lib/util'
+  import { gradeShadeLabel, pct } from '../lib/util'
 
   const SESSION = 15
 
@@ -21,6 +21,7 @@
   let done = $state(false)
   let started = Date.now()
   let optionsEl = $state<HTMLElement>()
+  let announce = $state('') // sr-only live-region text: correctness + answer/shade
 
   const currentId = $derived(queue[index])
 
@@ -29,6 +30,7 @@
     question = sign ? buildQuestion(sign, activeSigns(), SIGN_BY_ID) : undefined
     selected = null
     answered = false
+    announce = '' // reset so the next result re-announces even if it repeats the wording
     started = Date.now()
   }
 
@@ -58,7 +60,11 @@
     if (isRight) correct += 1
     const responseMs = Date.now() - started
     const chosenWrongId = isRight ? undefined : question.options[i].id
-    gradeQuiz(question.sign.id, isRight, responseMs, chosenWrongId)
+    const g = gradeQuiz(question.sign.id, isRight, responseMs, chosenWrongId)
+    // announce correct/incorrect + the right answer (or inferred shade) to AT (WCAG 4.1.3)
+    announce = isRight
+      ? `Correct — marked ${gradeShadeLabel(g)}.`
+      : `Not quite — the answer is ${question.sign.caption}.`
     await tick()
     if (optionsEl) {
       if (isRight) pop(optionsEl.children[i] as HTMLElement)
@@ -104,6 +110,7 @@
 </script>
 
 <section class="quiz">
+  <p class="sr-only" aria-live="polite" role="status">{announce}</p>
   {#if done}
     <div class="result">
       <span class="result__score t-num">{pct(asked ? correct / asked : null)}</span>
