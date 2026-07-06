@@ -11,6 +11,7 @@ npm run dev          # Vite dev server (http://localhost:5173)
 npm run build        # production build → dist/  (root base "/")
 npm run preview      # serve the production build (port 4173)
 npm run check        # svelte-check (types) — keep at 0 errors/0 warnings
+npm run lint         # ESLint (TS + Svelte) — CI gate; keep clean. `npm run format` runs Prettier
 npm test             # vitest (pure-logic units: scheduler/pace/deck/stats/quiz/backup/persistence/dst)
 npx vitest run tests/scheduler.test.ts      # a single test file
 npx vitest run -t "ease never drops"        # a single test by name
@@ -58,6 +59,6 @@ GitHub Pages via Actions: `.github/workflows/deploy.yml` (Node 22) builds with `
 `src/data/changelog.ts` is the **single source of truth** for the app version, the "last updated" date, and the in-app release notes (shown in Settings → About, opened as the `ReleaseNotes` modal). On every notable change: prepend a `{version, date, changes[]}` entry (semver, newest first), bump `package.json` `version` to match, and run `npm run build-changelog` to regenerate the GitHub-facing `CHANGELOG.md`. `APP_VERSION`/`LAST_UPDATED` are derived from the top entry.
 
 ## Conventions
-- Keep `npm run check` and `npm test` green before considering a change done.
+- Keep `npm run check`, `npm run lint` and `npm test` green before considering a change done.
 - Generated/derived files (`src/data/signs.ts`, `CHANGELOG.md`, `dist/`, `public/icons/`) are outputs — change the generator, not the output.
 - `scripts/` are dev-time tooling and are deliberately excluded from `tsconfig.json`/`svelte-check`.

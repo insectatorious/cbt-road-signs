@@ -1,7 +1,7 @@
 name: CI
 
-# Runs the type-check, unit tests (incl. the composite render-guard) and a
-# production build on every push to main and every PR — so type errors,
+# Runs lint, the type-check, unit tests (incl. the composite render-guard) and a
+# production build on every push to main and every PR — so lint/type errors,
 # composite-art regressions or build breakage fail before they can reach a
 # Pages deploy (deploy.yml is the only other place the Vite build runs).
 on:
@@ -23,6 +23,7 @@ jobs:
           node-version: '22'
           cache: 'npm'
       - run: npm ci
+      - run: npm run lint
       - run: npm run check
       - run: npm test
       # Exercise the real Vite/Rollup/PWA build along the same path as the
