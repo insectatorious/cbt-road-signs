@@ -47,7 +47,7 @@
   }
 
   function onKey(e: KeyboardEvent): void {
-    let next = index
+    let next: number
     switch (e.key) {
       case 'ArrowRight':
       case 'ArrowUp':

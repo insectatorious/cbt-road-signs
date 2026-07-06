@@ -175,6 +175,7 @@
         <span class="row__title">{storagePersisted ? 'Protected from eviction' : 'Best-effort storage'}</span>
         <span class="row__desc t-caption">
           {#if storagePersisted}The browser won’t clear your progress to free up space.{:else if storageSupported}The browser may clear your progress to free space — protect it to prevent that.{:else}Saved locally in this browser.{/if}
+          <!-- eslint-disable-next-line svelte/no-useless-mustaches -- intentional whitespace-controlled separator -->
           {#if usageKb != null}{' · '}{usageKb} KB used{/if}
         </span>
       </div>

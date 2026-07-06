@@ -1,0 +1,8 @@
+dist
+dev-dist
+coverage
+node_modules
+public/icons
+src/data/signs.ts
+CHANGELOG.md
+package-lock.json

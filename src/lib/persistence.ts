@@ -165,7 +165,7 @@ export function migrate(data: unknown, now: number): PersistShape {
 }
 
 export function load(now: number): PersistShape {
-  let raw: string | null = null
+  let raw: string | null
   try {
     raw = localStorage.getItem(KEY)
   } catch {
