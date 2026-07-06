@@ -3,6 +3,10 @@
 All notable changes to this project. **Generated** from `src/data/changelog.ts`
 (the in-app release notes) — edit that and run `npm run build-changelog`.
 
+## 1.13.0 — 27 June 2026
+
+- In the “Spot the sign” quiz, a wrong answer now shows what each sign actually means: once you’ve answered, the meaning appears under every image in the grid — the one you picked (in red) and the correct one (in green) stand out, with the other two greyed back. Previously you only saw a ✓/✗ on the pictures and never learned what the look-alike you tapped meant, which is the whole point of drilling confusable signs.
+
 ## 1.12.1 — 27 June 2026
 
 - Fixed the quiz’s “Name the sign / Spot the sign” toggle, which appeared to do nothing: tapping it before answering now switches the current question to that direction straight away (previously the change only took effect on the *next* question, with no on-screen hint, so it looked broken). To avoid giving the answer away, flipping brings in a fresh sign you haven’t seen rather than re-showing the one already on screen. If you flip after answering, a small “Starts on the next question” note now explains the wait.

@@ -202,9 +202,11 @@
     }
   }
 
-  // a wrong choice that is a known look-alike is worth calling out
+  // a wrong choice that is a known look-alike is worth calling out. Suppressed in
+  // "spot the sign" mode: there the picked sign's caption is now shown under its
+  // own image (option__caption), so repeating it here would double-print it.
   const confusionNote = $derived.by(() => {
-    if (!answered || selected == null || !question) return ''
+    if (qReverse || !answered || selected == null || !question) return ''
     if (selected === question.answerIndex) return ''
     const chosen = question.options[selected]
     return question.sign.confusedWith.includes(chosen.id)
@@ -313,6 +315,13 @@
           <span class="option__key" aria-hidden="true">{i + 1}</span>
           {#if qReverse}
             <div class="option__plate"><SignPlate sign={opt} tag={false} /></div>
+            {#if answered}
+              <!-- once graded, reveal what each sign means: the picked (red) and
+                   correct (green) read first, the two distractors recede (is-dim).
+                   The button's aria-label (optLabel) is the spoken source, so this
+                   visible caption is not double-announced to AT. -->
+              <span class="option__caption">{opt.caption}</span>
+            {/if}
           {:else}
             <span class="option__text">{opt.caption}</span>
           {/if}
@@ -523,6 +532,27 @@
     width: 100%;
     max-width: 140px;
     margin: 0 auto;
+  }
+  /* post-answer meaning under each sign image; clamped so long captions keep the
+     2×2 cells even. Tinted by the cell state so picked/correct read first. */
+  .option__caption {
+    font-size: var(--fs-caption);
+    line-height: 1.25;
+    text-align: center;
+    color: var(--text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .option.is-correct .option__caption {
+    color: var(--grade-good);
+    font-weight: var(--fw-medium);
+  }
+  .option.is-wrong .option__caption {
+    color: var(--grade-again);
+    font-weight: var(--fw-medium);
   }
   .option.is-correct {
     border-color: var(--grade-good);
