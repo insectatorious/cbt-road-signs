@@ -11,6 +11,13 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: '1.13.0',
+    date: '2026-06-27',
+    changes: [
+      'In the “Spot the sign” quiz, a wrong answer now shows what each sign actually means: once you’ve answered, the meaning appears under every image in the grid — the one you picked (in red) and the correct one (in green) stand out, with the other two greyed back. Previously you only saw a ✓/✗ on the pictures and never learned what the look-alike you tapped meant, which is the whole point of drilling confusable signs.',
+    ],
+  },
+  {
     version: '1.12.1',
     date: '2026-06-27',
     changes: [
